@@ -1,0 +1,55 @@
+<div class="container-fluid page">
+  <div class=" mt-3 page__content shadow p-3">
+    <div class="row">
+      <h4 class="banner col-6"><svg routerLink="/account" xmlns="http://www.w3.org/2000/svg" width="50" height="30"
+          fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+          <path fill-rule="evenodd"
+            d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z" />
+        </svg>Thêm mới tài khoản</h4>
+      <hr style="color:gray">
+    </div>
+    <app-spinner *ngIf="show"></app-spinner>
+    <form (ngSubmit)="onSubmit()" [formGroup]="accountForm">
+      <div class="container title row" style="width:60%;margin: auto;">
+        <div class="col-7">
+          Tên <input type="text" class="form-control mb-2" placeholder="Tên" formControlName="name"
+            value="{{data.fullName}}">
+          Email<input type="email" class="form-control mb-2" placeholder="Email" formControlName="email"
+            value="{{data.email}}">
+          Số điện thoại<input type="text" class="form-control mb-2" placeholder="Số điện thoại" formControlName="phone"
+            value="{{data.phone}}">
+          Địa chỉ<input type="text" class="form-control mb-2" placeholder="Địa chỉ" formControlName="address"
+            value="{{data.address}}">
+          Quyền<select class="form-control mb-2" formControlName="role">
+            <option value="" defaultSelected="true" hidden>
+              <p>-- Vui lòng chọn quyền --</p>
+            </option>
+            <option *ngFor="let item of role" value="{{item.id}}">{{item.name}}</option>
+            <!-- <option value="Nhân viên">Nhân viên</option> -->
+          </select>
+
+          Mật khẩu <input class="form-control" [type]="showPass ? 'text' : 'password'" value="{{data.password}}"
+            placeholder="Mật khẩu" formControlName="password" />
+          <div> <input class="a" type="checkbox" (click)="password()">Hiện mật khẩu</div>
+        </div>
+
+        <div class="col-5">
+          URL ảnh<input type="text" class="form-control mb-2" placeholder="URL ảnh" formControlName="image"
+          value="{{data.image}}">
+          Upload ảnh<input type="file" class="form-control mb-2" placeholder="Upload ảnh">
+        </div>
+
+        <div class="mt-2 align-content-between">
+          <button class="btn btn-primary" type="submit" [disabled]="show">
+            <span *ngIf="show" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Cập nhật
+          </button>
+          <!-- <button class="btn btn-primary" type="submit">Cập nhật</button> -->
+          <button class="btn btn-outline-secondary" (click)="reset()">Làm
+            mới</button>
+        </div>
+
+      </div>
+    </form>
+  </div>
+</div>
