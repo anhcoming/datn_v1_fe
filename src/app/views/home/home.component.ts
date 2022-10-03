@@ -6,9 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-
+  today: any;
   constructor() {
-
+    this.today = new Date();
   }
 
   ngOnInit(): void {
