@@ -1,3 +1,4 @@
+import { ProductCreateComponent } from './views/product/product-create/product-create.component';
 import { SizeCreateComponent } from './views/size/size-create/size-create.component';
 import { ColorCreateComponent } from './views/color/color-create/color-create.component';
 import { ColorComponent } from './views/color/color.component';
@@ -19,6 +20,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'order', component: OrderComponent },
   { path: 'product', component: ProductComponent },
+  { path: 'product-create', component: ProductCreateComponent },
+  { path: 'product-create/:id', component: ProductCreateComponent },
   { path: 'size', component: SizeComponent },
   { path: 'size-create', component: SizeCreateComponent },
   { path: 'size-create/:id', component: SizeCreateComponent },

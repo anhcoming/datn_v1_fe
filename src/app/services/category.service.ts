@@ -16,7 +16,7 @@ export class CategoryService {
 
   }
   getAllCategory(): (Observable<Object>) {
-    return this.http.get("https://62ec26fa818ab252b6f8c236.mockapi.io/api/v1/category")
+    return this.http.get("http://localhost:8080/category/find-by-page?pageNumber=0&pageSize=10")
   }
 
   createCategory(body:any): (Observable<Object>) {

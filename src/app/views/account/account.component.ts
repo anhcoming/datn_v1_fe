@@ -30,9 +30,7 @@ export class AccountComponent implements OnInit {
   getAllAccount() {
     this.account.getAllAccount(0, 10).subscribe((res: any) => {
       this.data = res.pageResponse;
-      // console.log(res.pageRespone)
       console.log(res.pageResponse);
-
       this.show = false
     });
   }

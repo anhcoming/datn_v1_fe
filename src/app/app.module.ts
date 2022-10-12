@@ -28,6 +28,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { ColorComponent } from './views/color/color.component';
 import { SizeComponent } from './views/size/size.component';
 import { SizeCreateComponent } from './views/size/size-create/size-create.component';
+import { ProductCreateComponent } from './views/product/product-create/product-create.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,8 @@ import { SizeCreateComponent } from './views/size/size-create/size-create.compon
     ColorComponent,
     SizeComponent,
     ColorCreateComponent,
-    SizeCreateComponent
+    SizeCreateComponent,
+    ProductCreateComponent
   ],
   imports: [
     ReactiveFormsModule,
@@ -64,6 +67,7 @@ import { SizeCreateComponent } from './views/size/size-create/size-create.compon
     MatListModule,
     MatDialogModule,
     BrowserAnimationsModule,
+    NgMultiSelectDropDownModule,
     ToastrModule.forRoot({
       timeOut: 1000,
       positionClass: 'toast-top-right'
