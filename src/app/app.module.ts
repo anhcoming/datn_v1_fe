@@ -30,6 +30,7 @@ import { SizeComponent } from './views/size/size.component';
 import { SizeCreateComponent } from './views/size/size-create/size-create.component';
 import { ProductCreateComponent } from './views/product/product-create/product-create.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     ProductCreateComponent
   ],
   imports: [
+    NgxPaginationModule,
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,

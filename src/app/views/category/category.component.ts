@@ -11,6 +11,14 @@ import { Category } from 'src/app/model/category';
 })
 export class CategoryComponent implements OnInit {
   show = true
+  totalPage: any;
+  currentPage: any;
+
+  req = {
+    pageSize: 5,
+    pageNumber: 0
+  }
+
   data: Category[] = [];
   constructor(private category: CategoryService, public router: Router) {
   }
@@ -19,10 +27,14 @@ export class CategoryComponent implements OnInit {
     this.getAllCategory();
   }
   getAllCategory() {
-    this.category.getAllCategory().subscribe((res: any) => {
-      this.data = res;
-      console.log(res)
+    this.category.getAllCategory(this.req).subscribe((res: any) => {
+      this.data = res.pageResponse;
+      console.log(res.pageResponse)
       this.show=false
+      this.totalPage = res.totalPage;
+      console.log("Total Page", res.totalPage)
+      this.currentPage = res.currentPage;
+      console.log("current Page", res.currentpage);
     });
   }
 
@@ -35,6 +47,14 @@ export class CategoryComponent implements OnInit {
         console.log("Xóa thất bại")
       }
     })
+  }
+
+  change(number: any) {
+    this.req = {
+      pageSize: 5,
+      pageNumber: number
+    }
+    this.getAllCategory()
   }
 
 }

@@ -27,15 +27,24 @@ export class ProductCreateComponent implements OnInit {
   show: any;
   role: any;
   data = new Product;
+
   productForm = new FormGroup({
     product: new FormControl(''),
     color: new FormControl(''),
     size: new FormControl(''),
-    price: new FormControl('')
+    price: new FormControl(''),
+    quantity: new FormControl(''),
+    name: new FormControl(''),
+    category: new FormControl(''),
+    brand: new FormControl(''),
+    description: new FormControl(''),
+    ePrice: new FormControl(''),
   })
+
   price: any;
   quantity: any;
   arr1: any
+
   dropdownListColor = [];
   selectedItemsColor = [];
 
@@ -85,50 +94,52 @@ export class ProductCreateComponent implements OnInit {
     this.productForm.reset()
   }
   onSubmit() {
-    this.show = true
-    try {
-      let body = {
-        id: this.id,
-        product: this.productForm.get("product")?.value == "" ? this.data : this.productForm.get("product")?.value,
-      }
+    console.log(this.productForm.get('ePrice')?.value)
 
-      let bodyV1 = {
-        id: body.id,
-        product: body.product,
-        status: 0
-      }
-      console.log("Load lên: ", bodyV1);
-      if (this.id == null || this.id == "") {
-        this.product.createProduct(bodyV1).subscribe((res) => {
-          if (res) {
-            console.log("Thêm mới thành công")
-            this.toastr.success("Thêm mới thành công")
-            this.router.navigate(['product']);
-          } else {
-            console.log("Thêm mới thất bại")
-            this.toastr.error("Thêm mới thất bại")
-          }
-        })
-      } else {
-        this.product.updateProduct(bodyV1).subscribe((res) => {
-          if (res) {
-            console.log("Cập nhật thành công")
-            this.toastr.success('Cập nhật thành công')
-            this.router.navigate(['product']);
+    // this.show = true
+    // try {
+    //   let body = {
+    //     id: this.id,
+    //     product: this.productForm.get("product")?.value == "" ? this.data : this.productForm.get("product")?.value,
+    //   }
 
-          } else {
-            console.log("Cập nhật thất bại")
-            this.toastr.error('Cập nhật thất bại')
-            this.router.navigate(['product']);
-          }
-        })
-      }
-    } catch (error) {
-      console.log("Thất bại", error)
-    } finally {
-      this.show = false
+    //   let bodyV1 = {
+    //     id: body.id,
+    //     product: body.product,
+    //     status: 0
+    //   }
+    //   console.log("Load lên: ", bodyV1);
+    //   if (this.id == null || this.id == "") {
+    //     this.product.createProduct(bodyV1).subscribe((res) => {
+    //       if (res) {
+    //         console.log("Thêm mới thành công")
+    //         this.toastr.success("Thêm mới thành công")
+    //         this.router.navigate(['product']);
+    //       } else {
+    //         console.log("Thêm mới thất bại")
+    //         this.toastr.error("Thêm mới thất bại")
+    //       }
+    //     })
+    //   } else {
+    //     this.product.updateProduct(bodyV1).subscribe((res) => {
+    //       if (res) {
+    //         console.log("Cập nhật thành công")
+    //         this.toastr.success('Cập nhật thành công')
+    //         this.router.navigate(['product']);
 
-    }
+    //       } else {
+    //         console.log("Cập nhật thất bại")
+    //         this.toastr.error('Cập nhật thất bại')
+    //         this.router.navigate(['product']);
+    //       }
+    //     })
+    //   }
+    // } catch (error) {
+    //   console.log("Thất bại", error)
+    // } finally {
+    //   this.show = false
+
+    // }
   }
 
   getDetail() {
@@ -140,7 +151,7 @@ export class ProductCreateComponent implements OnInit {
   }
 
   getCate() {
-    this.cate.getAllCategory().subscribe((res: any) => {
+    this.cate.getAllCategoryV2().subscribe((res: any) => {
       this.category = res.pageResponse;
       console.log("cate:", this.category);
     })
@@ -188,12 +199,6 @@ export class ProductCreateComponent implements OnInit {
     console.log("Cập nhật color:", a);
     console.log("Cập nhật size:", b);
 
-    // {id: 1, color: 'Xanh'}
-    // {id: 2, color: 'Do'}
-    // =====================
-    // {id: 3, size: 39}
-    // {id: 2, size: 38}
-
     let arr = [
     ]
 
@@ -201,11 +206,17 @@ export class ProductCreateComponent implements OnInit {
       for (let i = 0; i < a?.length; i++) {
         for (let u = 0; u < b?.length; u++) {
           console.log(Object.values(a[i]))
+          let x = Object.values(a[i])
+          let y = Object.values(b[u])
           arr.push({
-            color: a[i],
-            size: b[u],
+            color:x[0],
+            size: y[0],
             price: this.productForm.get('price')?.value,
-            quantity: this.productForm.get('quantity')?.value
+            quantity: this.productForm.get('quantity')?.value,
+            brand: this.productForm.get('brand')?.value,
+            name: this.productForm.get('name')?.value,
+            category: this.productForm.get('category')?.value,
+            description: this.productForm.get('description')?.value,
           })
         }
       }

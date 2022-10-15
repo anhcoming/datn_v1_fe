@@ -67,7 +67,7 @@
                 <div class="circular">
                   <img src="{{item.image}}" alt="">
                 </div>
-               </td>
+              </td>
               <td class="name" routerLink="/account-create/{{item.id}}">{{item.fullName}}
               </td>
               <td>{{item.email}}</td>
@@ -92,7 +92,8 @@
                   </a>
                   <ul class="dropdown-menu dropdown-menu-dark">
                     <li><a class="dropdown-item" routerLink="/account-create/{{item.id}}">Chỉnh sửa</a></li>
-                    <li><a class="dropdown-item" data-bs-toggle="modal" (click)="getItem(item)" data-bs-target="#exampleModal">Xóa</a></li>
+                    <li><a class="dropdown-item" data-bs-toggle="modal" (click)="getItem(item)"
+                        data-bs-target="#exampleModal">Xóa</a></li>
                   </ul>
                 </div>
               </td>
@@ -113,7 +114,8 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                <button type="button" class="btn btn-danger"(click)="delete(id)" data-bs-dismiss="modal">Đồng ý</button>
+                <button type="button" class="btn btn-danger" (click)="delete(id)" data-bs-dismiss="modal">Đồng
+                  ý</button>
               </div>
             </div>
           </div>
@@ -133,45 +135,56 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                <button type="button" class="btn btn-danger" (click)="delete(id)" data-bs-dismiss="modal">Đồng ý</button>
+                <button type="button" class="btn btn-danger" (click)="delete(id)" data-bs-dismiss="modal">Đồng
+                  ý</button>
               </div>
             </div>
           </div>
         </div>
         <!------>
 
-          <!-- Modal Change Role -->
-          <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Thay đổi quyền tài khoản?</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  Bạn có muốn thay đổi quyền của <span style="color:red">{{name}}</span>?
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                  <button type="button" class="btn btn-danger" (click)="delete(id)" data-bs-dismiss="modal">Đồng ý</button>
-                </div>
+        <!-- Modal Change Role -->
+        <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Thay đổi quyền tài khoản?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                Bạn có muốn thay đổi quyền của <span style="color:red">{{name}}</span>?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-danger" (click)="delete(id)" data-bs-dismiss="modal">Đồng
+                  ý</button>
               </div>
             </div>
           </div>
-          <!------>
+        </div>
 
-        <nav aria-label="...">
+        <!------>
+
+        <nav aria-label="..." style="float: right;">
           <ul class="pagination">
-            <li class="page-item disabled">
-              <a class="page-link" tabindex="-1">Trước</a>
+            <li class="page-item" >
+              <a class="page-link"  (click)="change(0)">Đầu</a>
             </li>
-            <li class="page-item active"><a class="page-link">1</a></li>
+            <li class="page-item" *ngIf="currentPage!=0">
+              <a class="page-link" (click)="change(currentPage-1)">{{currentPage}}</a>
+            </li>
             <li class="page-item">
+              <button class="page-link" (click)="change(currentPage)">{{currentPage+1}}</button>
+            </li>
+            <li class="page-item" *ngIf="currentPage+1!=totalPage">
+              <a class="page-link" (click)="change(currentPage+1)">{{currentPage+1+1}}</a>
+            </li>
+            <!-- <li class="page-item">
               <a class="page-link">2 <span class="sr-only"></span></a>
             </li>
-            <li class="page-item"><a class="page-link">3</a></li>
+            <li class="page-item"><a class="page-link">3</a></li> -->
             <li class="page-item">
-              <a class="page-link">Sau</a>
+              <a class="page-link" (click)="change(totalPage-1)">Cuối</a>
             </li>
           </ul>
         </nav>

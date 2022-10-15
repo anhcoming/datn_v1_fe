@@ -15,8 +15,15 @@ export class ProductComponent implements OnInit {
   data: any = Product;
   name: any;
   id: any;
-
+  totalPage: any;
+  currentPage: any;
+  numbers: any;
+  req = {
+    pageSize: 5,
+    pageNumber: 0
+  }
   constructor(private product: ProductService, public router: Router, public toastr: NotiService) {
+
   }
 
   ngOnInit(): void {
@@ -28,10 +35,16 @@ export class ProductComponent implements OnInit {
     this.id = item.id;
   }
   getAllProduct() {
-    this.product.getAllProduct(0, 10).subscribe((res: any) => {
+    this.product.getAllProductV2(this.req).subscribe((res: any) => {
       this.data = res.pageResponse;
       console.log(res.pageResponse);
       this.show = false
+      this.totalPage = res.totalPage;
+      console.log("Total Page", res.totalPage)
+      this.currentPage = res.currentPage;
+      console.log("current Page", res.currentPage);
+      this.numbers = Array(this.totalPage).fill(0).map((x, i) => i + 1);
+      console.log(this.numbers)
     });
   }
 
@@ -49,6 +62,12 @@ export class ProductComponent implements OnInit {
     })
   }
 
-
+  change(number: any) {
+    this.req = {
+      pageSize: 5,
+      pageNumber: number
+    }
+    this.getAllProduct();
+  }
 
 }

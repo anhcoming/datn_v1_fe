@@ -19,6 +19,9 @@ export class ProductService {
   getAllProduct(pageNumber: any, pageSize: any): (Observable<Object>) {
     return this.http.get(API + "/product/find-by-page?pageNumber=" + pageNumber + "&pageSize=" + pageSize)
   }
+  getAllProductV2(req:any): (Observable<Object>) {
+    return this.http.post(API + "/product/find-by-page",req)
+  }
   createProduct(body: any): (Observable<Object>) {
     return this.http.post(API + "/product/create", body)
   }

@@ -16,8 +16,8 @@ export class AccountService {
   constructor(private http: HttpClient) {
 
   }
-  getAllAccount(pageNumber: any, pageSize: any): (Observable<Object>) {
-    return this.http.get(API + "/user/find-by-page?pageNumber=" + pageNumber + "&pageSize=" + pageSize)
+  getAllAccount(req:any): (Observable<Object>) {
+    return this.http.post(API + "/user/find-by-page",req)
   }
   createAccount(body: any): (Observable<Object>) {
     return this.http.post(API + "/user/create", body)

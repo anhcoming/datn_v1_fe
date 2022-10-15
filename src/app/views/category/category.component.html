@@ -1,118 +1,119 @@
 <div class="container-fluid page">
-  <div class=" d-flex page__box mt-3 page__content shadow p-3 position-relative">
-    <div class=" position-absolute text-center">
-      <div class="row">
-        <h4 class="banner col-6">Quản lý danh mục</h4>
-        <div class="col-6">
-          <button routerLink="/category-create" class="btn btn-primary text-light mb-2"
-            style="margin-left:-50%;float: right;">Thêm mới</button>
-        </div>
-        <hr style="color:gray">
+  <div class=" mt-3 page__content shadow p-3">
+    <div class="row">
+      <h4 class="banner col-6">Danh sách danh mục sản phẩm</h4>
+      <div class="col-6">
+        <button routerLink="/category-create" class="btn btn-primary text-light mb-2"
+          style="margin-left:-50%;float: right;">Thêm mới</button>
       </div>
-      <div class="title row">
+      <hr style="color:gray">
+    </div>
+    <div class="title row">
       <div class="col-8">
         <div class="row">
           <div class="col-3"><select class="form-select">
-              <option hidden>Trạng thái</option>
-              <option value>Tất cả</option>
-              <option value="1">Hoạt động</option>
-              <option value="2">Ngưng hoạt động</option>
-            </select></div>
-          <div class="col-3"><select class="form-select">
-              <option hidden>Phân loại</option>
-              <option value>Mới nhất</option>
-              <option value="0">Cũ nhất</option>
-              <option value="1">Theo tên</option>
-              <option value="2">Ngày nhập</option>
-            </select></div>
-        </div>
+                <option hidden>Trạng thái</option>
+                <option value>Tất cả</option>
+                <option value="1">Hoạt động</option>
+                <option value="2">Ngưng hoạt động</option>
+              </select></div>
+            <div class="col-3"><select class="form-select">
+                <option hidden>Phân loại</option>
+                <option value>Mới nhất</option>
+                <option value="0">Cũ nhất</option>
+                <option value="1">Theo tên</option>
+                <option value="2">Ngày nhập</option>
+              </select></div>
+          </div>
 
-      </div>
-      <div class="col-4">
-        <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Vui lòng nhập..." aria-label="Recipient's username"
-            aria-describedby="basic-addon2">
-          <div class="input-group-append">
-            <!-- nút tìm kiếm -->
-            <button class="btn btn-primary text-light" type="button">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
-                viewBox="0 0 16 16">
-                <path
-                  d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-              </svg></button>
+        </div>
+        <div class="col-4">
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Vui lòng nhập..." aria-label="Recipient's username"
+              aria-describedby="basic-addon2">
+            <div class="input-group-append">
+              <!-- nút tìm kiếm -->
+              <button class="btn btn-primary text-light" type="button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
+                  viewBox="0 0 16 16">
+                  <path
+                    d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                </svg></button>
               <!-- ==================== -->
+            </div>
           </div>
         </div>
+        <hr>
+        <app-spinner *ngIf="show"></app-spinner>
+        <div *ngIf="!show">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Tên Danh Mục</th>
+                <th scope="col">Trạng thái</th>
+                <th>More</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of data;let i = index">
+                <th scope="row">{{i+1}}</th>
+                <td>{{item.name}}</td>
+                <td>
+                  <span class="badge badge text-bg-info text-light">{{item.status=="1"?"Hoạt động":""}}</span>
+                  <span class="badge badge text-bg-secondary">{{item.status=="0"?"Ngưng hoạt động":""}}</span>
+                </td>
+                <!-- <td></td> -->
+                <td>
+                  <div class="dropdown">
+                    <a class="btn btn-text-dark" type="text" data-bs-toggle="dropdown" aria-expanded="false">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-three-dots" viewBox="0 0 16 16">
+                        <path
+                          d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
+                      </svg>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark">
+                      <li><a class="dropdown-item" routerLink="/category-create/{{item.id}}">Chỉnh
+                          sửa</a></li>
+                      <li><a class="dropdown-item" (click)="delete(item.id)">Xóa</a></li>
+                    </ul>
+                  </div>
+
+
+                </td>
+              </tr>
+            </tbody>
+
+          </table>
+
+          <!------>
+
+          <nav aria-label="..." style="float: right;">
+            <ul class="pagination">
+              <li class="page-item">
+                <a class="page-link" (click)="change(0)">Đầu</a>
+              </li>
+              <li class="page-item" *ngIf="currentPage!=0">
+                <a class="page-link"(click)="change(currentPage-1)">{{currentPage}}</a>
+              </li>
+              <li class="page-item">
+                <button class="page-link" (click)="change(currentPage)">{{currentPage+1}}</button>
+              </li>
+              <li class="page-item" *ngIf="currentPage+1!=totalPage">
+                <a class="page-link" (click)="change(currentPage+1)">{{currentPage+1+1}}</a>
+              </li>
+              <!-- <li class="page-item">
+                <a class="page-link">2 <span class="sr-only"></span></a>
+              </li>
+              <li class="page-item"><a class="page-link">3</a></li> -->
+              <li class="page-item">
+                <a class="page-link" (click)="change(totalPage-1)">Cuối</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
       </div>
-      <hr>
-      <app-spinner *ngIf="show"></app-spinner>
-      <div *ngIf="!show">
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Tên Danh Mục</th>
-              <th scope="col">Mô tả</th>
-              <th scope="col">Ngày tạo</th>
-              <th scope="col">Trạng thái</th>
-              <th>More</th>
-
-
-            </tr>
-          </thead>
-
-          <tbody>
-            <tr *ngFor="let item of data;let i = index">
-              <th scope="row">{{i+1}}</th>
-              <td>{{item.name}}</td>
-              <td>{{item.detail}}</td>
-              <td>{{item.createdDate|date:"short"}}</td>
-              <td>
-                <span class="badge badge text-bg-info text-light">{{item.active?"Hoạt động":""}}</span>
-                <span class="badge badge text-bg-secondary">{{!item.active?"Ngưng hoạt động":""}}</span>
-              </td>
-              <!-- <td></td> -->
-              <td>
-                <div class="dropdown">
-                  <a class="btn btn-text-dark" type="text" data-bs-toggle="dropdown" aria-expanded="false">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                      class="bi bi-three-dots" viewBox="0 0 16 16">
-                      <path
-                        d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
-                    </svg>
-                  </a>
-                  <ul class="dropdown-menu dropdown-menu-dark">
-                    <li><a class="dropdown-item" routerLink="/category-create/{{item.id}}">Chỉnh
-                        sửa</a></li>
-                    <li><a class="dropdown-item" (click)="delete(item.id)">Xóa</a></li>
-                  </ul>
-                </div>
-
-
-              </td>
-            </tr>
-          </tbody>
-
-        </table>
-
-        <nav aria-label="...">
-          <ul class="pagination">
-            <li class="page-item disabled">
-              <a class="page-link" href="#" tabindex="-1">Previous</a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item active">
-              <a class="page-link" href="#">2 <span class="sr-only"></span></a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-              <a class="page-link" href="#">Next</a>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </div>
 
     </div>
   </div>
-</div>

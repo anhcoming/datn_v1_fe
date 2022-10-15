@@ -15,6 +15,14 @@ export class AccountComponent implements OnInit {
   data: any = Account;
   name: any;
   id: any;
+  step:boolean=true;
+  totalPage: any;
+  currentPage: any;
+
+  req = {
+    pageSize: 5,
+    pageNumber: 0
+  }
 
   constructor(private account: AccountService, public router: Router, public toastr: NotiService) {
   }
@@ -28,10 +36,15 @@ export class AccountComponent implements OnInit {
     this.id = item.id;
   }
   getAllAccount() {
-    this.account.getAllAccount(0, 10).subscribe((res: any) => {
+    this.account.getAllAccount(this.req).subscribe((res: any) => {
       this.data = res.pageResponse;
       console.log(res.pageResponse);
       this.show = false
+      this.totalPage = res.totalPage;
+      console.log("Total Page", res.totalPage)
+      this.currentPage = res.currentPage;
+      console.log("current Page", res.currentpage);
+
     });
   }
 
@@ -49,6 +62,12 @@ export class AccountComponent implements OnInit {
     })
   }
 
-
+  change(number: any) {
+    this.req = {
+      pageSize: 5,
+      pageNumber: number
+    }
+    this.getAllAccount()
+  }
 
 }

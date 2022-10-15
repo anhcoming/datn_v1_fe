@@ -30,7 +30,7 @@ export class CategoryCreateComponent implements OnInit {
   ngOnInit(): void {
   }
   reset() {
-    this.categoryForm.reset( )
+    this.categoryForm.reset()
   }
   onSubmit() {
     console.log(this.categoryForm.value);
@@ -38,10 +38,8 @@ export class CategoryCreateComponent implements OnInit {
     try {
       let body = {
         id: this.id,
-        active: this.data.active == "true" ? true : false,
+        active: this.data.status == "true" ? true : false,
         name: this.categoryForm.get("name")?.value == "" ? this.data.name : this.categoryForm.get("name")?.value,
-        detail: this.categoryForm.get("detail")?.value == "" ? this.data.detail : this.categoryForm.get("detail")?.value,
-        createdDate: this.categoryForm.get("createdDate")?.value == "" ? this.data.createdDate : this.categoryForm.get("createdDate")?.value
       }
       console.log("body", body)
       if (this.id == null || this.id == "") {
