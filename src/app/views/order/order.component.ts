@@ -15,6 +15,16 @@ export class OrderComponent implements OnInit {
   data: any = Order;
   name: any;
   id: any;
+  step:boolean=true;
+  totalPage: any;
+  totalElement: any;
+  currentPage: any;
+  numbers: any;
+
+  req = {
+    pageSize: 5,
+    pageNumber: 0
+  }
 
   constructor(private order: OrderService, public router: Router, public toastr: NotiService) {
   }
@@ -27,12 +37,17 @@ export class OrderComponent implements OnInit {
     this.id = item.id;
   }
   getAllOrder() {
-    this.order.getAllOrder(0, 10).subscribe((res: any) => {
+    this.order.getAllOrderV2(this.req).subscribe((res: any) => {
       this.data = res.pageResponse;
-      // console.log(res.pageRespone)
       console.log(res.pageResponse);
-
       this.show = false
+      this.totalPage = res.totalPage;
+      console.log("Total Page", res.totalPage)
+      this.currentPage = res.currentPage;
+      console.log("current Page", res.currentPage);
+      this.numbers = Array(this.totalPage).fill(0).map((x, i) => i + 1);
+      console.log(this.numbers)
+      this.totalElement = res.totalElement
     });
   }
 
@@ -50,6 +65,13 @@ export class OrderComponent implements OnInit {
     })
   }
 
+  change(number: any) {
+    this.req = {
+      pageSize: 5,
+      pageNumber: number
+    }
+    this.getAllOrder();
+  }
 
 
 }

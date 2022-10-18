@@ -11,8 +11,11 @@ import { Category } from 'src/app/model/category';
 })
 export class CategoryComponent implements OnInit {
   show = true
+  step:boolean=true;
   totalPage: any;
+  totalElement: any;
   currentPage: any;
+  numbers: any;
 
   req = {
     pageSize: 5,
@@ -29,12 +32,14 @@ export class CategoryComponent implements OnInit {
   getAllCategory() {
     this.category.getAllCategory(this.req).subscribe((res: any) => {
       this.data = res.pageResponse;
-      console.log(res.pageResponse)
-      this.show=false
+      console.log(res.pageResponse);
+      this.show = false
       this.totalPage = res.totalPage;
       console.log("Total Page", res.totalPage)
       this.currentPage = res.currentPage;
-      console.log("current Page", res.currentpage);
+      console.log("current Page", res.currentPage);
+      this.numbers = Array(this.totalPage).fill(0).map((x, i) => i + 1);
+      console.log(this.numbers)
     });
   }
 

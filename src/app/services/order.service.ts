@@ -18,6 +18,9 @@ export class OrderService {
   getAllOrder(pageNumber: any, pageSize: any): (Observable<Object>) {
     return this.http.get(API + "/order/find-by-page?pageNumber=" + pageNumber + "&pageSize=" + pageSize)
   }
+  getAllOrderV2(req: any): (Observable<Object>) {
+    return this.http.get(API + "/order/find-by-page?",req)
+  }
   createOrder(body: any): (Observable<Object>) {
     return this.http.post(API + "/order/create", body)
   }

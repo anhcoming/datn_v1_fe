@@ -36,6 +36,13 @@
       </div>
       <hr>
       <app-spinner *ngIf="show"></app-spinner>
+      <nav aria-label="..." style="float: right;">
+        <ul class="pagination">
+          <li class="page-item">
+            <button class=" btn" style="background-color:#0dcaf0">Tổng số lượng: {{totalElement}} </button>
+          </li>
+        </ul>
+      </nav>
       <div *ngIf="!show">
         <table class="table">
           <thead>
@@ -67,7 +74,8 @@
                   </a>
                   <ul class="dropdown-menu dropdown-menu-dark">
                     <li><a class="dropdown-item" routerLink="/color-create/{{item.id}}">Chỉnh sửa</a></li>
-                    <li><a class="dropdown-item" data-bs-toggle="modal" (click)="getItem(item)" data-bs-target="#exampleModal">Xóa</a></li>
+                    <li><a class="dropdown-item" data-bs-toggle="modal" (click)="getItem(item)"
+                        data-bs-target="#exampleModal">Xóa</a></li>
                   </ul>
                 </div>
               </td>
@@ -88,52 +96,46 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                <button type="button" class="btn btn-danger"  (click)="delete(id)"  data-bs-dismiss="modal">Đồng ý</button>
+                <button type="button" class="btn btn-danger" (click)="delete(id)" data-bs-dismiss="modal">Đồng
+                  ý</button>
               </div>
             </div>
           </div>
         </div>
         <!------>
 
-          <!-- Modal Thay đổi trạng thái -->
-          <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Thay đổi trạng thái màu</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  Bạn có muốn thay đổi trạng thái màu <span style="color:red">{{name}}</span>?
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                  <button type="button" class="btn btn-danger"  (click)="delete(id)" data-bs-dismiss="modal">Đồng ý</button>
-                </div>
+        <!-- Modal Thay đổi trạng thái -->
+        <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Thay đổi trạng thái màu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                Bạn có muốn thay đổi trạng thái màu <span style="color:red">{{name}}</span>?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-danger" (click)="delete(id)" data-bs-dismiss="modal">Đồng
+                  ý</button>
               </div>
             </div>
           </div>
-          <!------>
-
-
-        <nav aria-label="...">
+        </div>
+        <!------>
+        <nav aria-label="..." style="float: right;">
           <ul class="pagination">
-            <li class="page-item disabled">
-              <a class="page-link" tabindex="-1">Trước</a>
-            </li>
-            <li class="page-item active"><a class="page-link">1</a></li>
             <li class="page-item">
-              <a class="page-link">2 <span class="sr-only"></span></a>
+              <a class="page-link active">Trang hiện tại {{currentPage+1}}/{{totalPage}}</a>
             </li>
-            <li class="page-item"><a class="page-link">3</a></li>
-            <li class="page-item">
-              <a class="page-link">Sau</a>
+            <li class="page-item" *ngFor="let item of numbers">
+              <a class="page-link" (click)="change(item-1)">{{item}}</a>
             </li>
           </ul>
         </nav>
       </div>
     </div>
   </div>
-
 </div>
 <!-- ========= -->

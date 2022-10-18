@@ -15,7 +15,14 @@ export class SizeComponent implements OnInit {
   data: any = Size;
   name: any;
   id: any;
-
+  totalPage: any;
+  totalElement: any;
+  currentPage: any;
+  numbers: any;
+  req = {
+    pageSize: 5,
+    pageNumber: 0
+  }
   constructor(private size: SizeService, public router: Router, public toastr: NotiService) {
   }
 
@@ -28,12 +35,16 @@ export class SizeComponent implements OnInit {
     this.id = item.id;
   }
   getAllSize() {
-    this.size.getAllSize(0, 10).subscribe((res: any) => {
+    this.size.getAllSize(this.req).subscribe((res: any) => {
       this.data = res.pageResponse;
-      // console.log(res.pageRespone)
-      console.log(res.pageResponse);
-
       this.show = false
+      this.totalPage = res.totalPage;
+      console.log("Total Page", res.totalPage)
+      this.currentPage = res.currentPage;
+      console.log("current Page", res.currentPage);
+      this.numbers = Array(this.totalPage).fill(0).map((x, i) => i + 1);
+      this.totalElement = res.totalElement
+      console.log(this.numbers)
     });
   }
 
@@ -51,5 +62,13 @@ export class SizeComponent implements OnInit {
     })
   }
 
+
+  change(number: any) {
+    this.req = {
+      pageSize: 5,
+      pageNumber: number
+    }
+    this.getAllSize();
+  }
 
 }

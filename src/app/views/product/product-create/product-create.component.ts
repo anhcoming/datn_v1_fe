@@ -171,7 +171,7 @@ export class ProductCreateComponent implements OnInit {
   }
 
   getSize() {
-    this.sizeService.getAllSize(0, 10).subscribe((res: any) => {
+    this.sizeService.getAllSizeV2(0, 10).subscribe((res: any) => {
       this.size = res.pageResponse;
       this.dropdownListSize = res.pageResponse;
       console.log("size:", this.size);

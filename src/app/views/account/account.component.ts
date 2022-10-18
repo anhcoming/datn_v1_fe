@@ -17,7 +17,9 @@ export class AccountComponent implements OnInit {
   id: any;
   step:boolean=true;
   totalPage: any;
+  totalElement: any;
   currentPage: any;
+  numbers: any;
 
   req = {
     pageSize: 5,
@@ -43,8 +45,10 @@ export class AccountComponent implements OnInit {
       this.totalPage = res.totalPage;
       console.log("Total Page", res.totalPage)
       this.currentPage = res.currentPage;
-      console.log("current Page", res.currentpage);
-
+      console.log("current Page", res.currentPage);
+      this.numbers = Array(this.totalPage).fill(0).map((x, i) => i + 1);
+      console.log(this.numbers)
+      this.totalElement = res.totalElement
     });
   }
 

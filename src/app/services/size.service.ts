@@ -12,8 +12,12 @@ export class SizeService {
   constructor(private http: HttpClient) {
 
   }
-  getAllSize(pageNumber: any, pageSize: any): (Observable<Object>) {
+  getAllSizeV2(pageNumber: any, pageSize: any): (Observable<Object>) {
     return this.http.get(API + "/size/find-by-page?pageNumber=" + pageNumber + "&pageSize=" + pageSize)
+  }
+
+  getAllSize(req: any): (Observable<Object>) {
+    return this.http.get(API + "/size/find-by-page", req)
   }
   createSize(body: any): (Observable<Object>) {
     return this.http.post(API + "/size/create", body)
