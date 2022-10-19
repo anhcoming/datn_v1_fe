@@ -15,37 +15,3 @@
   width: 100%;
 }
 
-
-nav {
-  max-width: 100%;
-
-  ul {
-    // background: yellow;
-
-    li {
-      // background: yellow;
-      text-align: center;
-      // color: lightblue;
-
-      a {
-        // <a> starts here
-        background-color: rgb(201, 201, 201);
-        color: rgb(18, 0, 0);
-        display: inline-block;
-        // color: lightblue;
-
-
-        background: #0d6efd;
-        color: rgb(255, 255, 255);
-
-      }
-
-      // and ends here
-    }
-  }
-}
-
-.page-link {
-  // background  : white;
-  color: rgb(0, 0, 0)
-}

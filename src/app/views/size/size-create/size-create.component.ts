@@ -49,27 +49,28 @@ export class SizeCreateComponent implements OnInit {
       }
       console.log("Load lên: ", bodyV1);
       if (this.id == null || this.id == "") {
-        this.size.createSize(bodyV1).subscribe((res) => {
-          if (res) {
+        this.size.createSize(bodyV1).subscribe({
+          next: (res: any) => {
             console.log("Thêm mới thành công")
             this.toastr.success("Thêm mới thành công")
             this.router.navigate(['size']);
-          } else {
+          },
+          error: (err) => {
             console.log("Thêm mới thất bại")
             this.toastr.error("Thêm mới thất bại")
           }
-        })
+        }
+        )
       } else {
-        this.size.updateSize(bodyV1).subscribe((res) => {
-          if (res) {
+        this.size.updateSize(bodyV1).subscribe({
+          next: (res: any) => {
             console.log("Cập nhật thành công")
-            this.toastr.success('Cập nhật thành công')
+            this.toastr.success("Cập nhật thành công")
             this.router.navigate(['size']);
-
-          } else {
+          },
+          error: (err) => {
             console.log("Cập nhật thất bại")
-            this.toastr.error('Cập nhật thất bại')
-            this.router.navigate(['size']);
+            this.toastr.error("Cập nhật thất bại")
           }
         })
       }

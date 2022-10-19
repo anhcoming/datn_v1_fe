@@ -19,7 +19,7 @@ export class ColorService {
     return this.http.get(API + "/color/find-by-page?pageNumber=" + pageNumber + "&pageSize=" + pageSize)
   }
   getAllColorV2(req: any): (Observable<Object>) {
-    return this.http.get(API + "/color/find-by-page",req)
+    return this.http.post(API + "/color/find-by-page",req)
   }
   createColor(body: any): (Observable<Object>) {
     return this.http.post(API + "/color/create", body)

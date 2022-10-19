@@ -15,23 +15,23 @@ export class CategoryService {
   constructor(private http: HttpClient) {
 
   }
-  getAllCategory(req:any): (Observable<Object>) {
-    return this.http.post(API+"/category/find-by-page",req)
+  getAllCategory(req: any): (Observable<Object>) {
+    return this.http.post(API + "/category/find-by-page", req)
   }
 
   getAllCategoryV2(): (Observable<Object>) {
-    return this.http.get(API+"/category/find-by-page?pageNumber=0&pageSize=5")
+    return this.http.get(API + "/category/find-by-page?pageNumber=0&pageSize=5")
   }
-  createCategory(body:any): (Observable<Object>) {
-    return this.http.post("https://62ec26fa818ab252b6f8c236.mockapi.io/api/v1/category", body)
+  createCategory(body: any): (Observable<Object>) {
+    return this.http.post(API + "/category/create",body)
   }
-  updateCategory(id:any, body:any): (Observable<Object>) {
-    return this.http.put("https://62ec26fa818ab252b6f8c236.mockapi.io/api/v1/category/" + id, body)
+  updateCategory(body: any): (Observable<Object>) {
+    return this.http.put(API + "/category/update",body)
   }
-  getDetail(id:any): (Observable<Object>) {
-    return this.http.get("https://62ec26fa818ab252b6f8c236.mockapi.io/api/v1/category/" + id)
+  getDetail(id: any): (Observable<Object>) {
+    return this.http.get(API + "/category/read-by-id/" + id)
   }
-  delete(id:any): (Observable<Object>) {
-    return this.http.delete("https://62ec26fa818ab252b6f8c236.mockapi.io/api/v1/category/" + id)
+  delete(id: any): (Observable<Object>) {
+    return this.http.delete(API + "/category/delete/" + id)
   }
 }

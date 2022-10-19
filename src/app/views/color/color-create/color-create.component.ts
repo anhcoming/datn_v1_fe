@@ -49,27 +49,27 @@ export class ColorCreateComponent implements OnInit {
       }
       console.log("Load lên: ", bodyV1);
       if (this.id == null || this.id == "") {
-        this.color.createColor(bodyV1).subscribe((res) => {
-          if (res) {
+        this.color.createColor(bodyV1).subscribe({
+          next: (res: any) => {
             console.log("Thêm mới thành công")
             this.toastr.success("Thêm mới thành công")
             this.router.navigate(['color']);
-          } else {
+          },
+          error: (err) => {
             console.log("Thêm mới thất bại")
             this.toastr.error("Thêm mới thất bại")
           }
         })
       } else {
-        this.color.updateColor(bodyV1).subscribe((res) => {
-          if (res) {
+        this.color.updateColor(bodyV1).subscribe({
+          next: (res: any) => {
             console.log("Cập nhật thành công")
-            this.toastr.success('Cập nhật thành công')
+            this.toastr.success("Cập nhật thành công")
             this.router.navigate(['color']);
-
-          } else {
+          },
+          error: (err) => {
             console.log("Cập nhật thất bại")
-            this.toastr.error('Cập nhật thất bại')
-            this.router.navigate(['color']);
+            this.toastr.error("Cập nhật thất bại")
           }
         })
       }

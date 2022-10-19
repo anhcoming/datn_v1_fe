@@ -17,7 +17,7 @@ export class SizeService {
   }
 
   getAllSize(req: any): (Observable<Object>) {
-    return this.http.get(API + "/size/find-by-page", req)
+    return this.http.post(API + "/size/find-by-page", req)
   }
   createSize(body: any): (Observable<Object>) {
     return this.http.post(API + "/size/create", body)

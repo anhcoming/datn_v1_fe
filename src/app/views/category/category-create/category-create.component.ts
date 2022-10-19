@@ -1,3 +1,4 @@
+import { NotiService } from 'src/app/services/noti.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CategoryService } from '../../../services/category.service';
 import { Component, OnInit } from '@angular/core';
@@ -19,7 +20,7 @@ export class CategoryCreateComponent implements OnInit {
     detail: new FormControl(''),
     active: new FormControl(''),
   })
-  constructor(public router: Router, private activeRoute: ActivatedRoute, private category: CategoryService) {
+  constructor(private toastr: NotiService,public router: Router, private activeRoute: ActivatedRoute, private category: CategoryService) {
     this.id = this.activeRoute.snapshot.params['id'];
     if (this.id != null) {
       this.show = true
@@ -38,27 +39,33 @@ export class CategoryCreateComponent implements OnInit {
     try {
       let body = {
         id: this.id,
-        active: this.data.status == "true" ? true : false,
+        status: this.data.status == "0" ? 0 : 1,
         name: this.categoryForm.get("name")?.value == "" ? this.data.name : this.categoryForm.get("name")?.value,
       }
       console.log("body", body)
+      console.log("name", body.name)
       if (this.id == null || this.id == "") {
-        this.category.createCategory(body).subscribe((res) => {
-          if (res) {
+        this.category.createCategory(body).subscribe({
+          next: (res: any) => {
             console.log("Thêm mới thành công")
+            this.toastr.success("Thêm mới thành công")
             this.router.navigate(['category']);
-          } else {
+          },
+          error: (err) => {
             console.log("Thêm mới thất bại")
+            this.toastr.error("Thêm mới thất bại")
           }
         })
       } else {
-        this.category.updateCategory(this.id, body).subscribe((res) => {
-          if (res) {
+        this.category.updateCategory(body).subscribe({
+          next: (res: any) => {
             console.log("Cập nhật thành công")
+            this.toastr.success("Cập nhật thành công")
             this.router.navigate(['category']);
-
-          } else {
+          },
+          error: (err) => {
             console.log("Cập nhật thất bại")
+            this.toastr.error("Cập nhật thất bại")
           }
         })
       }

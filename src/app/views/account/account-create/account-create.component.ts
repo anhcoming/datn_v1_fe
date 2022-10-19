@@ -68,27 +68,27 @@ export class AccountCreateComponent implements OnInit {
       console.log("Load lên: ", bodyV1);
       console.log("Quyền", this.accountForm.get('role')?.value)
       if (this.id == null || this.id == "") {
-        this.account.createAccount(bodyV1).subscribe((res) => {
-          if (res) {
+        this.account.createAccount(bodyV1).subscribe({
+          next: (res: any) => {
             console.log("Thêm mới thành công")
             this.toastr.success("Thêm mới thành công")
             this.router.navigate(['account']);
-          } else {
+          },
+          error: (err) => {
             console.log("Thêm mới thất bại")
             this.toastr.error("Thêm mới thất bại")
           }
         })
       } else {
-        this.account.updateAccount(bodyV1).subscribe((res) => {
-          if (res) {
+        this.account.updateAccount(bodyV1).subscribe({
+          next: (res: any) => {
             console.log("Cập nhật thành công")
-            alert("Cập nhật thành công")
-            this.router.navigate(['account']);
-
-          } else {
+            this.toastr.success("Cập nhật thành công")
+            this.router.navigate(['size']);
+          },
+          error: (err) => {
             console.log("Cập nhật thất bại")
-            alert("Cập nhật thất bại")
-
+            this.toastr.error("Cập nhật thất bại")
           }
         })
       }
