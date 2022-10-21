@@ -1,17 +1,29 @@
+import { HttpClient } from '@angular/common/http';
 import { NotiService } from './../../../services/noti.service';
 import { UserService } from './../../../services/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from './../../../services/account.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, NgZone, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Account } from 'src/app/model/account';
+import { FileUploader, FileUploaderOptions } from 'ng2-file-upload';
+import { Cloudinary } from '@cloudinary/angular-5.x';
+
 
 @Component({
   selector: 'app-account-create',
   templateUrl: './account-create.component.html',
   styleUrls: ['./account-create.component.scss']
 })
+
 export class AccountCreateComponent implements OnInit {
+
+  @Input()
+  private responses: Array<any> | undefined;
+  private hasBaseDropZoneOver: boolean = false
+  private title: string | undefined
+  private uploader: FileUploader | undefined
+
   showPass: boolean = false;
   id: any;
   show: any;
@@ -27,7 +39,14 @@ export class AccountCreateComponent implements OnInit {
     image: new FormControl('')
 
   })
-  constructor(private toastr: NotiService, public router: Router, private activeRoute: ActivatedRoute, private account: AccountService, private user: UserService) {
+  constructor(
+    private cloudinary: Cloudinary,
+    private zone: NgZone,
+    private http: HttpClient,
+    private toastr: NotiService, public router: Router, private activeRoute: ActivatedRoute,
+    private account: AccountService, private user: UserService) {
+    this.responses = [];
+    this.title = '';
     this.id = this.activeRoute.snapshot.params['id'];
     if (this.id != null) {
       this.show = true
@@ -38,6 +57,43 @@ export class AccountCreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Create the file uploader, wire it to upload to your account
+    const uploaderOptions: FileUploaderOptions = {
+      url: `https://api.cloudinary.com/v1_1/${this.cloudinary.config().cloud_name}/upload`,
+      // Upload files automatically upon addition to upload queue
+      autoUpload: true,
+      // Use xhrTransport in favor of iframeTransport
+      isHTML5: true,
+      // Calculate progress independently for each uploaded file
+      removeAfterUpload: true,
+      // XHR request headers
+      headers: [
+        {
+          name: 'X-Requested-With',
+          value: 'XMLHttpRequest'
+        }
+      ]
+    };
+
+    this.uploader = new FileUploader(uploaderOptions);
+
+    this.uploader.onBuildItemForm = (fileItem: any, form: FormData): any => {
+      // Add Cloudinary unsigned upload preset to the upload form
+      form.append('upload_preset', this.cloudinary.config().upload_preset);
+
+      // Add file to upload
+      form.append('file', fileItem);
+
+      // Use default "withCredentials" value for CORS requests
+      fileItem.withCredentials = false;
+      return { fileItem, form };
+    };
+
+
+
+  }
+  fileOverBase(e: any): void {
+    this.hasBaseDropZoneOver = e;
   }
   reset() {
     this.accountForm.reset()
@@ -113,3 +169,7 @@ export class AccountCreateComponent implements OnInit {
     })
   }
 }
+function fileOverBase(e: any, any: any) {
+  throw new Error('Function not implemented.');
+}
+
