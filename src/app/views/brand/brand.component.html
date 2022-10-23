@@ -1,0 +1,144 @@
+<div class="container-fluid page">
+    <div class=" mt-3 page__content shadow p-3">
+      <div class="row">
+        <h4 class="banner col-6">Danh sách thương hiệu</h4>
+        <div class="col-6">
+          <button routerLink="/brand-create" class="btn btn-primary text-light mb-2"
+            style="margin-left:-50%;float: right;">Thêm mới</button>
+        </div>
+        <hr style="color:gray">
+      </div>
+      <div class="title row">
+        <div class="col-8">
+          <div class="row">
+            <div class="col-3"><select class="form-select">
+                <option hidden>Trạng thái</option>
+                <option value>Tất cả</option>
+                <option value="1">Hoạt động</option>
+                <option value="2">Ngưng hoạt động</option>
+              </select></div>
+            <div class="col-3"></div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Vui lòng nhập..." aria-label="Recipient's username"
+              aria-describedby="basic-addon2">
+            <div class="input-group-append">
+              <button class="btn btn-primary text-light" type="button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
+                  viewBox="0 0 16 16">
+                  <path
+                    d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                </svg></button>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <app-spinner *ngIf="show"></app-spinner>
+        <nav aria-label="..." style="float: right;">
+          <ul class="pagination">
+            <li class="page-item">
+              <button class=" btn" style="background-color:#0dcaf0">Tổng số lượng: {{totalElement}} </button>
+            </li>
+          </ul>
+        </nav>
+        <div *ngIf="!show">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Tên thương hiệu</th>
+                <th scope="col">Địa chỉ</th>
+                <th scope="col">Trạng thái</th>
+                <th>More</th>
+              </tr>
+            </thead>
+  
+            <tbody>
+              <tr *ngFor="let item of data; let i = index">
+                <th scope="row">{{i+1}}</th>
+                <td class="name" routerLink="/brand-create/{{item.id}}">{{item.name}}
+                </td>
+                <td>{{item.address}}</td>
+                <td data-bs-target="#exampleModal1" data-bs-toggle="modal" (click)="getItem(item)">
+                  <span class="badge badge text-bg-info text-light">{{item.status==0?"Hoạt động":""}}</span>
+                  <span class="badge badge text-bg-secondary">{{item.status==1?"Ngưng hoạt động":""}}</span>
+                </td>
+                <td>
+                  <div class="dropdown">
+                    <a class="btn btn-text-dark" type="text" data-bs-toggle="dropdown" aria-expanded="false">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-three-dots" viewBox="0 0 16 16">
+                        <path
+                          d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
+                      </svg>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark">
+                      <li><a class="dropdown-item" routerLink="/brand-create/{{item.id}}">Chỉnh sửa</a></li>
+                      <li><a class="dropdown-item" data-bs-toggle="modal" (click)="getItem(item)"
+                          data-bs-target="#exampleModal">Xóa</a></li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+  
+          </table>
+          <!-- Modal XÓA -->
+          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Xóa thương hiệu</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  Bạn có muốn xóa thương hiệu <span style="color:red">{{name}}</span>?
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                  <button type="button" class="btn btn-danger" (click)="delete(id)" data-bs-dismiss="modal">Đồng
+                    ý</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!------>
+  
+          <!-- Modal Thay đổi trạng thái -->
+          <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Thay đổi trạng thái thương hiệu</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  Bạn có muốn thay đổi trạng thái thương hiệu <span style="color:red">{{name}}</span>?
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                  <button type="button" class="btn btn-danger" (click)="delete(id)" data-bs-dismiss="modal">Đồng
+                    ý</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!------>
+          <nav aria-label="..." style="float: right;">
+            <ul class="pagination">
+              <li class="page-item">
+                <a class="page-link active">Trang hiện tại {{currentPage+1}}/{{totalPage}}</a>
+              </li>
+              <li class="page-item" *ngFor="let item of numbers">
+                <a class="page-link" (click)="change(item-1)">{{item}}</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ========= -->
+  

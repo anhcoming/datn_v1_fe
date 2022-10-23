@@ -1,3 +1,4 @@
+import { BrandComponent } from './views/brand/brand.component';
 import { ColorCreateComponent } from './views/color/color-create/color-create.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -31,6 +32,7 @@ import { SizeCreateComponent } from './views/size/size-create/size-create.compon
 import { ProductCreateComponent } from './views/product/product-create/product-create.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { BrandCreateComponent } from './views/brand/brand-create/brand-create.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +52,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
     SizeComponent,
     ColorCreateComponent,
     SizeCreateComponent,
-    ProductCreateComponent
+    ProductCreateComponent,
+    BrandComponent,
+    BrandCreateComponent
   ],
   imports: [
     NgxPaginationModule,

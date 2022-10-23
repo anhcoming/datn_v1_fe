@@ -1,3 +1,4 @@
+import { BrandCreateComponent } from './views/brand/brand-create/brand-create.component';
 import { ProductCreateComponent } from './views/product/product-create/product-create.component';
 import { SizeCreateComponent } from './views/size/size-create/size-create.component';
 import { ColorCreateComponent } from './views/color/color-create/color-create.component';
@@ -13,6 +14,7 @@ import { CategoryComponent } from './views/category/category.component';
 import { HomeComponent } from './views/home/home.component';
 import { LoginComponent } from './views/authentication/login/login.component';
 import { SizeComponent } from './views/size/size.component';
+import { BrandComponent } from './views/brand/brand.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -34,6 +36,9 @@ const routes: Routes = [
   { path: 'category', component: CategoryComponent },
   { path: 'category-create', component: CategoryCreateComponent },
   { path: 'category-create/:id', component: CategoryCreateComponent },
+  { path: 'brand', component: BrandComponent },
+  { path: 'brand-create', component: BrandCreateComponent },
+  { path: 'brand-create/:id', component: BrandCreateComponent },
 
 
 ];
