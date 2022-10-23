@@ -33,15 +33,10 @@
           <div> <input class="a" type="checkbox" (click)="password()">Hiện mật khẩu</div>
         </div>
 
-        <!-- <div class="col-5">
-          <input type="file" ng2FileSelect [uploader]="uploader" />
-          <button (click)="upload()" class="btn">Upload</button>
-        </div> -->
-        <div>
-          <form action="" method="post" enctype="multipart/form-data">
-            <input type="file">
-          </form>
-          <label>Choose file</label>
+        <div class="col-5">
+          URL ảnh<input type="text" class="form-control mb-2" placeholder="URL ảnh" formControlName="image"
+          value="{{data.image}}">
+          Upload ảnh<input type="file" class="form-control mb-2" placeholder="Upload ảnh">
         </div>
 
         <div class="mt-2 align-content-between">
