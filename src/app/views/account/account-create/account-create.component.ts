@@ -1,3 +1,4 @@
+import { UploadService } from './../../../services/upload.service';
 import { NotiService } from './../../../services/noti.service';
 import { UserService } from './../../../services/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -5,6 +6,7 @@ import { AccountService } from './../../../services/account.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Account } from 'src/app/model/account';
+import { async } from 'rxjs';
 
 @Component({
   selector: 'app-account-create',
@@ -16,7 +18,12 @@ export class AccountCreateComponent implements OnInit {
   id: any;
   show: any;
   role: any;
+  preview: any;
+  label = "Thêm mới tài khoản"
   data = new Account;
+  body: any;
+  bodyV1: any;
+  selected: any;
   accountForm = new FormGroup({
     name: new FormControl(''),
     email: new FormControl(''),
@@ -24,14 +31,21 @@ export class AccountCreateComponent implements OnInit {
     address: new FormControl(''),
     role: new FormControl(''),
     password: new FormControl(''),
-    image: new FormControl('')
+    // image: new FormControl('')
 
   })
-  constructor(private toastr: NotiService, public router: Router, private activeRoute: ActivatedRoute, private account: AccountService, private user: UserService) {
+
+  // Khai báo upload image 
+  dataImage: any;
+  file: any;
+  // 
+  constructor(private uploadService: UploadService, private toastr: NotiService, public router: Router, private activeRoute: ActivatedRoute, private account: AccountService, private user: UserService) {
     this.id = this.activeRoute.snapshot.params['id'];
     if (this.id != null) {
       this.show = true
       console.log(this.id);
+      this.label = "Chỉnh sửa tài khoản"
+
     }
     this.getDetail();
     this.getAllRole();
@@ -45,60 +59,87 @@ export class AccountCreateComponent implements OnInit {
   password() {
     this.showPass = !this.showPass;
   }
+
   onSubmit() {
-    // console.log(this.accountForm.value);
     this.show = true
-    try {
-      let body = {
-        id: this.id,
-        fullName: this.accountForm.get("name")?.value == "" ? this.data : this.accountForm.get("name")?.value,
-        email: this.accountForm.get("email")?.value == "" ? this.data.email : this.accountForm.get("email")?.value,
-        phone: this.accountForm.get("phone")?.value == "" ? this.data.phone : this.accountForm.get("phone")?.value,
-        password: this.accountForm.get("password")?.value == "" ? this.data.password : this.accountForm.get("password")?.value,
-        image: this.accountForm.get("image")?.value == "" ? this.data.image : this.accountForm.get("image")?.value,
-        address: this.accountForm.get("address")?.value == "" ? this.data.address : this.accountForm.get("address")?.value,
-
-      }
-
-      let bodyV1 = {
-        ...body,
-        role: null,
-        status: 1
-      }
-      console.log("Load lên: ", bodyV1);
-      console.log("Quyền", this.accountForm.get('role')?.value)
-      if (this.id == null || this.id == "") {
-        this.account.createAccount(bodyV1).subscribe({
-          next: (res: any) => {
-            console.log("Thêm mới thành công")
-            this.toastr.success("Thêm mới thành công")
-            this.router.navigate(['account']);
-          },
-          error: (err) => {
-            console.log("Thêm mới thất bại")
-            this.toastr.error("Thêm mới thất bại")
-          }
-        })
-      } else {
-        this.account.updateAccount(bodyV1).subscribe({
-          next: (res: any) => {
-            console.log("Cập nhật thành công")
-            this.toastr.success("Cập nhật thành công")
-            this.router.navigate(['size']);
-          },
-          error: (err) => {
-            console.log("Cập nhật thất bại")
-            this.toastr.error("Cập nhật thất bại")
-          }
-        })
-      }
-    } catch (error) {
-      console.log("Thất bại", error)
-    } finally {
-      this.show = false
-
+    this.body = {
+      id: this.id,
+      fullName: this.accountForm.get("name")?.value == "" ? this.data.fullName : this.accountForm.get("name")?.value,
+      email: this.accountForm.get("email")?.value == "" ? this.data.email : this.accountForm.get("email")?.value,
+      phone: this.accountForm.get("phone")?.value == "" ? this.data.phone : this.accountForm.get("phone")?.value,
+      password: this.accountForm.get("password")?.value == "" ? this.data.password : this.accountForm.get("password")?.value,
+      address: this.accountForm.get("address")?.value == "" ? this.data.address : this.accountForm.get("address")?.value,
     }
+    switch (this.id == null || this.id == "") {
+      case true: {
+        this.doCreate();
+        this.show = false
+        break;
+      }
+      case false: {
+        this.doUpdate();
+        this.show = false
+        break;
+      }
+    }
+
   }
+
+  async doCreate() {
+    await this.promiseTestUpload();
+
+    this.bodyV1 = {
+      ... this.body,
+      role: this.accountForm.get('role')?.value,
+      status: 0
+    }
+    console.log("payload bodyV1", this.bodyV1)
+    ///nó chưa chạy cái này này tùng
+    this.account.createAccount(this.bodyV1).subscribe((res: any) => {
+      this.toastr.success("Thêm mới thành công")
+    });
+  }
+
+  promiseTestUpload() {
+    return new Promise((resolve, reject) => this.uploadService.uploadImage(this.dataImage).subscribe({
+      next: (res: any) => {
+        console.log("Upload thành công")
+        resolve(res.url)
+        this.body.image = res.url
+        console.log("body", this.body)
+        this.router.navigate(['account'])
+      },
+      error: (err) => {
+        console.log("Upload ảnh không thành công")
+        this.toastr.error("Upload ảnh không thành công")
+      }
+    }))
+  }
+
+  async doUpdate() {
+    await this.promiseTestUpload();
+
+    debugger
+    let bodyV1 = {
+      // ... this.body,
+      role: this.accountForm.get('role')?.value,
+      status: 0
+    }
+    console.log("check",this.body)
+    console.log("Ở đây V1", bodyV1)
+    this.account.updateAccount(bodyV1).subscribe({
+      next: (res: any) => {
+        console.log("Cập nhật thành công")
+        this.toastr.success("Cập nhật thành công")
+        this.router.navigate(['account']);
+      },
+      error: (err) => {
+        console.log("Cập nhật thất bại")
+        this.toastr.error("Cập nhật thất bại")
+      }
+    })
+  }
+
 
   getAllRole() {
     this.user.getAllRole().subscribe((res: any) => {
@@ -110,6 +151,22 @@ export class AccountCreateComponent implements OnInit {
       this.data = res;
       console.log("Ở đây", this.data)
       this.show = false
+      this.preview = this.data.image
+      this.selected = this.data.role.name
     })
+  }
+  uploadPreview(event: any) {
+    this.dataImage = new FormData();
+    this.file = event.target.files;
+    let file0 = this.file[0];
+    let reader = new FileReader();
+    reader.onload = (e) => {
+      this.preview = reader.result;
+    }
+    if (file0) {
+      reader.readAsDataURL(file0)
+    }
+    this.dataImage.append('file', this.file[0])
+    this.dataImage.append("upload_preset", "gxfcbf2p")
   }
 }

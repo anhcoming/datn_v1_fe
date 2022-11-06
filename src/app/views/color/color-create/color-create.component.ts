@@ -16,6 +16,7 @@ export class ColorCreateComponent implements OnInit {
   id: any;
   show: any;
   role: any;
+  label="Thêm mới màu sắc"
   data = new Color;
   colorForm = new FormGroup({
     color: new FormControl(''),
@@ -25,6 +26,8 @@ export class ColorCreateComponent implements OnInit {
     if (this.id != null) {
       this.show = true
       console.log(this.id);
+      this.label = "Chỉnh sửa màu sắc"
+
     }
     this.getDetail();
   }

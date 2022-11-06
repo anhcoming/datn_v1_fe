@@ -13,6 +13,7 @@ import { Category } from 'src/app/model/category';
 export class CategoryCreateComponent implements OnInit {
   id: any;
   show: any;
+  label="Thêm mới danh mục"
   data = new Category;
   categoryForm = new FormGroup({
     name: new FormControl(''),
@@ -24,6 +25,8 @@ export class CategoryCreateComponent implements OnInit {
     this.id = this.activeRoute.snapshot.params['id'];
     if (this.id != null) {
       this.show = true
+      this.label = "Chỉnh sửa danh mục"
+
     }
     this.getDetail()
   }

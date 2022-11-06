@@ -24,6 +24,8 @@ export class BrandComponent implements OnInit {
     pageSize: 5,
     pageNumber: 0
   }
+  static NAME: any;
+  static ADDRESS: any;
   constructor(private brand: BrandService, public router: Router, public toastr: NotiService) {
   }
 

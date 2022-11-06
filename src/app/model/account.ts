@@ -8,6 +8,8 @@ export class Account {
   email!: string;
   password!: string;
   role!:{
+    id:string
     name:string
+    status:string
   };
 }

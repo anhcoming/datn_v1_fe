@@ -26,7 +26,7 @@ export class AccountService {
     return this.http.put(API + "/user/update", body)
   }
   getDetail(id: any): (Observable<Object>) {
-    return this.http.get(API + "/user/" + id)
+    return this.http.get(API + "/user/read-by-id/" + id)
   }
   delete(id: any): (Observable<Object>) {
     return this.http.delete(API + "/user/" + id)

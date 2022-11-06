@@ -15,6 +15,7 @@ export class SizeCreateComponent implements OnInit {
   showPass: boolean = false;
   id: any;
   show: any;
+  label="Thêm mới kích cỡ"
   role: any;
   data = new Size;
   sizeForm = new FormGroup({
@@ -25,6 +26,7 @@ export class SizeCreateComponent implements OnInit {
     if (this.id != null) {
       this.show = true
       console.log(this.id);
+      this.label = "Chỉnh sửa kích cỡ"
     }
     this.getDetail();
   }

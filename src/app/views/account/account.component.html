@@ -54,7 +54,7 @@
           <thead>
             <tr>
               <th scope="col">#</th>
-              <th scope="col"  class="text-center"  >Ảnh</th>
+              <th scope="col" class="text-center">Ảnh</th>
               <th scope="col">Tên</th>
               <th scope="col">Email</th>
               <th scope="col">Số điện thoại</th>
@@ -72,7 +72,12 @@
               <th scope="row">{{i+1}}</th>
               <td>
                 <div class="circular">
-                  <img src="{{item.image}}" alt="">
+                  <span *ngIf="!item.image">
+                    <img
+                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJIISJvp_3-dc7qEvOMBMDXbcQURlFnYrFoq6HBviZjiV2UOwB-vyXszcHlJmLBsCD5lg&usqp=CAU"
+                      alt="">
+                  </span>
+                  <span *ngIf="item.image"><img src={{item.image}} alt=""></span>
                 </div>
               </td>
               <td class="name" routerLink="/account-create/{{item.id}}">{{item.fullName}}
@@ -170,19 +175,19 @@
           </div>
         </div>
 
-            <!------>
-            <nav aria-label="..." style="float: right;">
-              <ul class="pagination">
-                <li class="page-item">
-                  <a class="page-link active">Trang hiện tại {{currentPage+1}}/{{totalPage}}</a>
-                </li>
-                <li class="page-item" *ngFor="let item of numbers">
-                  <a class="page-link" (click)="change(item-1)">{{item}}</a>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
+        <!------>
+        <nav aria-label="..." style="float: right;">
+          <ul class="pagination">
+            <li class="page-item">
+              <a class="page-link active">Trang hiện tại {{currentPage+1}}/{{totalPage}}</a>
+            </li>
+            <li class="page-item" *ngFor="let item of numbers">
+              <a class="page-link" (click)="change(item-1)">{{item}}</a>
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
-    <!-- ========= -->
+  </div>
+</div>
+<!-- ========= -->

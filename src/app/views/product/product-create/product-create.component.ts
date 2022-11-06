@@ -27,7 +27,6 @@ export class ProductCreateComponent implements OnInit {
   show: any;
   role: any;
   data = new Product;
-
   productForm = new FormGroup({
     product: new FormControl(''),
     color: new FormControl(''),
