@@ -8,7 +8,8 @@
         <input type="text" placeholder="tên đăng nhập" formControlName="username" autofocus>
         <div>
           <input type="password" formControlName="password" placeholder="mật khẩu">
-          <input class="mt-2" type="submit" >
+          <input class="mt-2" [ngStyle]="{'background-color':loginForm.invalid == true ? 'gray' : '' }"
+            type="submit">
         </div>
       </div>
     </div>

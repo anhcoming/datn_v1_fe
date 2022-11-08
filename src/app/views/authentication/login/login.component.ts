@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
         this.route.navigate(['home'])
       }, 
       error:(err:any)=>{
-
+        this.toastr.error("Đăng nhập thất bại "+err)
       }
     })
   }
