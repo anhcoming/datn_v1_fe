@@ -1,3 +1,4 @@
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable } from 'rxjs';
 import { environment } from './../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -19,14 +20,18 @@ const API = environment.baseUrl
   providedIn: 'root'
 })
 export class AuthService {
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private helper: JwtHelperService) {
 
   }
   login(body: any): Observable<Object> {
     return this.http.post(API + '/login', body, { responseType: 'text' });
   }
-  loggedIn(){
+  loggedIn() {
     return !!localStorage.getItem('token');
+  }
+  isAuthenticated() {
+    const token = localStorage.getItem('auth-token') as string;
+    return !this.helper.isTokenExpired(token);
   }
 
 } 

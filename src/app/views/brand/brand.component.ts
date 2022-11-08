@@ -30,12 +30,17 @@ export class BrandComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAllBrand();
+    this.getAllBrandVV2();
   }
 
   getItem(item: any) {
     this.name = item.brand;
     this.id = item.id;
+  }
+  getAllBrandVV2(){
+    this.brand.getAllBrand().subscribe((res:any)=>{
+      console.log(res)
+    })
   }
   getAllBrand() {
     this.brand.getAllBrandV2(this.req).subscribe((res: any) => {
