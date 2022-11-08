@@ -17,7 +17,6 @@ import { LoginComponent } from './views/authentication/login/login.component';
 import { SizeComponent } from './views/size/size.component';
 import { BrandComponent } from './views/brand/brand.component';
 
-
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
@@ -46,6 +45,6 @@ const routes: Routes = [
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class AppRoutingModule { }

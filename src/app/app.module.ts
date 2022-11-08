@@ -33,7 +33,6 @@ import { ProductCreateComponent } from './views/product/product-create/product-c
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { BrandCreateComponent } from './views/brand/brand-create/brand-create.component';
-import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 
 @NgModule({
   declarations: [
@@ -81,10 +80,7 @@ import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
     }
     )
   ],
-  providers: [
-    { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
-    JwtHelperService
-  ],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule { }
