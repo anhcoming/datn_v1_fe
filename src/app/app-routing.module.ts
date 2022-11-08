@@ -1,3 +1,4 @@
+import { AuthGuard } from './guards/auth.guard';
 import { BrandCreateComponent } from './views/brand/brand-create/brand-create.component';
 import { ProductCreateComponent } from './views/product/product-create/product-create.component';
 import { SizeCreateComponent } from './views/size/size-create/size-create.component';
@@ -18,27 +19,27 @@ import { BrandComponent } from './views/brand/brand.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent },
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
   { path: 'login', component: LoginComponent },
-  { path: 'order', component: OrderComponent },
-  { path: 'product', component: ProductComponent },
-  { path: 'product-create', component: ProductCreateComponent },
-  { path: 'product-create/:id', component: ProductCreateComponent },
-  { path: 'size', component: SizeComponent },
-  { path: 'size-create', component: SizeCreateComponent },
-  { path: 'size-create/:id', component: SizeCreateComponent },
-  { path: 'color', component: ColorComponent },
-  { path: 'color-create', component: ColorCreateComponent },
-  { path: 'color-create/:id', component: ColorCreateComponent },
-  { path: 'account', component: AccountComponent },
-  { path: 'account-create', component: AccountCreateComponent },
-  { path: 'account-create/:id', component: AccountCreateComponent },
-  { path: 'category', component: CategoryComponent },
-  { path: 'category-create', component: CategoryCreateComponent },
-  { path: 'category-create/:id', component: CategoryCreateComponent },
-  { path: 'brand', component: BrandComponent },
-  { path: 'brand-create', component: BrandCreateComponent },
-  { path: 'brand-create/:id', component: BrandCreateComponent },
+  { path: 'order', component: OrderComponent , canActivate: [AuthGuard]},
+  { path: 'product', component: ProductComponent , canActivate: [AuthGuard]},
+  { path: 'product-create', component: ProductCreateComponent, canActivate: [AuthGuard] },
+  { path: 'product-create/:id', component: ProductCreateComponent , canActivate: [AuthGuard]},
+  { path: 'size', component: SizeComponent , canActivate: [AuthGuard]},
+  { path: 'size-create', component: SizeCreateComponent , canActivate: [AuthGuard]},
+  { path: 'size-create/:id', component: SizeCreateComponent , canActivate: [AuthGuard]},
+  { path: 'color', component: ColorComponent , canActivate: [AuthGuard]},
+  { path: 'color-create', component: ColorCreateComponent , canActivate: [AuthGuard]},
+  { path: 'color-create/:id', component: ColorCreateComponent , canActivate: [AuthGuard]},
+  { path: 'account', component: AccountComponent , canActivate: [AuthGuard]},
+  { path: 'account-create', component: AccountCreateComponent , canActivate: [AuthGuard]},
+  { path: 'account-create/:id', component: AccountCreateComponent , canActivate: [AuthGuard]},
+  { path: 'category', component: CategoryComponent , canActivate: [AuthGuard]},
+  { path: 'category-create', component: CategoryCreateComponent , canActivate: [AuthGuard]},
+  { path: 'category-create/:id', component: CategoryCreateComponent , canActivate: [AuthGuard]},
+  { path: 'brand', component: BrandComponent , canActivate: [AuthGuard]},
+  { path: 'brand-create', component: BrandCreateComponent , canActivate: [AuthGuard]},
+  { path: 'brand-create/:id', component: BrandCreateComponent , canActivate: [AuthGuard]},
 
 
 ];

@@ -1,10 +1,13 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Account } from '../model/account';
 
 const API = environment.baseUrl;
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +19,8 @@ export class AccountService {
   constructor(private http: HttpClient) {
 
   }
-  getAllAccount(req:any): (Observable<Object>) {
-    return this.http.post(API + "/user/find-by-page",req)
+  getAllAccount(req: any): (Observable<Object>) {
+    return this.http.post(API + "/user/find-by-page", req,)
   }
   createAccount(body: any): (Observable<Object>) {
     return this.http.post(API + "/user/create", body)
