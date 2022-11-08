@@ -16,7 +16,7 @@ import { Route, Router } from '@angular/router';
 export class LoginComponent implements OnInit {
 
 
-  constructor(private tokenService: TokenStorageService ,private fb: FormBuilder, private toastr: NotiService, private authService: AuthService,private route:Router) {
+  constructor(private tokenService: TokenStorageService, private fb: FormBuilder, private toastr: NotiService, private authService: AuthService, private route: Router) {
 
   }
 
@@ -37,9 +37,9 @@ export class LoginComponent implements OnInit {
         this.tokenService.saveToken(res)
         this.toastr.success("Đăng nhập thành công")
         this.route.navigate(['home'])
-      }, 
-      error:(err:any)=>{
-        this.toastr.error("Đăng nhập thất bại "+err)
+      },
+      error: (err: any) => {
+        this.toastr.error("Đăng nhập thất bại " + err)
       }
     })
   }

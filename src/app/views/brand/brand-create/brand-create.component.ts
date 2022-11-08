@@ -1,5 +1,4 @@
 import { AddressService } from './../../../services/address.service';
-import { BrandComponent } from './../brand.component';
 import { NotiService } from '../../../services/noti.service';
 import { UserService } from '../../../services/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -18,7 +17,7 @@ export class BrandCreateComponent implements OnInit {
   ////Dùng FormBuilder để group như này cho nhanh
   brandForm = this.fb.group({
     name: ['', [Validators.required, Validators.minLength(3)]],
-    address: ['', [Validators.required, Validators.minLength(3)]],
+    address: ['', [Validators.required]],
     province: ['', Validators.required],
     district: ['', Validators.required],
     ward: ['', Validators.required],
@@ -36,7 +35,8 @@ export class BrandCreateComponent implements OnInit {
   province: any;
   district: any;
   ward: any;
-
+  codeProvince: any;
+  codeWard:any;
 
   constructor(private address: AddressService, private fb: FormBuilder, private toastr: NotiService, public router: Router, private activeRoute: ActivatedRoute, private brand: BrandService, private user: UserService) {
     this.id = this.activeRoute.snapshot.params['id'];
@@ -46,7 +46,7 @@ export class BrandCreateComponent implements OnInit {
       this.label = "Chỉnh sửa thương hiệu"
     }
     this.getDetail();
-    this.getProvince()
+    this.getProvince();
   }
 
 
@@ -57,10 +57,6 @@ export class BrandCreateComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.getProvince()
-  }
-  checkEmail() {
-
   }
   reset() {
     this.brandForm.reset()
@@ -125,16 +121,27 @@ export class BrandCreateComponent implements OnInit {
     this.address.openProvince().subscribe((res: any) => {
       console.log(res)
       this.province = res
-      const code = this.brandForm.get('province')?.value;
-      console.log("Tỉnh " + code)
     })
   }
 
-  getDistrict(id: number) {
-    this.address.openDistrict(id).subscribe((res: any) => {
+  getDistrict() {
+    this.codeProvince = this.brandForm.get('province')?.value;
+    console.log("Mã tỉnh " + this.codeProvince)
+    this.address.openDistrict(this.codeProvince).subscribe((res: any) => {
+      console.log(res.districts)
+      this.district = res.districts
+    })
+  }
+  getWard() {
+    this.codeWard = this.brandForm.get('ward')?.value;
+    console.log("Mã huyện " + this.codeWard)
+    this.address.openWard(this.codeWard).subscribe((res: any) => {
       console.log(res)
       this.province = res
-
     })
+  }
+
+  onChange(event: any) {
+    console.log(event.target)
   }
 } 

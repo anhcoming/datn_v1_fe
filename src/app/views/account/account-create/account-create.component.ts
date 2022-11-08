@@ -160,7 +160,7 @@ export class AccountCreateComponent implements OnInit {
     this.file = event.target.files;
     let file0 = this.file[0];
     let reader = new FileReader();
-    reader.onload = (e) => {
+    reader.onload = (e) => { 
       this.preview = reader.result;
     }
     if (file0) {

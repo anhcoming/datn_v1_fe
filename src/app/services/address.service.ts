@@ -13,10 +13,10 @@ export class AddressService {
   openProvince(): Observable<Object> {
     return this.http.get('https://provinces.open-api.vn/api/?depth=2');
   }
-  openDistrict(provinceId: number): Observable<Object> {
-    return this.http.get('https://provinces.open-api.vn/api/p/' + provinceId + '?depth=2');
+  openDistrict(codeProvince: any): Observable<Object> {
+    return this.http.get('https://provinces.open-api.vn/api/p/' + codeProvince + '?depth=2');
   }
-  openWard(): Observable<Object> {
-    return this.http.get('https://provinces.open-api.vn/api/?depth=2');
+  openWard( codeWard: any): Observable<Object> {
+    return this.http.get('https://provinces.open-api.vn/api/p/' + codeWard + '?depth=2');
   }
 }

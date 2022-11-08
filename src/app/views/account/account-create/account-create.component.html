@@ -23,7 +23,7 @@
           Quyền<select class="form-control mb-2" formControlName="role" >
             <option value="" defaultSelected="true" hidden>
               <p>{{selected?selected:"--Vui lòng chọn quyền tài khoản--"}}</p>
-            </option>
+            </option> 
             <option *ngFor="let item of role" [ngValue]="item">{{item.name}}</option>
           </select>
 
