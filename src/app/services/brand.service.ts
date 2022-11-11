@@ -14,7 +14,7 @@ const requestOptions = { headers: headers ,responseType: 'text' as 'json'}
 
 @Injectable({
   providedIn: 'root'
-})
+}) 
 export class BrandService {
 
   constructor(private http: HttpClient) {
