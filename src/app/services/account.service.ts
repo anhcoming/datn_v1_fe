@@ -27,15 +27,15 @@ export class AccountService {
     return this.http.post(API + "/admin/user/search", req, httpOptions)
   }
   createAccount(body: any): (Observable<Object>) {
-    return this.http.post(API + "/user/create", body)
+    return this.http.post(API + "/account/create", body, requestOptions)
   }
   updateAccount(body: any): (Observable<Object>) {
-    return this.http.put(API + "/user/update", body)
+    return this.http.put(API + "/account/update", body, requestOptions)
   }
   getDetail(id: any): (Observable<Object>) {
-    return this.http.get(API + "/user/read-by-id/" + id)
+    return this.http.get(API + "/account/read-by-id/" + id, requestOptions)
   }
   delete(id: any): (Observable<Object>) {
-    return this.http.delete(API + "/user/" + id)
+    return this.http.delete(API + "/account/" + id, requestOptions)
   }
 }
