@@ -22,6 +22,8 @@
     "@angular/router": "^14.2.0",
     "@auth0/angular-jwt": "^5.1.0",
     "@cloudinary/angular-5.x": "^1.5.3",
+    "@ng-bootstrap/ng-bootstrap": "^13.1.0",
+    "@popperjs/core": "^2.11.6",
     "chart.js": "^3.9.1",
     "ng-multiselect-dropdown": "^1.0.0-beta.19",
     "ng2-file-upload": "^1.4.0",

@@ -1,17 +1,36 @@
 <mat-toolbar>
   <mat-toolbar-row class="justify-content-between">
     <button mat-icon-button (click)="toggleSidebar()">
-      <mat-icon class="text-light">menu</mat-icon>
+
     </button>
     <div class="row mr-2 ml-auto">
       <ul class="row m-0 align-items-center">
+        <!-- <li>
+          <span class="mt-2 mb-2 d-flex align-items-center" (click)="logout()">
+            Chào mừng, {{name}}
+          </span>
+          <span class="mt-2 mb-2 d-flex align-items-center btn btn-primary" (click)="logout()">
+            Đăng xuất
+          </span>
+        </li> -->
         <li>
-          <button class="mt-2 mb-2 d-flex align-items-center btn btn-primary" (click)="logout()" >
-              Đăng xuất
-          </button>
+          <div class="dropdown" style="color:white">
+             Xin chào, {{name }}
+            <a class="btn btn-text-dark" type="text" data-bs-toggle="dropdown" aria-expanded="false">
+              <svg style="color:white" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                <path
+                  d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+              </svg>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+              <li><a class="dropdown-item" data-bs-toggle="modal" (click)="changePassword()" data-bs-target="#exampleModal3">Đổi mật khẩu</a></li>
+              <li><a class="dropdown-item" (click)="logout()" data-bs-toggle="modal" data-bs-target="#exampleModal">Đăng
+                  xuất</a></li>
+            </ul>
+          </div>
         </li>
       </ul>
     </div>
   </mat-toolbar-row>
 </mat-toolbar>
-

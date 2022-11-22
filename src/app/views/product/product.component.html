@@ -45,7 +45,7 @@
       <nav aria-label="..." style="float: right;">
         <ul class="pagination">
           <li class="page-item">
-            <button class=" btn" style="background-color:#0dcaf0">Tổng số lượng: {{totalPage}} </button>
+            <button class=" btn" style="background-color:#0dcaf0">Tổng số lượng: {{totalElememnts}} </button>
           </li>
         </ul>
       </nav>
@@ -54,12 +54,12 @@
           <thead>
             <tr>
               <th scope="col">#</th>
+              <th scope="col">Ảnh</th>
               <th scope="col">Tên</th>
               <th scope="col">Loại sản phẩm</th>
-              <th scope="col">Thương hiệu</th>
-              <th scope="col">Số lượng mặt hàng</th>
-              <th scope="col">Số lượng sản phẩm</th>
-              <th scope="col">Trạng thái</th>
+              <th scope="col">Màu sắc</th>
+              <th scope="col">Size</th>
+              <th scope="col">Giá(khoảng giá)</th>
               <th>More</th>
 
 
@@ -68,17 +68,36 @@
 
           <tbody>
             <tr *ngFor="let item of data; let i = index">
-              <th scope="row">{{i+1}}</th>
+              <td scope="row">{{i+1}}</td>
+              <!-- === -->
+              <td>
+                <div class="circular">
+                  <span><img src={{item.images[0]}} alt=""></span>
+                </div>
+              </td>
               <td class="name" routerLink="/product-create/{{item.id}}">{{item.name}}
               </td>
-              <td>{{item.category.name}}</td>
-              <td>{{item.brand.name}}</td>
-              <td>5</td>
-              <td>200</td>
-              <td data-bs-target="#exampleModal1" data-bs-toggle="modal" (click)="getItem(item)">
+              <td>{{item.categoryName}}</td>
+              <td>
+                {{item.colors.length}} màu
+              </td>
+              <td>{{item.sizes.length}} size</td>
+              <td>
+                <p *ngIf="item.minPrice==item.maxPrice; else other">
+                  {{item.minPrice| currency:'VND' }}
+                </p>
+
+                <ng-template #other>
+                  {{item.minPrice| currency:'VND' }} - {{item.maxPrice| currency:'VND' }}
+                </ng-template>
+              </td>
+              
+
+              <!-- === -->
+              <!-- <td data-bs-target="#exampleModal1" data-bs-toggle="modal" (click)="getItem(item)">
                 <span class="badge badge text-bg-info text-light">{{item.status==0?"Hoạt động":""}}</span>
                 <span class="badge badge text-bg-secondary">{{item.status==1?"Ngưng hoạt động":""}}</span>
-              </td>
+              </td> -->
               <td>
                 <div class="dropdown">
                   <a class="btn btn-text-dark" type="text" data-bs-toggle="dropdown" aria-expanded="false">
@@ -89,10 +108,12 @@
                     </svg>
                   </a>
                   <ul class="dropdown-menu dropdown-menu-dark">
-                    <li><a class="dropdown-item" routerLink="/product-create/{{item.id}}">Chỉnh sửa</a></li>
+                    <!-- <li><a class="dropdown-item" routerLink="/product-create/{{item.id}}">Chỉnh sửa</a></li> -->
+                    <li><a class="dropdown-item" data-bs-toggle="modal" (click)="getDetailItem(item)"
+                        data-bs-target="#exampleModal3">Xem chi tiết</a></li>
                     <li><a class="dropdown-item" data-bs-toggle="modal" (click)="getItem(item)"
                         data-bs-target="#exampleModal">Xóa</a></li>
-                  </ul>
+                      </ul>
                 </div>
               </td>
             </tr>
@@ -114,6 +135,70 @@
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
                 <button type="button" class="btn btn-danger" (click)="delete(id)" data-bs-dismiss="modal">Đồng
                   ý</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!------>
+        <!-- Modal Xem chi tiết-->
+        <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{{name}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col" class="text-center">Ảnh</th>
+                      <th scope="col">Màu sắc</th>
+                      <th scope="col">Size</th>
+                      <th scope="col">Tồn kho</th>
+                      <th scope="col">Giá</th>
+                      <th>More</th>
+
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr [(ngModel)]="item.id" #id="ngModel" *ngFor="let item of listItem, let i = index">
+                      <th scope="row">{{i+1}}</th>
+                      <td>
+                        <div class="circular">
+                          <span><img src={{item.image}} alt=""></span>
+                        </div>
+                      </td>
+                      <td>{{item.colorName}}</td>
+                      <td>{{item.sizeName}}</td>
+                      <td>{{item.qty}}</td>
+                      <td>{{item.price}}</td>
+                      <td>
+                        <div class="dropdown">
+                          <a class="btn btn-text-dark" type="text" data-bs-toggle="dropdown" aria-expanded="false">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                              class="bi bi-three-dots" viewBox="0 0 16 16">
+                              <path
+                                d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
+                            </svg>
+                          </a>
+                          <ul class="dropdown-menu dropdown-menu-dark">
+                            <!-- <li><a class="dropdown-item" routerLink="/product-create/{{item.id}}">Chỉnh sửa</a></li> -->
+                            <li><a class="dropdown-item" data-bs-toggle="modal" (click)="getDetailItem(item)"
+                                data-bs-target="#exampleModal3">Chỉnh sửa</a></li>
+                            <li><a class="dropdown-item" data-bs-toggle="modal" (click)="getItem(item)"
+                                data-bs-target="#exampleModal">Xóa</a></li>
+                          </ul>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+                <button type="button" class="btn btn-danger" routerLink="/product-create/{{id}}" data-bs-dismiss="modal">Chỉnh sửa</button>
               </div>
             </div>
           </div>

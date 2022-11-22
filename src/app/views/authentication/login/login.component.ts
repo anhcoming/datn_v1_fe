@@ -1,3 +1,4 @@
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { TokenStorageService } from './../../../services/token-storage.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from './../../../services/auth.service';
@@ -19,9 +20,9 @@ export class LoginComponent implements OnInit {
   constructor(private tokenService: TokenStorageService, private fb: FormBuilder, private toastr: NotiService, private authService: AuthService, private route: Router) {
 
   }
-
+  jwt = new JwtHelperService();
   loginForm = this.fb.group({
-    username: ['', [Validators.required]],
+    email: ['', [Validators.required]],
     password: ['', [Validators.required, Validators.minLength(6)]]
   })
 
@@ -29,12 +30,24 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    const body = this.loginForm?.value;
-    console.log(body)
-    this.authService.login(body).subscribe({
+    const { email, password } = this.loginForm.value;
+    console.log(email, password);
+    const formData = new FormData();
+    formData.append('email', email!);
+    formData.append('password', password!);
+    console.log(formData)
+    this.authService.login(formData).subscribe({
       next: (res: any) => {
+        console.log(res)
+        const { accessToken, refreshToken } = res;
         ///Lưu token vào local storage
-        this.tokenService.saveToken(res)
+        this.tokenService.saveToken(accessToken)
+        this.tokenService.saveRefreshToken(refreshToken)
+        // debugger
+        //Decode User và lưu vào storage
+        const decodeUser = this.jwt.decodeToken(accessToken)
+        this.tokenService.saveUser(decodeUser)
+
         this.toastr.success("Đăng nhập thành công")
         this.route.navigate(['home'])
       },

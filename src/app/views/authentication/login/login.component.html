@@ -5,7 +5,7 @@
   <form [formGroup]="loginForm" (ngSubmit)="login()">
     <div id="inputs">
       <div>
-        <input type="text" placeholder="tên đăng nhập" formControlName="username" autofocus>
+        <input type="text" placeholder="email" formControlName="email" autofocus>
         <div>
           <input type="password" formControlName="password" placeholder="mật khẩu">
           <input class="mt-2" [ngStyle]="{'background-color':loginForm.invalid == true ? 'gray' : '' }"

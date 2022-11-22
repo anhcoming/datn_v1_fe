@@ -2,6 +2,11 @@
   <div class=" d-flex page__box mt-3 page__content shadow p-3 position-relative">
     <div class="app-content">
       Dashboard
+      <button class="button" (click)="open()">check modal</button>
+      <app-modal #modal (submitModalEvent)="submit()" (resetModalEvent)="reset()" [modalStyle]="modalStyle"
+        [modalTitle]="modalTitle" [modalButtonColor]="modalColorButton" [modalBody]="modalBody">
+       <app-account-create></app-account-create>
+      </app-modal>
     </div>
   </div>
 </div>

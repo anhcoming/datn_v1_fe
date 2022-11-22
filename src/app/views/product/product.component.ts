@@ -16,11 +16,26 @@ export class ProductComponent implements OnInit {
   name: any;
   id: any;
   totalPage: any;
-  currentPage: any;
+  currentPage: number = 0;
+  totalElememnts: any;
   numbers: any;
+  listColor: any;
+  listItem:any;
   req = {
-    pageSize: 5,
-    pageNumber: 0
+    textSearch: "",
+    category: "",
+    minPrice: "",
+    maxPrice: "",
+    type: "",
+    sizeIds: [],
+    colorIds: [],
+    pageReq: {
+      page: 0,
+      pageSize: 10,
+      sortField: "",
+      sortDirection: ""
+
+    }
   }
   constructor(private product: ProductService, public router: Router, public toastr: NotiService) {
 
@@ -31,19 +46,35 @@ export class ProductComponent implements OnInit {
   }
 
   getItem(item: any) {
-    this.name = item.fullName;
+    this.name = item.name;
     this.id = item.id;
   }
+
+  getDetailItem(item: any) {
+    this.name = item.name;
+    this.id = item.id;
+    this.product.getDetailItem(item.id).subscribe((res: any) => {
+      this.listItem = res.data.productOptions;
+      console.log(res.data.productOptions);
+      
+      console.log("List sản phẩm",this.listItem);
+      
+    })
+  }
   getAllProduct() {
-    this.product.getAllProductV2(this.req).subscribe((res: any) => {
-      this.data = res.pageResponse;
-      console.log(res.pageResponse);
+    this.product.getAllProductWS(this.req).subscribe((res: any) => {
+      this.data = res.data;
+      console.log(res.data);
       this.show = false
-      this.totalPage = res.totalPage;
-      console.log("Total Page", res.totalPage)
-      this.currentPage = res.currentPage;
-      console.log("current Page", res.currentPage);
-      this.numbers = Array(this.totalPage).fill(0).map((x, i) => i + 1);
+      this.totalElememnts = res.totalElements
+      this.totalPage = res.totalPages;
+      this.listColor = res.data.colors
+      console.log('Màu săcs', this.listColor)
+      console.log("Total Page", res.totalPages)
+      // debugger
+      this.currentPage = res.page;
+      console.log("current Page", res.page);
+      this.numbers = Array(res.totalPages).fill(0).map((x, i) => i + 1);
       console.log(this.numbers)
     });
   }
@@ -63,11 +94,7 @@ export class ProductComponent implements OnInit {
   }
 
   change(number: any) {
-    this.req = {
-      pageSize: 5,
-      pageNumber: number
-    }
+    this.req.pageReq.page = number;
     this.getAllProduct();
   }
-
 }

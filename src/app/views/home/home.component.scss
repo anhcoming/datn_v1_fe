@@ -1,7 +1,5 @@
-
 .page {
   color: white;
-  // padding: 0 1rem;
   background: #f1f5f9;
 
   &__box {
@@ -26,4 +24,8 @@
 
 text {
   font-size: 12px;
+}
+
+.modal {
+  --bs-modal-width: 700px;
 }

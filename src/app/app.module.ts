@@ -34,7 +34,10 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { BrandCreateComponent } from './views/brand/brand-create/brand-create.component';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
-
+import { EditComponent } from './share/edit/edit.component';
+import { ModalComponent } from './share/modal/modal.component';
+import { ShareModule } from './share/share.module';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   declarations: [
     AppComponent,
@@ -55,9 +58,13 @@ import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
     SizeCreateComponent,
     ProductCreateComponent,
     BrandComponent,
-    BrandCreateComponent
-  ],
+    BrandCreateComponent,
+    EditComponent,
+    ModalComponent
+  ], 
   imports: [
+    NgbModule,
+    ShareModule,
     NgxPaginationModule,
     ReactiveFormsModule,
     FormsModule,

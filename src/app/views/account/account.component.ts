@@ -15,15 +15,23 @@ export class AccountComponent implements OnInit {
   data: any = Account;
   name: any;
   id: any;
-  step:boolean=true;
+  step: boolean = true;
   totalPage: any;
   totalElement: any;
   currentPage: any;
   numbers: any;
 
   req = {
-    pageSize: 5,
-    pageNumber: 0
+    textSearch: null,
+    active: true,
+    role: null,
+    customerTypeId: null,
+    pageReq: {
+      page: 0,
+      pageSize: 10,
+      sortField: null,
+      sortDirection: null
+    }
   }
 
   constructor(private account: AccountService, public router: Router, public toastr: NotiService) {
@@ -34,21 +42,21 @@ export class AccountComponent implements OnInit {
   }
 
   getItem(item: any) {
-    this.name = item.fullName;
+    this.name = item.combinationName;
     this.id = item.id;
   }
   getAllAccount() {
     this.account.getAllAccount(this.req).subscribe((res: any) => {
-      this.data = res.pageResponse;
-      console.log(res.pageResponse);
+      this.data = res.data;
+      console.log(res.data);
       this.show = false
-      this.totalPage = res.totalPage;
-      console.log("Total Page", res.totalPage)
-      this.currentPage = res.currentPage;
-      console.log("current Page", res.currentPage);
+      this.totalPage = res.totalPages;
+      console.log("Total Page", res.totalPages)
+      this.currentPage = res.page;
+      console.log("current Page", res.page);
       this.numbers = Array(this.totalPage).fill(0).map((x, i) => i + 1);
       console.log(this.numbers)
-      this.totalElement = res.totalElement
+      this.totalElement = res.totalElements
     });
   }
 
@@ -67,10 +75,14 @@ export class AccountComponent implements OnInit {
   }
 
   change(number: any) {
-    this.req = {
-      pageSize: 5,
-      pageNumber: number
-    }
+      // pageSize: 5,
+      // pageNumber: number
+      this.req.pageReq= {
+        page: number,
+        pageSize: 10,
+        sortField: null,
+        sortDirection: null,
+      }
     this.getAllAccount()
   }
 

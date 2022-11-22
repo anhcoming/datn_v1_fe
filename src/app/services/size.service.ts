@@ -11,7 +11,7 @@ export class SizeService {
 
   constructor(private http: HttpClient) {
 
-  }
+  } 
   getAllSizeV2(pageNumber: any, pageSize: any): (Observable<Object>) {
     return this.http.get(API + "/size/find-by-page?pageNumber=" + pageNumber + "&pageSize=" + pageSize)
   }

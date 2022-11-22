@@ -10,15 +10,28 @@ import { Router } from '@angular/router';
 export class HeaderComponent implements OnInit {
   @Output() toggleSidebarForMe: EventEmitter<any> = new EventEmitter();
 
-  constructor(private router: Router,private tokenService: TokenStorageService) {}
+  name = ""
+  constructor(private token: TokenStorageService, private router: Router, private tokenService: TokenStorageService) {
+    this.getUser()
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
 
+  }
+  getUser() {
+    const user = this.token.getUser();
+    console.log(user)
+    this.name = user.name
+  }
   toggleSidebar() {
     this.toggleSidebarForMe.emit();
   }
-  logout(){
+  logout() {
     this.tokenService.removeToken();
     this.router.navigate(['login'])
   }
+  changePassword() {
+
+  }
+  
 }

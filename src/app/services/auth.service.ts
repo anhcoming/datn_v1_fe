@@ -24,7 +24,7 @@ export class AuthService {
 
   }
   login(body: any): Observable<Object> {
-    return this.http.post(API + '/login', body, { responseType: 'text' });
+    return this.http.post(API + '/login', body);
   }
   loggedIn() {
     return !!localStorage.getItem('token');
@@ -33,5 +33,7 @@ export class AuthService {
     const token = localStorage.getItem('auth-token') as string;
     return !this.helper.isTokenExpired(token);
   }
-
+  changePassword() {
+    
+  }
 } 

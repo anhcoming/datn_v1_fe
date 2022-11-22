@@ -5,9 +5,13 @@ import { environment } from 'src/environments/environment';
 import { Account } from '../model/account';
 
 const API = environment.baseUrl;
+const auth_token = window.localStorage.getItem('auth-token')
 const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${auth_token}`
+  })
+}
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +24,7 @@ export class AccountService {
 
   }
   getAllAccount(req: any): (Observable<Object>) {
-    return this.http.post(API + "/user/find-by-page", req,)
+    return this.http.post(API + "/admin/user/search", req, httpOptions)
   }
   createAccount(body: any): (Observable<Object>) {
     return this.http.post(API + "/user/create", body)
