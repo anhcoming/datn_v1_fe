@@ -27,6 +27,20 @@ export class ProductCreateComponent implements OnInit {
   show: any;
   role: any;
   data = new Product;
+  colorReq = {
+
+    id: null,
+    active: null,
+    textSearch: null,
+    pageReq: {
+      page: 0,
+      pageSize: 10,
+      sortField: null,
+      sortDirection: null
+
+    }
+  }
+
   productForm = new FormGroup({
     product: new FormControl(''),
     color: new FormControl(''),
@@ -94,51 +108,6 @@ export class ProductCreateComponent implements OnInit {
   }
   onSubmit() {
     console.log(this.productForm.get('ePrice')?.value)
-
-    // this.show = true
-    // try {
-    //   let body = {
-    //     id: this.id,
-    //     product: this.productForm.get("product")?.value == "" ? this.data : this.productForm.get("product")?.value,
-    //   }
-
-    //   let bodyV1 = {
-    //     id: body.id,
-    //     product: body.product,
-    //     status: 0
-    //   }
-    //   console.log("Load lên: ", bodyV1);
-    //   if (this.id == null || this.id == "") {
-    //     this.product.createProduct(bodyV1).subscribe((res) => {
-    //       if (res) {
-    //         console.log("Thêm mới thành công")
-    //         this.toastr.success("Thêm mới thành công")
-    //         this.router.navigate(['product']);
-    //       } else {
-    //         console.log("Thêm mới thất bại")
-    //         this.toastr.error("Thêm mới thất bại")
-    //       }
-    //     })
-    //   } else {
-    //     this.product.updateProduct(bodyV1).subscribe((res) => {
-    //       if (res) {
-    //         console.log("Cập nhật thành công")
-    //         this.toastr.success('Cập nhật thành công')
-    //         this.router.navigate(['product']);
-
-    //       } else {
-    //         console.log("Cập nhật thất bại")
-    //         this.toastr.error('Cập nhật thất bại')
-    //         this.router.navigate(['product']);
-    //       }
-    //     })
-    //   }
-    // } catch (error) {
-    //   console.log("Thất bại", error)
-    // } finally {
-    //   this.show = false
-
-    // }
   }
 
   getDetail() {
@@ -162,7 +131,7 @@ export class ProductCreateComponent implements OnInit {
     })
   }
   getColor() {
-    this.colorService.getAllColor(0, 10).subscribe((res: any) => {
+    this.colorService.getAllColor(this.colorReq).subscribe((res: any) => {
       this.color = res.pageResponse;
       this.dropdownListColor = res.pageResponse;
       console.log("color:", this.color);
@@ -208,7 +177,7 @@ export class ProductCreateComponent implements OnInit {
           let x = Object.values(a[i])
           let y = Object.values(b[u])
           arr.push({
-            color:x[0],
+            color: x[0],
             size: y[0],
             price: this.productForm.get('price')?.value,
             quantity: this.productForm.get('quantity')?.value,

@@ -19,10 +19,19 @@ export class ColorComponent implements OnInit {
   totalElement: any;
   currentPage: any;
   numbers: any;
-
+hex:any;
   req = {
-    pageSize: 5,
-    pageNumber: 0
+
+    id: null,
+    active: null,
+    textSearch: null,
+    pageReq: {
+      page: 0,
+      pageSize: 10,
+      sortField: null,
+      sortDirection: null
+
+    }
   }
   constructor(private color: ColorService, public router: Router, public toastr: NotiService) {
   }
@@ -32,21 +41,22 @@ export class ColorComponent implements OnInit {
   }
 
   getItem(item: any) {
-    this.name = item.color;
+    this.name = item.color; 
     this.id = item.id;
   }
   getAllColor() {
-    this.color.getAllColorV2(this.req).subscribe((res: any) => {
-      this.data = res.pageResponse;
-      console.log(res.pageResponse);
+    this.color.getAllColor(this.req).subscribe((res: any) => {
+      this.data = res.data;
+      this.hex = res.data.hex
+      console.log(res.data);
       this.show = false
-      this.totalPage = res.totalPage;
-      console.log("Total Page", res.totalPage)
-      this.currentPage = res.currentPage;
-      console.log("current Page", res.currentPage);
+      this.totalPage = res.totalPages;
+      console.log("Total Page", res.totalPages)
+      this.currentPage = res.page;
+      console.log("current Page", res.page);
       this.numbers = Array(this.totalPage).fill(0).map((x, i) => i + 1);
       console.log(this.numbers)
-      this.totalElement = res.totalElement
+      this.totalElement = res.totalElements
     });
   }
 
@@ -65,11 +75,11 @@ export class ColorComponent implements OnInit {
   }
 
   change(number: any) {
-    this.req = {
-      pageSize: 5,
-      pageNumber: number
-    }
-    this.getAllColor()
+    // this.req = {
+    //   pageSize: 5,
+    //   pageNumber: number
+    // }
+    // this.getAllColor()
   }
 
 }

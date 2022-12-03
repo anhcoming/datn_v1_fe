@@ -1,16 +1,16 @@
+import { NotiService } from './../../services/noti.service';
 import { SizeService } from './../../services/size.service';
-import { NotiService } from 'src/app/services/noti.service';
-import { Router } from '@angular/router';
-import { Size } from './../../model/size';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Size } from 'src/app/model/size';
+
 
 @Component({
-  selector: 'app-size',
-  templateUrl: './size.component.html',
-  styleUrls: ['./size.component.scss']
+  selector: 'app-Size',
+  templateUrl: './Size.component.html',
+  styleUrls: ['./Size.component.scss']
 })
 export class SizeComponent implements OnInit {
-
   show = true;
   data: any = Size;
   name: any;
@@ -19,9 +19,19 @@ export class SizeComponent implements OnInit {
   totalElement: any;
   currentPage: any;
   numbers: any;
+hex:any;
   req = {
-    pageSize: 5,
-    pageNumber: 0
+
+    id: null,
+    active: null,
+    textSearch: null,
+    pageReq: {
+      page: 0,
+      pageSize: 10,
+      sortField: null,
+      sortDirection: null
+
+    }
   }
   constructor(private size: SizeService, public router: Router, public toastr: NotiService) {
   }
@@ -31,20 +41,22 @@ export class SizeComponent implements OnInit {
   }
 
   getItem(item: any) {
-    this.name = item.size;
+    this.name = item.size; 
     this.id = item.id;
   }
   getAllSize() {
     this.size.getAllSize(this.req).subscribe((res: any) => {
-      this.data = res.pageResponse;
+      this.data = res.data;
+      this.hex = res.data.hex
+      console.log(res.data);
       this.show = false
-      this.totalPage = res.totalPage;
-      console.log("Total Page", res.totalPage)
-      this.currentPage = res.currentPage;
-      console.log("current Page", res.currentPage);
+      this.totalPage = res.totalPages;
+      console.log("Total Page", res.totalPages)
+      this.currentPage = res.page;
+      console.log("current Page", res.page);
       this.numbers = Array(this.totalPage).fill(0).map((x, i) => i + 1);
-      this.totalElement = res.totalElement
       console.log(this.numbers)
+      this.totalElement = res.totalElements
     });
   }
 
@@ -62,13 +74,12 @@ export class SizeComponent implements OnInit {
     })
   }
 
-
   change(number: any) {
-    this.req = {
-      pageSize: 5,
-      pageNumber: number
-    }
-    this.getAllSize();
+    // this.req = {
+    //   pageSize: 5,
+    //   pageNumber: number
+    // }
+    // this.getAllSize()
   }
 
 }

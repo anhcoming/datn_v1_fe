@@ -1,9 +1,9 @@
 <div class="container-fluid page">
   <div class=" mt-3 page__content shadow p-3">
     <div class="row">
-      <h4 class="banner col-6">Danh sách kích cỡ</h4>
+      <h4 class="banner col-6">Danh sách size</h4>
       <div class="col-6">
-        <button routerLink="/size-create" class="btn btn-primary text-light mb-2"
+        <button routerLink="/color-create" class="btn btn-primary text-light mb-2"
           style="margin-left:-50%;float: right;">Thêm mới</button>
       </div>
       <hr style="color:gray">
@@ -22,7 +22,7 @@
       </div>
       <div class="col-4">
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Vui lòng nhập..." aria-label="Recipient's"
+          <input type="text" class="form-control" placeholder="Vui lòng nhập..." aria-label="Recipient's username"
             aria-describedby="basic-addon2">
           <div class="input-group-append">
             <button class="btn btn-primary text-light" type="button">
@@ -34,7 +34,7 @@
           </div>
         </div>
       </div>
-      <hr> 
+      <hr>
       <app-spinner *ngIf="show"></app-spinner>
       <nav aria-label="..." style="float: right;">
         <ul class="pagination">
@@ -48,7 +48,7 @@
           <thead>
             <tr>
               <th scope="col">#</th>
-              <th scope="col">Tên Size</th>
+              <th scope="col">Số Size</th>
               <th scope="col">Trạng thái</th>
               <th>More</th>
             </tr>
@@ -57,11 +57,11 @@
           <tbody>
             <tr *ngFor="let item of data; let i = index">
               <th scope="row">{{i+1}}</th>
-              <td class="name" routerLink="/size-create/{{item.id}}">{{item.size}}
+              <td class="name" routerLink="/size-create/{{item.id}}">{{item.name}}
               </td>
               <td data-bs-target="#exampleModal1" data-bs-toggle="modal" (click)="getItem(item)">
-                <span class="badge badge text-bg-info text-light">{{item.status==0?"Hoạt động":""}}</span>
-                <span class="badge badge text-bg-secondary">{{item.status==1?"Ngưng hoạt động":""}}</span>
+                <span class="badge badge text-bg-info text-light">{{item.status.value?"Hoạt động":""}}</span>
+                <span class="badge badge text-bg-secondary">{{!item.status.value?"Ngưng hoạt động":""}}</span>
               </td>
               <td>
                 <div class="dropdown">
@@ -74,7 +74,8 @@
                   </a>
                   <ul class="dropdown-menu dropdown-menu-dark">
                     <li><a class="dropdown-item" routerLink="/size-create/{{item.id}}">Chỉnh sửa</a></li>
-                    <li><a class="dropdown-item" data-bs-toggle="modal" (click)="getItem(item)" data-bs-target="#exampleModal">Xóa</a></li>
+                    <li><a class="dropdown-item" data-bs-toggle="modal" (click)="getItem(item)"
+                        data-bs-target="#exampleModal">Xóa</a></li>
                   </ul>
                 </div>
               </td>
@@ -87,55 +88,54 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Xóa kích cỡ</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Xóa size</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                Bạn có muốn xóa size <span style="color:red">{{name}}</span>?
+                Bạn có muốn xóa màu <span style="color:red">{{name}}</span>?
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                <button type="button" class="btn btn-danger"  (click)="delete(id)"  data-bs-dismiss="modal">Đồng ý</button>
+                <button type="button" class="btn btn-danger" (click)="delete(id)" data-bs-dismiss="modal">Đồng
+                  ý</button>
               </div>
             </div>
           </div>
         </div>
         <!------>
 
-          <!-- Modal Thay đổi trạng thái -->
-          <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Thay đổi trạng thái kích cỡ</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  Bạn có muốn thay đổi trạng thái size <span style="color:red">{{name}}</span>?
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                  <button type="button" class="btn btn-danger"  (click)="delete(id)" data-bs-dismiss="modal">Đồng ý</button>
-                </div>
+        <!-- Modal Thay đổi trạng thái -->
+        <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Thay đổi trạng thái màu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                Bạn có muốn thay đổi trạng thái màu <span style="color:red">{{name}}</span>?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-danger" (click)="delete(id)" data-bs-dismiss="modal">Đồng
+                  ý</button>
               </div>
             </div>
           </div>
-          <!------>
-
-
-              <!------>
-              <nav aria-label="..." style="float: right;">
-                <ul class="pagination">
-                  <li class="page-item">
-                    <a class="page-link active">Trang hiện tại {{currentPage+1}}/{{totalPage}}</a>
-                  </li>
-                  <li class="page-item" *ngFor="let item of numbers">
-                    <a class="page-link" (click)="change(item-1)">{{item}}</a>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-          </div>
         </div>
+        <!------>
+        <nav aria-label="..." style="float: right;">
+          <ul class="pagination">
+            <li class="page-item">
+              <a class="page-link active">Trang hiện tại {{currentPage+1}}/{{totalPage}}</a>
+            </li>
+            <li class="page-item" *ngFor="let item of numbers">
+              <a class="page-link" (click)="change(item-1)">{{item}}</a>
+            </li>
+          </ul>
+        </nav>
       </div>
-      <!-- ========= -->
+    </div>
+  </div>
+</div>
+<!-- ========= -->

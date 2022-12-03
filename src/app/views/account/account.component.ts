@@ -3,6 +3,7 @@ import { AccountService } from './../../services/account.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Account } from 'src/app/model/account';
+import { FormControl } from '@angular/forms';
 
 
 @Component({
@@ -23,7 +24,7 @@ export class AccountComponent implements OnInit {
 
   req = {
     textSearch: null,
-    active: true,
+    active: null,
     role: null,
     customerTypeId: null,
     pageReq: {
@@ -34,6 +35,7 @@ export class AccountComponent implements OnInit {
     }
   }
 
+  textSearch = new FormControl();
   constructor(private account: AccountService, public router: Router, public toastr: NotiService) {
   }
 
@@ -74,16 +76,45 @@ export class AccountComponent implements OnInit {
     })
   }
 
-  change(number: any) {
-      // pageSize: 5,
-      // pageNumber: number
-      this.req.pageReq= {
-        page: number,
-        pageSize: 10,
-        sortField: null,
-        sortDirection: null,
+  changeStatus(id: any) {
+    this.account.changeStatus(id).subscribe((res) => {
+      if (res) {
+        console.log("Thay đổi trạng thái thành công")
+        this.getAllAccount();
+        this.toastr.success("Thay đổi trạng thái thành công")
+      } else {
+        console.log("Thay đổi trạng thái thất bại");
+        this.toastr.error("Thay đổi trạng thái thất bại")
+        this.getAllAccount();
       }
+    })
+  }
+
+  change(number: any) {
+    // pageSize: 5,
+    // pageNumber: number
+    this.req.pageReq = {
+      page: number,
+      pageSize: 10,
+      sortField: null,
+      sortDirection: null,
+    }
     this.getAllAccount()
   }
 
+  changeReq(value: any) {
+    console.log(value.currentTarget.value)
+    this.req.active = value.currentTarget.value;
+    this.getAllAccount()
+  }
+  changeReq2(value: any) {
+    console.log(value.currentTarget.value)
+    this.req.role = value.currentTarget.value;
+    this.getAllAccount()
+  }
+  search() {
+    console.log(this.textSearch.value)
+    this.req.textSearch = this.textSearch.value;
+    this.getAllAccount()
+  }
 }

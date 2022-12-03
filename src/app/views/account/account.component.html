@@ -11,27 +11,27 @@
     <div class="title row">
       <div class="col-8">
         <div class="row">
-          <div class="col-3"><select class="form-select">
+          <div class="col-3"><select class="form-select" (change)="changeReq($event)">
               <option hidden>Trạng thái</option>
               <option value="null">Tất cả</option>
               <option value="true">Hoạt động</option>
               <option value="false">Ngưng hoạt động</option>
             </select></div>
-          <div class="col-3"><select class="form-select">
+          <div class="col-3"><select class="form-select" (change)="changeReq2($event)">
               <option hidden>Phân loại</option>
               <option value>Tất cả</option>
-              <option value="0">Admin</option>
-              <option value="1">Khách hàng</option>
-              <option value="2">Nhân viên</option>
+              <option value="ROLE_ADMIN">Admin</option>
+              <option value="ROLE_CUSTOMER">Khách hàng</option>
+              <option value="ROLE_STAFF">Nhân viên</option>
             </select></div>
         </div>
       </div>
       <div class="col-4">
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Vui lòng nhập..." aria-label="Recipient's username"
+          <input type="text" class="form-control" [formControl]="textSearch" placeholder="Vui lòng nhập..." aria-label="Recipient's username"
             aria-describedby="basic-addon2">
           <div class="input-group-append">
-            <button class="btn btn-primary text-light" type="button">
+            <button (click)="search()" class="btn btn-primary text-light" type="button">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
                 viewBox="0 0 16 16">
                 <path
@@ -54,12 +54,13 @@
           <thead>
             <tr>
               <th scope="col">#</th>
-              <th scope="col" class="text-center">Ảnh</th>
+              <!-- <th scope="col" class="text-center">Ảnh</th> -->
               <th scope="col">Tên</th>
               <th scope="col">Email</th>
               <th scope="col">Số điện thoại</th>
               <th scope="col">Quyền</th>
               <th scope="col">Trạng thái</th>
+              <th scope="col">Đã Order</th>
               <th>More</th>
 
 
@@ -69,7 +70,7 @@
           <tbody>
             <tr *ngFor="let item of data; let i = index">
               <th scope="row">{{i+1}}</th>
-              <td>
+              <!-- <td>
                 <div class="circular">
                   <span *ngIf="!item.image">
                     <img
@@ -78,7 +79,7 @@
                   </span>
                   <span *ngIf="item.image"><img src={{item.image}} alt=""></span>
                 </div>
-              </td>
+              </td> -->
               <td class="name" routerLink="/account-create/{{item.id}}">{{item.combinationName}}
               </td>
               <td>{{item.email}}</td>
@@ -91,6 +92,8 @@
                 <span class="badge badge text-bg-info text-light">{{item.active?"Hoạt động":""}}</span>
                 <span class="badge badge text-bg-secondary">{{!item.active?"Ngưng hoạt động":""}}</span>
               </td>
+              <td class="text-center">
+                {{item.orderNumber}}</td>
               <td>
                 <div class="dropdown">
                   <a class="btn btn-text-dark" type="text" data-bs-toggle="dropdown" aria-expanded="false">
@@ -145,7 +148,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                <button type="button" class="btn btn-danger" (click)="delete(id)" data-bs-dismiss="modal">Đồng
+                <button type="button" class="btn btn-danger" (click)="changeStatus(id)" data-bs-dismiss="modal">Đồng
                   ý</button>
               </div>
             </div>

@@ -28,13 +28,14 @@ export class AccountCreateComponent implements OnInit {
     name: new FormControl(''),
     email: new FormControl(''),
     phone: new FormControl(''),
-    address: new FormControl(''),
+    // address: new FormControl(''),
     role: new FormControl(''),
-    password: new FormControl(''),
+    gender: new FormControl(''),
     // image: new FormControl('')
 
   })
 
+  genderName=""
   // Khai báo upload image 
   dataImage: any;
   file: any;
@@ -60,15 +61,30 @@ export class AccountCreateComponent implements OnInit {
     this.showPass = !this.showPass;
   }
 
+  // req submit
+
+  // {
+  //   "id": "string",
+  //   "firstName": "string",
+  //   "lastName": "string",
+  //   "email": "string",
+  //   "password": "string",
+  //   "newPassword": "string",
+  //   "phone": "string",
+  //   "dob": "2022-12-03T13:34:37.858Z"
+  // }
+
   onSubmit() {
     this.show = true
     this.body = {
       id: this.id,
-      fullName: this.accountForm.get("name")?.value == "" ? this.data.fullName : this.accountForm.get("name")?.value,
+      fullName: this.accountForm.get("name")?.value == "" ? this.data.combinationName : this.accountForm.get("name")?.value,
       email: this.accountForm.get("email")?.value == "" ? this.data.email : this.accountForm.get("email")?.value,
       phone: this.accountForm.get("phone")?.value == "" ? this.data.phone : this.accountForm.get("phone")?.value,
-      password: this.accountForm.get("password")?.value == "" ? this.data.password : this.accountForm.get("password")?.value,
-      address: this.accountForm.get("address")?.value == "" ? this.data.address : this.accountForm.get("address")?.value,
+      dob: this.accountForm.get("dob")?.value == "" ? this.data.dob : this.accountForm.get("dob")?.value,
+      // gender: this.accountForm.get("gender")?.value == "" ? this.data.gender : this.accountForm.get("gender")?.value,
+      // password: this.accountForm.get("password")?.value == "" ? this.data.pa : this.accountForm.get("password")?.value,
+      // address: this.accountForm.get("address")?.value == "" ? this.data.address : this.accountForm.get("address")?.value,
     }
     switch (this.id == null || this.id == "") {
       case true: {
@@ -116,8 +132,8 @@ export class AccountCreateComponent implements OnInit {
     }))
   }
 
-  async doUpdate() {
-    await this.promiseTestUpload();
+   doUpdate() {
+    // await this.promiseTestUpload();
 
     debugger
     let bodyV1 = {
@@ -125,7 +141,7 @@ export class AccountCreateComponent implements OnInit {
       role: this.accountForm.get('role')?.value,
       status: 0
     }
-    console.log("check",this.body)
+    console.log("check", this.body)
     console.log("Ở đây V1", bodyV1)
     this.account.updateAccount(bodyV1).subscribe({
       next: (res: any) => {
@@ -143,16 +159,17 @@ export class AccountCreateComponent implements OnInit {
 
   getAllRole() {
     this.user.getAllRole().subscribe((res: any) => {
-      this.role = res.pageResponse;
+      this.role = res;
     })
   }
   getDetail() {
     this.account.getDetail(this.id).subscribe((res: any) => {
       this.data = res;
+      this.genderName= res.gender?"Nam":"Nữ"
       console.log("Ở đây", this.data)
       this.show = false
-      this.preview = this.data.image
-      this.selected = this.data.role.name
+      this.preview = this.data.avatar 
+      this.selected = this.data.roleName
     })
   }
   uploadPreview(event: any) {
@@ -160,7 +177,7 @@ export class AccountCreateComponent implements OnInit {
     this.file = event.target.files;
     let file0 = this.file[0];
     let reader = new FileReader();
-    reader.onload = (e) => { 
+    reader.onload = (e) => {
       this.preview = reader.result;
     }
     if (file0) {

@@ -1,9 +1,17 @@
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 
-const API = environment.baseUrl;
+const API = environment.baseUrl
+const auth_token = window.localStorage.getItem('auth-token')
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${auth_token}`
+  })
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -15,9 +23,8 @@ export class SizeService {
   getAllSizeV2(pageNumber: any, pageSize: any): (Observable<Object>) {
     return this.http.get(API + "/size/find-by-page?pageNumber=" + pageNumber + "&pageSize=" + pageSize)
   }
-
   getAllSize(req: any): (Observable<Object>) {
-    return this.http.post(API + "/size/find-by-page", req)
+    return this.http.post(API + "/admin/size/search",req,httpOptions)
   }
   createSize(body: any): (Observable<Object>) {
     return this.http.post(API + "/size/create", body)

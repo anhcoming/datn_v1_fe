@@ -15,7 +15,7 @@ export class OrderComponent implements OnInit {
   data: any = Order;
   name: any;
   id: any;
-  step:boolean=true;
+  step: boolean = true;
   totalPage: any;
   totalElement: any;
   currentPage: any;
@@ -25,7 +25,24 @@ export class OrderComponent implements OnInit {
     pageSize: 5,
     pageNumber: 0
   }
+  reqSearch = {
 
+    id: null,
+    status: null,
+    customerId: null,
+    provinceId: null,
+    districtId: null,
+    wardCode: null,
+    time: null,
+    textSearch: null,
+    pageReq: {
+      page: 0,
+      pageSize: 10,
+      sortField: null,
+      sortDirection: null
+
+    }
+  }
   constructor(private order: OrderService, public router: Router, public toastr: NotiService) {
   }
 
@@ -37,9 +54,9 @@ export class OrderComponent implements OnInit {
     this.id = item.id;
   }
   getAllOrder() {
-    this.order.getAllOrderV2(this.req).subscribe((res: any) => {
-      this.data = res.pageResponse;
-      console.log(res.pageResponse);
+    this.order.getAllOrderV2(this.reqSearch).subscribe((res: any) => {
+      this.data = res;
+      console.log(res);
       this.show = false
       this.totalPage = res.totalPage;
       console.log("Total Page", res.totalPage)
