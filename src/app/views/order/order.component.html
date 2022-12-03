@@ -73,18 +73,14 @@
               <th scope="row">{{i+1}}</th>
               <td class="name" routerLink="/order-create/{{item.id}}">#{{item.id}}
               </td>
-              <td>{{item.orderDate}}</td>
-              <td>{{item.user.fullName}}</td>
-              <td>{{item.user.phone}}</td>
-              <td>{{item.orderAddress}}</td>
-              <td>{{item.totalPrice==null?"":""}}</td>
+              <td>{{item.createdDateFmt}}</td>
+              <td>{{item.customerName}}</td>
+              <td>{{item.phone}}</td>
+              <td>{{item.addressCombination}}</td>
+              <td>{{item.total}}</td>
               <td>{{item.note}}</td>
               <td data-bs-target="#exampleModal1" data-bs-toggle="modal" (click)="getItem(item)">
-                <span class="badge badge text-bg-warning ">{{item.status==1?"Chờ xử lý":""}}</span>
-                <span class="badge badge text-bg-secondary">{{item.status==2?"Đang giao hàng":""}}</span>
-                <span class="badge badge text-bg-success">{{item.status==0?"Đã nhận hàng":""}}</span>
-                <span class="badge badge text-bg-danger">{{item.status==3?"Khách hàng hủy":""}}</span>
-                <span class="badge badge text-bg-danger">{{item.status==4?"Cửa hàng hủy":""}}</span>
+                <span class="badge badge text-bg-warning ">{{item.statusCombination}}</span>
               </td>
               <td>
                 <div class="dropdown">

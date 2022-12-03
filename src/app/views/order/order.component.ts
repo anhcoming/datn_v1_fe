@@ -55,8 +55,8 @@ export class OrderComponent implements OnInit {
   }
   getAllOrder() {
     this.order.getAllOrderV2(this.reqSearch).subscribe((res: any) => {
-      this.data = res;
-      console.log(res);
+      this.data = res.data;
+      console.log(res.data);
       this.show = false
       this.totalPage = res.totalPage;
       console.log("Total Page", res.totalPage)
