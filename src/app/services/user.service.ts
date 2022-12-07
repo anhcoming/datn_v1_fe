@@ -12,7 +12,7 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   getAllRole(): (Observable<Object>) {
-    return this.http.get(API+"/no-auth/role/search")
+    return this.http.get(API+"/no-auth/role/modify")
   }
 }
   

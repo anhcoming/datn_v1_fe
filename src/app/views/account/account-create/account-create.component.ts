@@ -6,7 +6,7 @@ import { AccountService } from './../../../services/account.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Account } from 'src/app/model/account';
-import { async } from 'rxjs';
+import { OrderService } from '../../../services/order.service';
 
 @Component({
   selector: 'app-account-create',
@@ -19,40 +19,62 @@ export class AccountCreateComponent implements OnInit {
   show: any;
   role: any;
   preview: any;
+  inputPassword: boolean = false;
+  checkUpdate: boolean = false;
   label = "Thêm mới tài khoản"
   data = new Account;
   body: any;
   bodyV1: any;
   selected: any;
   accountForm = new FormGroup({
-    name: new FormControl(''),
+    firstName: new FormControl(''),
+    lastName: new FormControl(''),
     email: new FormControl(''),
     phone: new FormControl(''),
-    // address: new FormControl(''),
     role: new FormControl(''),
-    gender: new FormControl(''),
-    // image: new FormControl('')
-
+    dob: new FormControl(''),
+    password: new FormControl(''),
   })
 
-  genderName=""
+  reqSearch = {
+
+    id: null,
+    status: null,
+    customerId: null,
+    provinceId: null,
+    districtId: null,
+    wardCode: null,
+    time: null,
+    textSearch: null,
+    pageReq: {
+      page: 0,
+      pageSize: 10,
+      sortField: null,
+      sortDirection: null
+
+    }
+  }
+  roleCode: any
+  genderName = ""
   // Khai báo upload image 
   dataImage: any;
   file: any;
   // 
-  constructor(private uploadService: UploadService, private toastr: NotiService, public router: Router, private activeRoute: ActivatedRoute, private account: AccountService, private user: UserService) {
+  constructor(private order: OrderService, private uploadService: UploadService, private toastr: NotiService, public router: Router, private activeRoute: ActivatedRoute, private account: AccountService, private user: UserService) {
     this.id = this.activeRoute.snapshot.params['id'];
     if (this.id != null) {
       this.show = true
       console.log(this.id);
       this.label = "Chỉnh sửa tài khoản"
-
+      this.inputPassword = true;
+      this.checkUpdate = true;
+      this.getDetail();
     }
-    this.getDetail();
-    this.getAllRole();
   }
 
   ngOnInit(): void {
+
+    this.getAllRole();
   }
   reset() {
     this.accountForm.reset()
@@ -61,31 +83,22 @@ export class AccountCreateComponent implements OnInit {
     this.showPass = !this.showPass;
   }
 
-  // req submit
-
-  // {
-  //   "id": "string",
-  //   "firstName": "string",
-  //   "lastName": "string",
-  //   "email": "string",
-  //   "password": "string",
-  //   "newPassword": "string",
-  //   "phone": "string",
-  //   "dob": "2022-12-03T13:34:37.858Z"
-  // }
 
   onSubmit() {
     this.show = true
+    let role = this.accountForm.get("role")?.value == "" ? this.data.role : this.accountForm.get("role")?.value;
     this.body = {
       id: this.id,
-      fullName: this.accountForm.get("name")?.value == "" ? this.data.combinationName : this.accountForm.get("name")?.value,
+      firstName: this.accountForm.get("firstName")?.value == "" ? this.data.firstName : this.accountForm.get("firstName")?.value,
+      lastName: this.accountForm.get("lastName")?.value == "" ? this.data.lastName : this.accountForm.get("lastName")?.value,
       email: this.accountForm.get("email")?.value == "" ? this.data.email : this.accountForm.get("email")?.value,
       phone: this.accountForm.get("phone")?.value == "" ? this.data.phone : this.accountForm.get("phone")?.value,
       dob: this.accountForm.get("dob")?.value == "" ? this.data.dob : this.accountForm.get("dob")?.value,
-      // gender: this.accountForm.get("gender")?.value == "" ? this.data.gender : this.accountForm.get("gender")?.value,
-      // password: this.accountForm.get("password")?.value == "" ? this.data.pa : this.accountForm.get("password")?.value,
-      // address: this.accountForm.get("address")?.value == "" ? this.data.address : this.accountForm.get("address")?.value,
+      password: this.accountForm.get("password")?.value,
+      role: role
     }
+
+    console.log(this.body)
     switch (this.id == null || this.id == "") {
       case true: {
         this.doCreate();
@@ -101,57 +114,60 @@ export class AccountCreateComponent implements OnInit {
 
   }
 
-  async doCreate() {
-    await this.promiseTestUpload();
-
-    this.bodyV1 = {
-      ... this.body,
-      role: this.accountForm.get('role')?.value,
-      status: 0
-    }
-    console.log("payload bodyV1", this.bodyV1)
-    ///nó chưa chạy cái này này tùng
-    this.account.createAccount(this.bodyV1).subscribe((res: any) => {
-      this.toastr.success("Thêm mới thành công")
-    });
-  }
-
-  promiseTestUpload() {
-    return new Promise((resolve, reject) => this.uploadService.uploadImage(this.dataImage).subscribe({
-      next: (res: any) => {
-        console.log("Upload thành công")
-        resolve(res.url)
-        this.body.image = res.url
-        console.log("body", this.body)
-        this.router.navigate(['account'])
-      },
-      error: (err) => {
-        console.log("Upload ảnh không thành công")
-        this.toastr.error("Upload ảnh không thành công")
-      }
-    }))
-  }
-
-   doUpdate() {
-    // await this.promiseTestUpload();
-
-    // debugger
+  doCreate() {
     let bodyV1 = {
-      // ... this.body,
-      role: this.accountForm.get('role')?.value,
-      status: 0
+      ... this.body,
+      "customerTypeIds": [
+      ]
     }
-    console.log("check", this.body)
-    console.log("Ở đây V1", bodyV1)
-    this.account.updateAccount(bodyV1).subscribe({
+    console.log("check", bodyV1)
+    this.account.createAccount(bodyV1).subscribe({
       next: (res: any) => {
-        console.log("Cập nhật thành công")
-        this.toastr.success("Cập nhật thành công")
+        console.log("---------", res);
+        this.toastr.success("Thêm mới thành công")
         this.router.navigate(['account']);
       },
       error: (err) => {
-        console.log("Cập nhật thất bại")
-        this.toastr.error("Cập nhật thất bại")
+        this.toastr.warning(err.error.message)
+      }
+    })
+  }
+
+  // promiseTestUpload() {
+  //   return new Promise((resolve, reject) => this.uploadService.uploadImage(this.dataImage).subscribe({
+  //     next: (res: any) => {
+  //       console.log("Upload thành công")
+  //       resolve(res.url)
+  //       this.body.image = res.url
+  //       console.log("body", this.body)
+  //       this.router.navigate(['account'])
+  //     },
+  //     error: (err) => {
+  //       console.log("Upload ảnh không thành công")
+  //       this.toastr.error("Upload ảnh không thành công")
+  //     }
+  //   }))
+  // }
+
+  doUpdate() {
+    let bodyV1 = {
+      ... this.body,
+      "customerTypeIds": [
+      ]
+    }
+    console.log("check", bodyV1)
+    this.account.updateAccount(bodyV1).subscribe({
+      next: (res: any) => {
+      },
+      error: (err) => {
+        console.log(err)
+        if (err.status == 200) {
+          console.log("200 ok")
+          this.toastr.success("Cập nhật thành công")
+          this.router.navigate(['account']);
+        } else if (err.status == 400) {
+          this.toastr.warning(err.error.message)
+        }
       }
     })
   }
@@ -162,13 +178,13 @@ export class AccountCreateComponent implements OnInit {
       this.role = res;
     })
   }
+
   getDetail() {
     this.account.getDetail(this.id).subscribe((res: any) => {
       this.data = res;
-      this.genderName= res.gender?"Nam":"Nữ"
-      console.log("Ở đây", this.data)
+      console.log("data", this.data)
+      this.genderName = res.gender ? "Nam" : "Nữ"
       this.show = false
-      this.preview = this.data.avatar 
       this.selected = this.data.roleName
     })
   }
@@ -186,4 +202,13 @@ export class AccountCreateComponent implements OnInit {
     this.dataImage.append('file', this.file[0])
     this.dataImage.append("upload_preset", "gxfcbf2p")
   }
+
+  // getOrderById() {
+  //   this.reqSearch.customerId = this.id;
+  //   this.order.getAllOrderV2(this.reqSearch).subscribe((res: any) => {
+  //     this.data = res.data;
+  //     console.log(res.data);
+  //     this.show = false
+  //   });
+  // }
 }

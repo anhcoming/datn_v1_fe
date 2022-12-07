@@ -64,6 +64,8 @@ export class AccountComponent implements OnInit {
 
   delete(id: any) {
     this.account.delete(id).subscribe((res) => {
+      console.log("----", res)
+
       if (res) {
         console.log("Xóa thành công")
         this.getAllAccount();
@@ -73,6 +75,9 @@ export class AccountComponent implements OnInit {
         this.toastr.error("Xóa thất bại")
         this.getAllAccount();
       }
+    }, err => {
+      this.toastr.error("Xóa thất bại vì " + err.error.message)
+      this.getAllAccount();
     })
   }
 

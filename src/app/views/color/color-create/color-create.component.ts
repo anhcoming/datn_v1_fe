@@ -27,9 +27,9 @@ export class ColorCreateComponent implements OnInit {
       this.show = true
       console.log(this.id);
       this.label = "Chỉnh sửa màu sắc"
-
+      this.getDetail();
     }
-    this.getDetail();
+    
   }
 
   ngOnInit(): void {

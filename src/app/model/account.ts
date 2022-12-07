@@ -35,5 +35,6 @@ export class Account {
   phone!:string;
   role!:string;
   roleName!:string;
+  password!:string;
 
 }
