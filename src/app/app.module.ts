@@ -38,6 +38,7 @@ import { EditComponent } from './share/edit/edit.component';
 import { ModalComponent } from './share/modal/modal.component';
 import { ShareModule } from './share/share.module';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { OrderDetailComponent } from './views/order/order-detail/order-detail.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -60,7 +61,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     BrandComponent,
     BrandCreateComponent,
     EditComponent,
-    ModalComponent
+    ModalComponent,
+    OrderDetailComponent
   ], 
   imports: [
     NgbModule,

@@ -7,10 +7,9 @@ import { UserService } from '../../../services/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../../../services/product.service';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { Product } from 'src/app/model/product';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
-import { keyframes } from '@angular/animations';
 
 @Component({
   selector: 'app-product-create',
@@ -18,6 +17,16 @@ import { keyframes } from '@angular/animations';
   styleUrls: ['./product-create.component.scss']
 })
 export class ProductCreateComponent implements OnInit {
+
+  quantity: string = "";
+  myModel: any
+  price: any
+  arr: any
+  options: any;
+  fullOptions: any;
+  colorList: any;
+  sizeList: any
+  dataPush: any;
   showPass: boolean = false;
   id: any;
   category: any;
@@ -25,6 +34,7 @@ export class ProductCreateComponent implements OnInit {
   size: any;
   brand: any;
   show: any;
+  hear: any
   role: any;
   data = new Product;
   colorReq = {
@@ -45,17 +55,24 @@ export class ProductCreateComponent implements OnInit {
     product: new FormControl(''),
     color: new FormControl(''),
     size: new FormControl(''),
-    price: new FormControl(''),
-    quantity: new FormControl(''),
     name: new FormControl(''),
     category: new FormControl(''),
     brand: new FormControl(''),
     description: new FormControl(''),
-    ePrice: new FormControl(''),
+
   })
 
-  price: any;
-  quantity: any;
+  // pushLength(number: any) {
+  //   let u;
+  //   for (let i = 0; i < number; i++) {
+  //   u =  new FormGroup({
+  //       priceE: new FormControl(''),
+  //       quantityE: new FormControl(''),
+  //     })
+
+  //   }
+  //   return u
+  // }
   arr1: any
 
   dropdownListColor = [];
@@ -63,8 +80,8 @@ export class ProductCreateComponent implements OnInit {
 
   dropdownSettingsColor: IDropdownSettings = {
     singleSelection: false,
-    idField: 'id',
-    textField: 'color',
+    idField: 'colorId',
+    textField: 'colorName',
     selectAllText: 'Chọn tất cả',
     unSelectAllText: 'Bỏ chọn tất cả',
     itemsShowLimit: 10,
@@ -76,8 +93,8 @@ export class ProductCreateComponent implements OnInit {
 
   dropdownSettingsSize: IDropdownSettings = {
     singleSelection: false,
-    idField: 'id',
-    textField: 'size',
+    idField: 'sizeId',
+    textField: 'sizeName',
     selectAllText: 'Chọn tất cả',
     unSelectAllText: 'Bỏ chọn tất cả',
     itemsShowLimit: 10,
@@ -85,7 +102,7 @@ export class ProductCreateComponent implements OnInit {
   };
 
 
-  constructor(private toastr: NotiService, public router: Router, private activeRoute: ActivatedRoute,
+  constructor(private toastr: NotiService, public router: Router, private activeRoute: ActivatedRoute, private fb: FormBuilder,
     private product: ProductService, private user: UserService, private cate: CategoryService,
     private brandService: BrandService, private colorService: ColorService, private sizeService: SizeService) {
     this.id = this.activeRoute.snapshot.params['id'];
@@ -95,6 +112,7 @@ export class ProductCreateComponent implements OnInit {
     }
     this.getDetail();
   }
+
 
   ngOnInit(): void {
 
@@ -106,9 +124,16 @@ export class ProductCreateComponent implements OnInit {
   reset() {
     this.productForm.reset()
   }
-  onSubmit() {
-    console.log(this.productForm.get('ePrice')?.value)
+  submit() {
+    // console.log(this.cities)
+    console.log("PRICE ", this.productForm.get('priceE')!.value);
+    console.log("SIZE ", this.productForm.get('sizeE')!.value);
+
   }
+  onSearchChange(searchValue: string): void {
+    console.log(searchValue);
+  }
+  // get cities(): FormArray { return this.productForm.get('priceEs') as FormArray; }
 
   getDetail() {
     this.product.getDetail(this.id).subscribe((res: any) => {
@@ -119,29 +144,29 @@ export class ProductCreateComponent implements OnInit {
   }
 
   getCate() {
-    this.cate.getAllCategoryV2().subscribe((res: any) => {
-      this.category = res.pageResponse;
+    this.cate.getAllCategoryNoPage().subscribe((res: any) => {
+      this.category = res;
       console.log("cate:", this.category);
     })
   }
   getBrand() {
-    this.brandService.getAllBrand().subscribe((res: any) => {
-      this.brand = res.pageResponse;
+    this.brandService.getAllBrandNoPage().subscribe((res: any) => {
+      this.brand = res;
       console.log("brand:", this.brand);
     })
   }
   getColor() {
-    this.colorService.getAllColor(this.colorReq).subscribe((res: any) => {
-      this.color = res.pageResponse;
-      this.dropdownListColor = res.pageResponse;
+    this.colorService.getAllColorNoPage().subscribe((res: any) => {
+      this.color = res.data;
+      this.dropdownListColor = res.data;
       console.log("color:", this.color);
     })
   }
 
   getSize() {
-    this.sizeService.getAllSizeV2(0, 10).subscribe((res: any) => {
-      this.size = res.pageResponse;
-      this.dropdownListSize = res.pageResponse;
+    this.sizeService.getAllSizeNoPage().subscribe((res: any) => {
+      this.size = res;
+      this.dropdownListSize = res;
       console.log("size:", this.size);
     })
   }
@@ -155,41 +180,86 @@ export class ProductCreateComponent implements OnInit {
 
 
   getData() {
-    let payload = [{
-      colorId: "",
-      sizeId: "",
-      colorName: "",
-      sizeName: ""
-    }]
+    this.colorList = this.productForm.get('color')?.value
+    this.sizeList = this.productForm.get('size')?.value
 
-    let a = this.productForm.get('color')?.value;
-    let b = this.productForm.get('size')?.value;
-    console.log("Cập nhật color:", a);
+    let colorName = this.colorList.map((x: any) => x.colorName);
+    let sizeName = this.sizeList.map((x: any) => x.sizeName);
+    let colorId = this.colorList.map((x: any) => x.colorId);
+    let sizeId = this.sizeList.map((x: any) => x.sizeId);
+
+    let index = colorId.length > sizeId.length ? colorId.length : sizeId.length
+    if (colorId.length > sizeId.length) {
+
+    } else {
+      console.log("size honw");
+
+    }
+    console.log(colorId.length);
+    console.log(sizeId.length);
+
+
+    let arr = []
+    for (let i = 0; i < colorId.length; i++) {
+      for (let u = 0; u < sizeId.length; u++) {
+        this.options = {
+          id: "",
+          colorId: this.colorList[i],
+          // price: this.productForm.get("priceE")!.value,
+          // qty: this.productForm.get("quantityE")!.value,
+          sizeId: this.sizeList[u],
+          image: null,
+        }
+        arr.push(this.options)
+      }
+
+    }
+    this.arr = arr
+    console.log("Full Option", arr)
+    // this.items.push(this.pushLength(index))
+    let data = {
+      id: "",
+      name: this.productForm.get("name")?.value,
+      des: this.productForm.get("description")?.value,
+      categoryId: this.productForm.get("category")?.value,
+      brand: this.productForm.get("brand")?.value,
+      options: arr
+    }
+    let b = this.productForm.get('size')?.value
+
+    console.log("Cập nhật color:", colorName);
     console.log("Cập nhật size:", b);
 
-    let arr = [
-    ]
+    // for (let i = 0; i < colorName!.length; i++) {
+    //   for (let u = 0; u < b!.length; u++) {
+    //     console.log(Object.values(colorName![i]) + " " + Object.values(b![u]))
+    //   }
+    // }
+    console.log("----------", data)
 
-    if (a?.length != null && b?.length != null) {
-      for (let i = 0; i < a?.length; i++) {
-        for (let u = 0; u < b?.length; u++) {
-          console.log(Object.values(a[i]))
-          let x = Object.values(a[i])
-          let y = Object.values(b[u])
-          arr.push({
-            color: x[0],
-            size: y[0],
-            price: this.productForm.get('price')?.value,
-            quantity: this.productForm.get('quantity')?.value,
-            brand: this.productForm.get('brand')?.value,
-            name: this.productForm.get('name')?.value,
-            category: this.productForm.get('category')?.value,
-            description: this.productForm.get('description')?.value,
-          })
-        }
-      }
-      console.log(arr)
-      this.arr1 = arr
-    }
+    // let arr = [
+    // ]
+
+    // if (a?.length != null && b?.length != null) {
+    //   for (let i = 0; i < a?.length; i++) {
+    //     for (let u = 0; u < b?.length; u++) {
+    //       console.log(Object.values(a[i]))
+    //       let x = Object.values(a[i])
+    //       let y = Object.values(b[u])
+    //       arr.push({
+    //         color: x[0],
+    //         size: y[0],
+    //         price: this.productForm.get('price')?.value,
+    //         quantity: this.productForm.get('quantity')?.value,
+    //         brand: this.productForm.get('brand')?.value,
+    //         name: this.productForm.get('name')?.value,
+    //         category: this.productForm.get('category')?.value,
+    //         description: this.productForm.get('description')?.value,
+    //       })
+    //     }
+    //   }
+    //   console.log(arr)
+    //   this.arr1 = arr
+    // }
   }
 }

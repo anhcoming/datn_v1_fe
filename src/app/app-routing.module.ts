@@ -16,6 +16,7 @@ import { HomeComponent } from './views/home/home.component';
 import { LoginComponent } from './views/authentication/login/login.component';
 import { SizeComponent } from './views/size/size.component';
 import { BrandComponent } from './views/brand/brand.component';
+import { OrderDetailComponent } from './views/order/order-detail/order-detail.component';
 
 
 const routes: Routes = [
@@ -23,6 +24,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
   { path: 'login', component: LoginComponent },
   { path: 'order', component: OrderComponent , canActivate: [AuthGuard]},
+  { path: 'order-detail/:id', component: OrderDetailComponent , canActivate: [AuthGuard]},
   { path: 'product', component: ProductComponent , canActivate: [AuthGuard]},
   { path: 'product-create', component: ProductCreateComponent, canActivate: [AuthGuard] },
   { path: 'product-create/:id', component: ProductCreateComponent , canActivate: [AuthGuard]},
