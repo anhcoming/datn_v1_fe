@@ -15,20 +15,20 @@ export class SizeCreateComponent implements OnInit {
   showPass: boolean = false;
   id: any;
   show: any;
-  label="Thêm mới kích cỡ"
+  label = "Thêm mới kích cỡ"
   role: any;
   data = new Size;
   sizeForm = new FormGroup({
-    size: new FormControl(''),
+    name: new FormControl(''),
   })
   constructor(private toastr: NotiService, public router: Router, private activeRoute: ActivatedRoute, private size: SizeService, private user: UserService) {
     this.id = this.activeRoute.snapshot.params['id'];
     if (this.id != null) {
       this.show = true
       console.log(this.id);
+      this.getDetail();
       this.label = "Chỉnh sửa kích cỡ"
     }
-    this.getDetail();
   }
 
   ngOnInit(): void {
@@ -40,18 +40,19 @@ export class SizeCreateComponent implements OnInit {
     this.show = true
     try {
       let body = {
-        id: this.id,
-        size: this.sizeForm.get("size")?.value == "" ? this.data : this.sizeForm.get("size")?.value,
+        id: "",
+        name: this.sizeForm.get("name")?.value == "" ? this.data : this.sizeForm.get("name")?.value,
+        status: 0
       }
 
       let bodyV1 = {
-        id: body.id,
-        size: body.size,
+        id: this.activeRoute.snapshot.params['id'],
+        name: this.sizeForm.get("name")?.value == "" ? this.data : this.sizeForm.get("name")?.value,
         status: 0
       }
-      console.log("Load lên: ", bodyV1);
+      console.log("Load lên: ", body);
       if (this.id == null || this.id == "") {
-        this.size.createSize(bodyV1).subscribe({
+        this.size.createSize(body).subscribe({
           next: (res: any) => {
             console.log("Thêm mới thành công")
             this.toastr.success("Thêm mới thành công")

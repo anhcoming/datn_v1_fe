@@ -3,7 +3,7 @@
     <div class="row">
       <h4 class="banner col-6">Danh sách size</h4>
       <div class="col-6">
-        <button routerLink="/color-create" class="btn btn-primary text-light mb-2"
+        <button routerLink="/size-create" class="btn btn-primary text-light mb-2"
           style="margin-left:-50%;float: right;">Thêm mới</button>
       </div>
       <hr style="color:gray">
@@ -11,7 +11,7 @@
     <div class="title row">
       <div class="col-8">
         <div class="row">
-          <div class="col-3"><select class="form-select">
+          <div class="col-3"><select class="form-select" (change)="changeReq($event)">
               <option hidden>Trạng thái</option>
               <option value>Tất cả</option>
               <option value="1">Hoạt động</option>
@@ -22,10 +22,10 @@
       </div>
       <div class="col-4">
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Vui lòng nhập..." aria-label="Recipient's username"
+          <input type="text" class="form-control" [formControl]="textSearch" placeholder="Vui lòng nhập..." aria-label="Recipient's username"
             aria-describedby="basic-addon2">
           <div class="input-group-append">
-            <button class="btn btn-primary text-light" type="button">
+            <button (click)="search()" class="btn btn-primary text-light" type="button">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
                 viewBox="0 0 16 16">
                 <path
@@ -92,7 +92,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                Bạn có muốn xóa màu <span style="color:red">{{name}}</span>?
+                Bạn có muốn xóa màu <span style="color:red">{{size}}</span>?
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
@@ -113,11 +113,11 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                Bạn có muốn thay đổi trạng thái màu <span style="color:red">{{name}}</span>?
+                Bạn có muốn thay đổi trạng thái màu <span style="color:red">{{size}}</span>?
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                <button type="button" class="btn btn-danger" (click)="delete(id)" data-bs-dismiss="modal">Đồng
+                <button type="button" class="btn btn-danger" (click)="changeStatus(id)" data-bs-dismiss="modal">Đồng
                   ý</button>
               </div>
             </div>

@@ -20,14 +20,15 @@ export class ColorCreateComponent implements OnInit {
   data = new Color;
   colorForm = new FormGroup({
     color: new FormControl(''),
+    hex: new FormControl(''),
   })
   constructor(private toastr: NotiService, public router: Router, private activeRoute: ActivatedRoute, private color: ColorService, private user: UserService) {
     this.id = this.activeRoute.snapshot.params['id'];
     if (this.id != null) {
       this.show = true
       console.log(this.id);
-      this.label = "Chỉnh sửa màu sắc"
       this.getDetail();
+      this.label = "Chỉnh sửa màu sắc"
     }
     
   }
@@ -41,18 +42,20 @@ export class ColorCreateComponent implements OnInit {
     this.show = true
     try {
       let body = {
-        id: this.id,
-        color: this.colorForm.get("color")?.value == "" ? this.data : this.colorForm.get("color")?.value,
+        id: "",
+        color: this.colorForm.get("name")?.value == "" ? this.data : this.colorForm.get("name")?.value,
+        hex: this.colorForm.get("hex")?.value == "" ? this.data : this.colorForm.get("hex")?.value
       }
 
       let bodyV1 = {
-        id: body.id,
-        color: body.color,
+        id: this.activeRoute.snapshot.params['id'],
+        color: this.colorForm.get("name")?.value == "" ? this.data : this.colorForm.get("name")?.value,
+        hex: this.colorForm.get("hex")?.value == "" ? this.data : this.colorForm.get("hex")?.value,
         status: 0
       }
-      console.log("Load lên: ", bodyV1);
+      console.log("Load lên: ", body);
       if (this.id == null || this.id == "") {
-        this.color.createColor(bodyV1).subscribe({
+        this.color.createColor(body).subscribe({
           next: (res: any) => {
             console.log("Thêm mới thành công")
             this.toastr.success("Thêm mới thành công")

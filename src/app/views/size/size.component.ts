@@ -3,6 +3,7 @@ import { SizeService } from './../../services/size.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Size } from 'src/app/model/size';
+import { FormControl } from '@angular/forms';
 
 
 @Component({
@@ -13,15 +14,13 @@ import { Size } from 'src/app/model/size';
 export class SizeComponent implements OnInit {
   show = true;
   data: any = Size;
-  name: any;
+  size: any;
   id: any;
   totalPage: any;
   totalElement: any;
   currentPage: any;
   numbers: any;
-hex:any;
   req = {
-
     id: null,
     active: null,
     textSearch: null,
@@ -33,7 +32,8 @@ hex:any;
 
     }
   }
-  constructor(private size: SizeService, public router: Router, public toastr: NotiService) {
+  textSearch = new FormControl();
+  constructor(private sizeService: SizeService, public router: Router, public toastr: NotiService) {
   }
 
   ngOnInit(): void {
@@ -41,13 +41,12 @@ hex:any;
   }
 
   getItem(item: any) {
-    this.name = item.size; 
+    this.size = item.size;
     this.id = item.id;
   }
   getAllSize() {
-    this.size.getAllSize(this.req).subscribe((res: any) => {
+    this.sizeService.getAllSize(this.req).subscribe((res: any) => {
       this.data = res.data;
-      this.hex = res.data.hex
       console.log(res.data);
       this.show = false
       this.totalPage = res.totalPages;
@@ -61,7 +60,7 @@ hex:any;
   }
 
   delete(id: any) {
-    this.size.delete(id).subscribe((res) => {
+    this.sizeService.delete(id).subscribe((res) => {
       if (res) {
         console.log("Xóa thành công")
         this.getAllSize();
@@ -74,12 +73,40 @@ hex:any;
     })
   }
 
+  changeStatus(id: any) {
+    this.sizeService.changeStatus(id).subscribe((res) => {
+      if (res) {
+        console.log("Thay đổi trạng thái thành công")
+        this.getAllSize();
+        this.toastr.success("Thay đổi trạng thái thành công")
+      } else {
+        console.log("Thay đổi trạng thái thất bại");
+        this.toastr.error("Thay đổi trạng thái thất bại")
+        this.getAllSize();
+      }
+    })
+  }
+
   change(number: any) {
-    // this.req = {
-    //   pageSize: 5,
-    //   pageNumber: number
-    // }
-    // this.getAllSize()
+    this.req.pageReq = {
+      page: number,
+      pageSize: 10,
+      sortField: null,
+      sortDirection: null,
+    }
+    this.getAllSize()
+  }
+
+  changeReq(value: any) {
+    console.log(value.currentTarget.value)
+    this.req.active = value.currentTarget.value;
+    this.getAllSize()
+  }
+
+  search() {
+    console.log(this.textSearch.value)
+    this.req.textSearch = this.textSearch.value;
+    this.getAllSize()
   }
 
 }

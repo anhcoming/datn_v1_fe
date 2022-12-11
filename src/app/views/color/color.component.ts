@@ -3,6 +3,7 @@ import { ColorService } from './../../services/color.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Color } from 'src/app/model/color';
+import { FormControl } from '@angular/forms';
 
 
 @Component({
@@ -13,15 +14,14 @@ import { Color } from 'src/app/model/color';
 export class ColorComponent implements OnInit {
   show = true;
   data: any = Color;
-  name: any;
+  color: any;
+  hex: any;
   id: any;
   totalPage: any;
   totalElement: any;
   currentPage: any;
   numbers: any;
-hex:any;
   req = {
-
     id: null,
     active: null,
     textSearch: null,
@@ -33,7 +33,8 @@ hex:any;
 
     }
   }
-  constructor(private color: ColorService, public router: Router, public toastr: NotiService) {
+  textSearch = new FormControl();
+  constructor(private colorService: ColorService, public router: Router, public toastr: NotiService) {
   }
 
   ngOnInit(): void {
@@ -41,13 +42,13 @@ hex:any;
   }
 
   getItem(item: any) {
-    this.name = item.color; 
+    this.color = item.name;
+    this.hex = item.hex;
     this.id = item.id;
   }
   getAllColor() {
-    this.color.getAllColor(this.req).subscribe((res: any) => {
+    this.colorService.getAllColor(this.req).subscribe((res: any) => {
       this.data = res.data;
-      this.hex = res.data.hex
       console.log(res.data);
       this.show = false
       this.totalPage = res.totalPages;
@@ -61,7 +62,7 @@ hex:any;
   }
 
   delete(id: any) {
-    this.color.delete(id).subscribe((res) => {
+    this.colorService.delete(id).subscribe((res) => {
       if (res) {
         console.log("Xóa thành công")
         this.getAllColor();
@@ -74,12 +75,40 @@ hex:any;
     })
   }
 
+  changeStatus(id: any) {
+    this.colorService.changeStatus(id).subscribe((res) => {
+      if (res) {
+        console.log("Thay đổi trạng thái thành công")
+        this.getAllColor();
+        this.toastr.success("Thay đổi trạng thái thành công")
+      } else {
+        console.log("Thay đổi trạng thái thất bại");
+        this.toastr.error("Thay đổi trạng thái thất bại")
+        this.getAllColor();
+      }
+    })
+  }
+
   change(number: any) {
-    // this.req = {
-    //   pageSize: 5,
-    //   pageNumber: number
-    // }
-    // this.getAllColor()
+    this.req.pageReq = {
+      page: number,
+      pageSize: 10,
+      sortField: null,
+      sortDirection: null,
+    }
+    this.getAllColor()
+  }
+
+  changeReq(value: any) {
+    console.log(value.currentTarget.value)
+    this.req.active = value.currentTarget.value;
+    this.getAllColor()
+  }
+
+  search() {
+    console.log(this.textSearch.value)
+    this.req.textSearch = this.textSearch.value;
+    this.getAllColor()
   }
 
 }
