@@ -1,0 +1,84 @@
+<div class="container-fluid page">
+    <div class=" mt-3 page__content shadow p-3">
+        <div class="row">
+            <h4 class="banner"><svg routerLink="/order" xmlns="http://www.w3.org/2000/svg" width="50" height="30"
+                    fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z" />
+                </svg>Chi tiết đơn hàng</h4>
+            <hr style="color:gray">
+        </div>
+        <app-spinner *ngIf="show"></app-spinner>
+        <form>
+            <div class="title row" style="width:90%;margin: auto;">
+                <h6>1. Thông tin chung</h6>
+                <li> Trạng thái: {{data.statusName}}</li>
+                <li>Mã đơn hàng: {{data.code}}</li>
+                <li> Khách hàng: {{data.customerName}}</li>
+                <li>SĐT: {{data.phone}}</li>
+                <li> Tên người nhận: {{data.nameOfRecipient}}</li>
+                <li>Địa chỉ giao: {{data.addressCombination}}</li>
+                <li> Loại thanh toán: {{data.statusName}}</li>
+                <li> Phương thức vận chuyển: {{data.paymentCode}} - {{data.paymentName}}</li>
+                <li>Ghi chú: {{data.note}}</li>
+                <br>
+                <br>
+                <hr>
+                <br>
+
+                <h6>2. Lịch sử đơn hàng</h6>
+                <li *ngFor="let item of data.history">
+                    {{item}}
+                </li><br><br>
+                <hr><br>
+                <h6>3. Sản phẩm</h6>
+                <table class="table table-bordered ">
+                    <thead>
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Sản phẩm</th>
+                            <th scope="col">Size</th>
+                            <th scope="col">Số lượng</th>
+                            <th scope="col">Màu sắc</th>
+                            <th scope="col">Thương hiệu</th>
+                            <!-- <th scope="col">Giảm giá</th> -->
+                            <th scope="col">Tổng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of data.items;let i = index">
+                            <td scope="row">{{i+1}}</td>
+                            <td>{{item.productName}}</td>
+                            <td>{{item.size}}</td>
+                            <td>{{item.qty}}</td>
+                            <td>{{item.color}}</td>
+                            <td>{{item.materialName}}</td>
+                            <!-- <td>{{item.discountFmt}}</td> -->
+                            <td>{{item.totalFmt}}</td>
+
+                        </tr>
+                        <tr>
+                            <td scope="col">Vận chuyển</td>
+                            <td scope="col"></td>
+                            <td scope="col"></td>
+                            <td scope="col"></td>
+                            <td scope="col"></td>
+                            <td scope="col"></td>
+                            <td scope="col">{{data.shipPriceFmt}}</td>
+                        </tr>
+                        <tr class="table-active">
+                            <th scope="col"><h5>TỔNG TIỀN</h5></th>
+                            <td scope="col"></td>
+                            <td scope="col"></td>
+                            <td scope="col"></td>
+                            <td scope="col"></td>
+                            <td scope="col"></td>
+                            <th class="" scope="col"><h5>{{data.totalPriceItemsFmt}}</h5></th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+
+    </div>
+</div>

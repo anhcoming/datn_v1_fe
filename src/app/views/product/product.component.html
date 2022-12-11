@@ -50,7 +50,7 @@
         </ul>
       </nav>
       <div *ngIf="!show">
-        <table class="table">
+        <table class="table table-bordered">
           <thead>
             <tr>
               <th scope="col">#</th>
@@ -159,8 +159,6 @@
                       <th scope="col">Size</th>
                       <th scope="col">Tồn kho</th>
                       <th scope="col">Giá</th>
-                      <th>More</th>
-
                     </tr>
                   </thead>
                   <tbody>
@@ -168,14 +166,14 @@
                       <th scope="row">{{i+1}}</th>
                       <td>
                         <div class="circular">
-                          <span><img src={{item.image}} alt=""></span>
+                          <img src={{item.image}} alt="">
                         </div>
                       </td>
                       <td>{{item.colorName}}</td>
                       <td>{{item.sizeName}}</td>
                       <td>{{item.qty}}</td>
                       <td>{{item.price}}</td>
-                      <td>
+                      <!-- <td>
                         <div class="dropdown">
                           <a class="btn btn-text-dark" type="text" data-bs-toggle="dropdown" aria-expanded="false">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -185,14 +183,13 @@
                             </svg>
                           </a>
                           <ul class="dropdown-menu dropdown-menu-dark">
-                            <!-- <li><a class="dropdown-item" routerLink="/product-create/{{item.id}}">Chỉnh sửa</a></li> -->
                             <li><a class="dropdown-item" data-bs-toggle="modal" (click)="getDetailItem(item)"
                                 data-bs-target="#exampleModal3">Chỉnh sửa</a></li>
                             <li><a class="dropdown-item" data-bs-toggle="modal" (click)="getItem(item)"
                                 data-bs-target="#exampleModal">Xóa</a></li>
                           </ul>
                         </div>
-                      </td>
+                      </td> -->
                     </tr>
                   </tbody>
                 </table>

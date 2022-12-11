@@ -1,9 +1,18 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 const API = environment.baseUrl;
+
+///Cấu hình push token cùng api
+const auth_token = localStorage.getItem('auth_token')
+const headers = new HttpHeaders({
+  'Content-Type': 'application/json',
+  Authorization: `Token ${auth_token}`
+})
+
+const requestOptions = { headers: headers, responseType: 'text' as 'json' }
 
 @Injectable({
   providedIn: 'root'
@@ -18,15 +27,17 @@ export class CategoryService {
   getAllCategory(req: any): (Observable<Object>) {
     return this.http.post(API + "/category/find-by-page", req)
   }
-
+  getAllCategoryNoPage(): (Observable<Object>) {
+    return this.http.get(API + "/no-auth/category/no-page")
+  }
   getAllCategoryV2(): (Observable<Object>) {
     return this.http.get(API + "/category/find-by-page?pageNumber=0&pageSize=5")
   }
   createCategory(body: any): (Observable<Object>) {
-    return this.http.post(API + "/category/create",body)
+    return this.http.post(API + "/category/create", body)
   }
   updateCategory(body: any): (Observable<Object>) {
-    return this.http.put(API + "/category/update",body)
+    return this.http.put(API + "/category/update", body)
   }
   getDetail(id: any): (Observable<Object>) {
     return this.http.get(API + "/category/read-by-id/" + id)

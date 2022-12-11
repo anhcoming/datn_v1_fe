@@ -9,7 +9,7 @@
       <hr style="color:gray">
     </div>
     <app-spinner *ngIf="show"></app-spinner>
-    <form [formGroup]="productForm" (submit)="onSubmit()">
+    <form [formGroup]="productForm">
       <div class="title row" style="width:90%;margin: auto;">
         <div class="col-8">
           <div class="col-12">
@@ -47,14 +47,17 @@
           </div>
 
           <div class=" row mt-2">
-           <div class="col-6">
-            Giá chung
-            <input class="form-control" type="number" placeholder="000.000 VND" formControlName="price">
-           </div>
-           <div class="col-6">
-            Số lượng chung
-            <input class="form-control" type="number" placeholder="0" formControlName="quantity">
-           </div>
+            <div class="col-6">
+              Giá chung
+              <input class="form-control" [ngModelOptions]="{standalone: true}" type="number" placeholder="000.000 VND"
+                [(ngModel)]="price">
+            </div>
+            {{myModel}}
+            <div class="col-6">
+              Số lượng chung
+              <input class="form-control" [ngModelOptions]="{standalone: true}" type="number" placeholder="0"
+                [(ngModel)]="quantity">
+            </div>
           </div>
         </div>
         <div class="col-4">
@@ -86,12 +89,19 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let item of arr1,let i = index" >
+              <tr *ngFor="let  item of arr; let i = index">
                 <th scope="row">{{i+1}}</th>
-                <td>{{item.color.color}}</td>
-                <td>{{item.size.size}}</td>
-                <td><input  min="10000" type="number" value="{{item.price}}"></td>
-                <td><input min="1" type="number" value="{{item.quantity}}"></td>
+                <td>{{item.colorId.colorName}}</td>
+                <td>{{item.sizeId.sizeName }}</td>
+
+                <td>
+                    <input min="10000" type="number" formControlName="priceE" value="{{price}}">
+          
+                </td>
+
+                <td><input min="1" type="number" formControlName="quantityE" value="{{quantity}}"></td>
+
+
                 <td><input type="file"></td>
                 <td><svg style="color:rgb(255, 81, 81)" xmlns="http://www.w3.org/2000/svg" width="26" height="20"
                     fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
@@ -103,7 +113,7 @@
           </table>
         </div>
         <div class="mt-2 align-content-between">
-          <button class="btn btn-primary" style="margin-right: 10px" type="submit" [disabled]="show">
+          <button class="btn btn-primary" style="margin-right: 10px" type="submit" (click)="submit()" [disabled]="show">
             <span *ngIf="show" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             Thêm mới
           </button>

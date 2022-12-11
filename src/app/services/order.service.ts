@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
-const API ="http://localhost:8080/api"
+const API = "http://localhost:8080/api"
 const auth_token = window.localStorage.getItem('auth-token')
 const httpOptions = {
   headers: new HttpHeaders({
@@ -36,9 +36,12 @@ export class OrderService {
     return this.http.put(API + "/order/update", body)
   }
   getDetail(id: any): (Observable<Object>) {
-    return this.http.get(API + "/order/" + id)
+    return this.http.get(API + "/v1/admin/order/detail?id=" + id,httpOptions)
   }
   delete(id: any): (Observable<Object>) {
     return this.http.delete(API + "/order/" + id)
+  }
+  changeStatus(body: any): (Observable<Object>) {
+    return this.http.post(API + "/v1/admin/order/change-status", body, httpOptions)
   }
 }

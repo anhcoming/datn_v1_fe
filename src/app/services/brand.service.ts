@@ -33,6 +33,9 @@ export class BrandService {
   getAllBrandV2(req: any): (Observable<Object>) {
     return this.http.post(API + '/brand/find-by-page', req)
   }
+  getAllBrandNoPage(): (Observable<Object>) {
+    return this.http.get(API + '/no-auth/material/no-page')
+  }
   delete(id: any): (Observable<Object>) {
     return this.http.delete(API + '/brand/' + id)
   }
