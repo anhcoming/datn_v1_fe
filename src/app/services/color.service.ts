@@ -22,22 +22,23 @@ export class ColorService {
   constructor(private http: HttpClient) {
 
   }
-  // getAllColor(pageNumber: any, pageSize: any): (Observable<Object>) {
-  //   return this.http.get(API + "/color/find-by-page?pageNumber=" + pageNumber + "&pageSize=" + pageSize)
-  // }
+
   getAllColor(req: any): (Observable<Object>) {
-    return this.http.post(API + "/admin/color/search",req,httpOptions)
+    return this.http.post(API + "/admin/color/search", req, httpOptions)
   }
   createColor(body: any): (Observable<Object>) {
-    return this.http.post(API + "/color/create", body)
+    return this.http.post(API + "/admin/color/create", body, httpOptions)
   } 
   updateColor(body: any): (Observable<Object>) {
-    return this.http.put(API + "/color/update", body)
+    return this.http.post(API + "/admin/color/update", body, httpOptions)
   }
   getDetail(id: any): (Observable<Object>) {
-    return this.http.get(API + "/color/" + id)
+    return this.http.get(API + "/admin/color/detail/" + id, httpOptions)
   }
   delete(id: any): (Observable<Object>) {
-    return this.http.delete(API + "/color/" + id)
+    return this.http.post(API + "/admin/color/delete?id=" + id,{}, httpOptions)
+  }
+  changeStatus(id: any): (Observable<Object>) {
+    return this.http.post(API + "/admin/color/change-status?id=" + id,{}, httpOptions)
   }
 }

@@ -19,17 +19,18 @@ export class ColorCreateComponent implements OnInit {
   label="Thêm mới màu sắc"
   data = new Color;
   colorForm = new FormGroup({
-    color: new FormControl(''),
+    id: new FormControl(''),
+    name: new FormControl(''),
+    hex: new FormControl('')
   })
-  constructor(private toastr: NotiService, public router: Router, private activeRoute: ActivatedRoute, private color: ColorService, private user: UserService) {
+  constructor(private toastr: NotiService, public router: Router, private activeRoute: ActivatedRoute, private colorSer: ColorService, private user: UserService) {
     this.id = this.activeRoute.snapshot.params['id'];
     if (this.id != null) {
       this.show = true
       console.log(this.id);
-      this.label = "Chỉnh sửa màu sắc"
       this.getDetail();
+      this.label = "Chỉnh sửa màu sắc"
     }
-    
   }
 
   ngOnInit(): void {
@@ -41,18 +42,20 @@ export class ColorCreateComponent implements OnInit {
     this.show = true
     try {
       let body = {
-        id: this.id,
-        color: this.colorForm.get("color")?.value == "" ? this.data : this.colorForm.get("color")?.value,
+        id: "",
+        name: this.colorForm.get("name")?.value == "" ? this.data.name : this.colorForm.get("name")?.value,
+        hex: this.colorForm.get("hex")?.value == "" ? this.data.name : this.colorForm.get("hex")?.value
       }
 
       let bodyV1 = {
-        id: body.id,
-        color: body.color,
+        id: this.id = this.activeRoute.snapshot.params['id'],
+        name: this.colorForm.get("name")?.value == "" ? this.data.name : this.colorForm.get("name")?.value,
+        hex: this.colorForm.get("hex")?.value == "" ? this.data.hex : this.colorForm.get("hex")?.value,
         status: 0
       }
-      console.log("Load lên: ", bodyV1);
-      if (this.id == null || this.id == "") {
-        this.color.createColor(bodyV1).subscribe({
+      console.log("Load lên: ", body);
+      if (this.id == null || this.id == "") {debugger
+        this.colorSer.createColor(body).subscribe({
           next: (res: any) => {
             console.log("Thêm mới thành công")
             this.toastr.success("Thêm mới thành công")
@@ -64,7 +67,7 @@ export class ColorCreateComponent implements OnInit {
           }
         })
       } else {
-        this.color.updateColor(bodyV1).subscribe({
+        this.colorSer.updateColor(bodyV1).subscribe({
           next: (res: any) => {
             console.log("Cập nhật thành công")
             this.toastr.success("Cập nhật thành công")
@@ -85,7 +88,7 @@ export class ColorCreateComponent implements OnInit {
   }
 
   getDetail() {
-    this.color.getDetail(this.id).subscribe((res: any) => {
+    this.colorSer.getDetail(this.id).subscribe((res: any) => {
       this.data = res;
       console.log("Ở đây", this.data)
       this.show = false

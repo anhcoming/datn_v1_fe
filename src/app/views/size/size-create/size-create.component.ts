@@ -15,20 +15,23 @@ export class SizeCreateComponent implements OnInit {
   showPass: boolean = false;
   id: any;
   show: any;
-  label="Thêm mới kích cỡ"
+  body: any;
+  bodyV1: any;
+  label = "Thêm mới kích cỡ"
   role: any;
   data = new Size;
   sizeForm = new FormGroup({
-    size: new FormControl(''),
+    id: new FormControl(''),
+    name: new FormControl('')
   })
-  constructor(private toastr: NotiService, public router: Router, private activeRoute: ActivatedRoute, private size: SizeService, private user: UserService) {
+  constructor(private toastr: NotiService, public router: Router, private activeRoute: ActivatedRoute, private sizeSer: SizeService, private user: UserService) {
     this.id = this.activeRoute.snapshot.params['id'];
     if (this.id != null) {
       this.show = true
       console.log(this.id);
+      this.getDetail();
       this.label = "Chỉnh sửa kích cỡ"
     }
-    this.getDetail();
   }
 
   ngOnInit(): void {
@@ -40,39 +43,45 @@ export class SizeCreateComponent implements OnInit {
     this.show = true
     try {
       let body = {
-        id: this.id,
-        size: this.sizeForm.get("size")?.value == "" ? this.data : this.sizeForm.get("size")?.value,
+        id: "",
+        name: this.sizeForm.get("name")?.value == "" ? this.data.name : this.sizeForm.get("name")?.value
       }
 
       let bodyV1 = {
-        id: body.id,
-        size: body.size,
+        id: this.id = this.activeRoute.snapshot.params['id'],
+        name: this.sizeForm.get("name")?.value == "" ? this.data.name : this.sizeForm.get("name")?.value,
         status: 0
       }
-      console.log("Load lên: ", bodyV1);
+      console.log("Load lên: ", body);
       if (this.id == null || this.id == "") {
-        this.size.createSize(bodyV1).subscribe({
+        this.sizeSer.createSize(body).subscribe({
           next: (res: any) => {
-            console.log("Thêm mới thành công")
-            this.toastr.success("Thêm mới thành công")
-            this.router.navigate(['size']);
           },
           error: (err) => {
-            console.log("Thêm mới thất bại")
-            this.toastr.error("Thêm mới thất bại")
+            console.log(err)
+            if (err.status == 200) {
+              console.log("200 ok")
+              this.toastr.success("Thêm mới thành công")
+              this.router.navigate(['size']);
+            } else if (err.status == 400) {
+              this.toastr.warning(err.error.message)
+            }
           }
-        }
-        )
+        })
+
       } else {
-        this.size.updateSize(bodyV1).subscribe({
+        this.sizeSer.updateSize(bodyV1).subscribe({
           next: (res: any) => {
-            console.log("Cập nhật thành công")
-            this.toastr.success("Cập nhật thành công")
-            this.router.navigate(['size']);
           },
           error: (err) => {
-            console.log("Cập nhật thất bại")
-            this.toastr.error("Cập nhật thất bại")
+            console.log(err)
+            if (err.status == 200) {
+              console.log("200 ok")
+              this.toastr.success("Update thành công")
+              this.router.navigate(['size']);
+            } else if (err.status == 400) {
+              this.toastr.warning(err.error.message)
+            }
           }
         })
       }
@@ -85,7 +94,7 @@ export class SizeCreateComponent implements OnInit {
   }
 
   getDetail() {
-    this.size.getDetail(this.id).subscribe((res: any) => {
+    this.sizeSer.getDetail(this.id).subscribe((res: any) => {
       this.data = res;
       console.log("Ở đây", this.data)
       this.show = false
