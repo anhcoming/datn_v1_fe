@@ -33,12 +33,12 @@ export class ColorService {
     return this.http.post(API + "/admin/color/update", body, httpOptions)
   }
   getDetail(id: any): (Observable<Object>) {
-    return this.http.get(API + "/color/" + id)
+    return this.http.get(API + "/admin/color/detail/" + id, httpOptions)
   }
   delete(id: any): (Observable<Object>) {
-    return this.http.post(API + "/admin/color/delete?id=" + id, httpOptions)
+    return this.http.post(API + "/admin/color/delete?id=" + id,{}, httpOptions)
   }
   changeStatus(id: any): (Observable<Object>) {
-    return this.http.post(API + "/admin/color/change-status?id=" + id, httpOptions)
+    return this.http.post(API + "/admin/color/change-status?id=" + id,{}, httpOptions)
   }
 }

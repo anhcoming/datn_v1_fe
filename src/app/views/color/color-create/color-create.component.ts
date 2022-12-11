@@ -23,13 +23,13 @@ export class ColorCreateComponent implements OnInit {
     name: new FormControl(''),
     hex: new FormControl('')
   })
-  constructor(private toastr: NotiService, public router: Router, private activeRoute: ActivatedRoute, private color: ColorService, private user: UserService) {
+  constructor(private toastr: NotiService, public router: Router, private activeRoute: ActivatedRoute, private colorSer: ColorService, private user: UserService) {
     this.id = this.activeRoute.snapshot.params['id'];
     if (this.id != null) {
       this.show = true
       console.log(this.id);
+      this.getDetail();
       this.label = "Chỉnh sửa màu sắc"
-
     }
   }
 
@@ -43,8 +43,8 @@ export class ColorCreateComponent implements OnInit {
     try {
       let body = {
         id: "",
-        name: this.colorForm.get("name")?.value == "" ? this.data : this.colorForm.get("name")?.value,
-        hex: this.colorForm.get("hex")?.value == "" ? this.data : this.colorForm.get("hex")?.value
+        name: this.colorForm.get("name")?.value == "" ? this.data.name : this.colorForm.get("name")?.value,
+        hex: this.colorForm.get("hex")?.value == "" ? this.data.name : this.colorForm.get("hex")?.value
       }
 
       let bodyV1 = {
@@ -67,7 +67,7 @@ export class ColorCreateComponent implements OnInit {
           }
         })
       } else {
-        this.color.updateColor(bodyV1).subscribe({
+        this.colorSer.updateColor(bodyV1).subscribe({
           next: (res: any) => {
             console.log("Cập nhật thành công")
             this.toastr.success("Cập nhật thành công")
@@ -88,7 +88,7 @@ export class ColorCreateComponent implements OnInit {
   }
 
   getDetail() {
-    this.color.getDetail(this.id).subscribe((res: any) => {
+    this.colorSer.getDetail(this.id).subscribe((res: any) => {
       this.data = res;
       console.log("Ở đây", this.data)
       this.show = false

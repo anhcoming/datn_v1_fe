@@ -13,14 +13,13 @@ import { FormControl } from '@angular/forms';
 export class ColorComponent implements OnInit {
   show = true;
   data: any = Color;
-  color: any;
+  name: any;
   hex: any;
   id: any;
   totalPage: any;
   totalElement: any;
   currentPage: any;
   numbers: any;
-  hex: any;
   req = {
 
     id: null,
@@ -35,7 +34,7 @@ export class ColorComponent implements OnInit {
     }
   }
   textSearch = new FormControl();
-  constructor(private color: ColorService, public router: Router, public toastr: NotiService) {
+  constructor(private colorService: ColorService, public router: Router, public toastr: NotiService) {
   }
 
   ngOnInit(): void {
@@ -43,7 +42,7 @@ export class ColorComponent implements OnInit {
   }
 
   getItem(item: any) {
-    this.name = item.color;
+    this.name = item.name;
     this.hex = item.hex;
     this.id = item.id;
   }
@@ -77,7 +76,7 @@ export class ColorComponent implements OnInit {
   }
 
   changeStatus(id: any) {
-    this.color.changeStatus(id).subscribe((res) => {
+    this.colorService.changeStatus(id).subscribe((res) => {
       if (res) {
         console.log("Thay đổi trạng thái thành công")
         this.getAllColor();
@@ -91,11 +90,21 @@ export class ColorComponent implements OnInit {
   }
 
   change(number: any) {
-    // this.req = {
-    //   pageSize: 5,
-    //   pageNumber: number
-    // }
-    // this.getAllColor()
+    // pageSize: 5,
+    // pageNumber: number
+    this.req.pageReq = {
+      page: number,
+      pageSize: 10,
+      sortField: null,
+      sortDirection: null,
+    }
+    this.getAllColor()
+  }
+
+  changeReq(value: any) {
+    console.log(value.currentTarget.value)
+    this.req.active = value.currentTarget.value;
+    this.getAllColor()
   }
 
   search() {

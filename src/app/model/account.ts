@@ -39,5 +39,5 @@ export class Account {
   fullName!: string;
   image!: string;
   address!: string;
-
+  genderName!: string;
 }
