@@ -3,7 +3,6 @@ import { SizeService } from './../../services/size.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Size } from 'src/app/model/size';
-import { FormControl } from '@angular/forms';
 
 
 @Component({
@@ -20,7 +19,9 @@ export class SizeComponent implements OnInit {
   totalElement: any;
   currentPage: any;
   numbers: any;
+  hex: any;
   req = {
+
     id: null,
     active: null,
     textSearch: null,
@@ -33,7 +34,7 @@ export class SizeComponent implements OnInit {
     }
   }
   textSearch = new FormControl();
-  constructor(private sizeService: SizeService, public router: Router, public toastr: NotiService) {
+  constructor(private sizeSer: SizeService, public router: Router, public toastr: NotiService) {
   }
 
   ngOnInit(): void {
@@ -41,12 +42,13 @@ export class SizeComponent implements OnInit {
   }
 
   getItem(item: any) {
-    this.size = item.size;
+    this.name = item.name;
     this.id = item.id;
   }
   getAllSize() {
-    this.sizeService.getAllSize(this.req).subscribe((res: any) => {
+    this.sizeSer.getAllSize(this.req).subscribe((res: any) => {
       this.data = res.data;
+      this.name = res.data.name;
       console.log(res.data);
       this.show = false
       this.totalPage = res.totalPages;
@@ -60,7 +62,7 @@ export class SizeComponent implements OnInit {
   }
 
   delete(id: any) {
-    this.sizeService.delete(id).subscribe((res) => {
+    this.sizeSer.delete(id).subscribe((res) => {
       if (res) {
         console.log("Xóa thành công")
         this.getAllSize();
@@ -74,15 +76,17 @@ export class SizeComponent implements OnInit {
   }
 
   changeStatus(id: any) {
-    this.sizeService.changeStatus(id).subscribe((res) => {
-      if (res) {
-        console.log("Thay đổi trạng thái thành công")
-        this.getAllSize();
-        this.toastr.success("Thay đổi trạng thái thành công")
-      } else {
-        console.log("Thay đổi trạng thái thất bại");
-        this.toastr.error("Thay đổi trạng thái thất bại")
-        this.getAllSize();
+    this.sizeSer.changeStatus(id).subscribe({
+      next: (res: any) => {
+      },
+      error: (err) => {
+        console.log("-----", err)
+        if (err.status == 200) {
+          this.toastr.success("Thay đổi thành công")
+          this.getAllSize();
+        } else if (err.status == 400) {
+          this.toastr.warning(err.error.message)
+        }
       }
     })
   }
@@ -96,13 +100,11 @@ export class SizeComponent implements OnInit {
     }
     this.getAllSize()
   }
-
   changeReq(value: any) {
     console.log(value.currentTarget.value)
     this.req.active = value.currentTarget.value;
     this.getAllSize()
   }
-
   search() {
     console.log(this.textSearch.value)
     this.req.textSearch = this.textSearch.value;

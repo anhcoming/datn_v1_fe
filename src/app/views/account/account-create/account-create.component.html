@@ -20,24 +20,23 @@
             value="{{data.email}}">
           Ngày sinh<input type="date" class="form-control mb-2" placeholder="Ngày sinh" formControlName="dob"
             value="{{data.dob}}">
+          Giới tính<input type="text" class="form-control mb-2" placeholder="Giới tính" formControlName="gender"
+            value="{{data.genderName}}">
           Số điện thoại<input type="text" class="form-control mb-2" placeholder="Số điện thoại" formControlName="phone"
             value="{{data.phone}}">
-          <div *ngIf="!inputPassword">
-            Mật khẩu<input type="text" class="form-control mb-2" placeholder="Mật khẩu" formControlName="password"
-              value="{{data.password}}"></div>
+          Địa chỉ<input type="text" class="form-control mb-2" placeholder="Địa chỉ" formControlName="address"
+            value="{{data.address}}">
           Quyền<select class="form-control mb-2" formControlName="role">
             <option value="" defaultSelected="true" hidden>
               <p>{{selected?selected:"--Vui lòng chọn quyền tài khoản--"}}</p>
             </option>
             <option *ngFor="let item of role" [ngValue]="item.roleCode">{{item.roleName}}</option>
           </select>
-
-          <!-- 
           Mật khẩu <input class="form-control" [type]="showPass ? 'text' : 'password'" value="{{data.password}}"
             placeholder="Mật khẩu" formControlName="password" />
           <div> <input class="a" type="checkbox" (click)="password()">Hiện mật khẩu</div> -->
         </div>
-        <!-- <div class="col-5">
+        <div class="col-5">
           Upload ảnh<input type="file" class="form-control mb-2" (change)="uploadPreview($event)"
             placeholder="Upload ảnh">
           <img src="{{preview}}" alt="" style="height:200px">
@@ -45,19 +44,13 @@
         <!-- </div> -->
 
         <div class="mt-2 align-content-between">
-          <button style="margin-right:4px" class="btn btn-primary" type="submit" (click)="onSubmit()" [disabled]="show">
-            <!-- <span *ngIf="show" class="spinner-border spinner-border-sm" role="status" aria-hidden="true">{{data.active}}</span> -->
-            Cập nhật
+          <button style="margin-right:4px" class="btn btn-primary" type="submit" [disabled]="show">
+            <span *ngIf="show" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Thêm mới
           </button>
-          <!-- <button class="btn btn-primary" type="submit">Cập nhật</button> -->
-
-          <button class="btn btn-outline-secondary" (click)="reset()">Reset</button>
-
-          <!-- <ng-template #here >
-            <button class="btn btn-outline-secondary" routerLink="/account">Hủy</button>
-          </ng-template> -->
-
-
+          <button class="btn btn-primary" type="submit">Cập nhật</button>
+          <button class="btn btn-outline-secondary" (click)="reset()">Làm
+            mới</button>
         </div>
 
       </div>

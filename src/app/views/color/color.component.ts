@@ -5,7 +5,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Color } from 'src/app/model/color';
 import { FormControl } from '@angular/forms';
 
-
 @Component({
   selector: 'app-Color',
   templateUrl: './Color.component.html',
@@ -21,7 +20,9 @@ export class ColorComponent implements OnInit {
   totalElement: any;
   currentPage: any;
   numbers: any;
+  hex: any;
   req = {
+
     id: null,
     active: null,
     textSearch: null,
@@ -34,7 +35,7 @@ export class ColorComponent implements OnInit {
     }
   }
   textSearch = new FormControl();
-  constructor(private colorService: ColorService, public router: Router, public toastr: NotiService) {
+  constructor(private color: ColorService, public router: Router, public toastr: NotiService) {
   }
 
   ngOnInit(): void {
@@ -42,7 +43,7 @@ export class ColorComponent implements OnInit {
   }
 
   getItem(item: any) {
-    this.color = item.name;
+    this.name = item.color;
     this.hex = item.hex;
     this.id = item.id;
   }
@@ -76,7 +77,7 @@ export class ColorComponent implements OnInit {
   }
 
   changeStatus(id: any) {
-    this.colorService.changeStatus(id).subscribe((res) => {
+    this.color.changeStatus(id).subscribe((res) => {
       if (res) {
         console.log("Thay đổi trạng thái thành công")
         this.getAllColor();
@@ -90,19 +91,11 @@ export class ColorComponent implements OnInit {
   }
 
   change(number: any) {
-    this.req.pageReq = {
-      page: number,
-      pageSize: 10,
-      sortField: null,
-      sortDirection: null,
-    }
-    this.getAllColor()
-  }
-
-  changeReq(value: any) {
-    console.log(value.currentTarget.value)
-    this.req.active = value.currentTarget.value;
-    this.getAllColor()
+    // this.req = {
+    //   pageSize: 5,
+    //   pageNumber: number
+    // }
+    // this.getAllColor()
   }
 
   search() {
@@ -110,5 +103,4 @@ export class ColorComponent implements OnInit {
     this.req.textSearch = this.textSearch.value;
     this.getAllColor()
   }
-
 }

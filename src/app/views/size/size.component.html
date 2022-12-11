@@ -3,7 +3,7 @@
     <div class="row">
       <h4 class="banner col-6">Danh sách size</h4>
       <div class="col-6">
-        <button routerLink="/size-create" class="btn btn-primary text-light mb-2"
+        <button routerLink="/color-create" class="btn btn-primary text-light mb-2"
           style="margin-left:-50%;float: right;">Thêm mới</button>
       </div>
       <hr style="color:gray">
@@ -113,11 +113,11 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                Bạn có muốn thay đổi trạng thái màu <span style="color:red">{{size}}</span>?
+                Bạn có muốn thay đổi trạng thái size <span style="color:red">{{name}}</span>?
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                <button type="button" class="btn btn-danger" (click)="changeStatus(id)" data-bs-dismiss="modal">Đồng
+                <button type="button" class="btn btn-danger" (click)="delete(id)" data-bs-dismiss="modal">Đồng
                   ý</button>
               </div>
             </div>

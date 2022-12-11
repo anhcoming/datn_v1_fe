@@ -1,6 +1,6 @@
 export class Color {
   id!: string;
-  color!: string;
+  name!: string;
   hex!:string;
   status!: string;
 }

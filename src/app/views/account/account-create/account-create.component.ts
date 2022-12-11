@@ -27,13 +27,15 @@ export class AccountCreateComponent implements OnInit {
   bodyV1: any;
   selected: any;
   accountForm = new FormGroup({
-    firstName: new FormControl(''),
-    lastName: new FormControl(''),
+    id: new FormControl (''),
+    name: new FormControl(''),
     email: new FormControl(''),
     phone: new FormControl(''),
+    address: new FormControl(''),
     role: new FormControl(''),
-    dob: new FormControl(''),
-    password: new FormControl(''),
+    gender: new FormControl(''),
+    image: new FormControl('')
+
   })
 
   reqSearch = {
@@ -83,7 +85,6 @@ export class AccountCreateComponent implements OnInit {
     this.showPass = !this.showPass;
   }
 
-
   onSubmit() {
     this.show = true
     let role = this.accountForm.get("role")?.value == "" ? this.data.role : this.accountForm.get("role")?.value;
@@ -94,8 +95,9 @@ export class AccountCreateComponent implements OnInit {
       email: this.accountForm.get("email")?.value == "" ? this.data.email : this.accountForm.get("email")?.value,
       phone: this.accountForm.get("phone")?.value == "" ? this.data.phone : this.accountForm.get("phone")?.value,
       dob: this.accountForm.get("dob")?.value == "" ? this.data.dob : this.accountForm.get("dob")?.value,
-      password: this.accountForm.get("password")?.value,
-      role: role
+      gender: this.accountForm.get("gender")?.value == "" ? this.data.gender : this.accountForm.get("gender")?.value,
+      password: this.accountForm.get("password")?.value == "" ? this.data.password : this.accountForm.get("password")?.value,
+      address: this.accountForm.get("address")?.value == "" ? this.data.address : this.accountForm.get("address")?.value
     }
 
     console.log(this.body)

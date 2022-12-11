@@ -19,18 +19,18 @@ export class ColorCreateComponent implements OnInit {
   label="Thêm mới màu sắc"
   data = new Color;
   colorForm = new FormGroup({
-    color: new FormControl(''),
-    hex: new FormControl(''),
+    id: new FormControl(''),
+    name: new FormControl(''),
+    hex: new FormControl('')
   })
   constructor(private toastr: NotiService, public router: Router, private activeRoute: ActivatedRoute, private color: ColorService, private user: UserService) {
     this.id = this.activeRoute.snapshot.params['id'];
     if (this.id != null) {
       this.show = true
       console.log(this.id);
-      this.getDetail();
       this.label = "Chỉnh sửa màu sắc"
+
     }
-    
   }
 
   ngOnInit(): void {
@@ -43,19 +43,19 @@ export class ColorCreateComponent implements OnInit {
     try {
       let body = {
         id: "",
-        color: this.colorForm.get("name")?.value == "" ? this.data : this.colorForm.get("name")?.value,
+        name: this.colorForm.get("name")?.value == "" ? this.data : this.colorForm.get("name")?.value,
         hex: this.colorForm.get("hex")?.value == "" ? this.data : this.colorForm.get("hex")?.value
       }
 
       let bodyV1 = {
-        id: this.activeRoute.snapshot.params['id'],
-        color: this.colorForm.get("name")?.value == "" ? this.data : this.colorForm.get("name")?.value,
-        hex: this.colorForm.get("hex")?.value == "" ? this.data : this.colorForm.get("hex")?.value,
+        id: this.id = this.activeRoute.snapshot.params['id'],
+        name: this.colorForm.get("name")?.value == "" ? this.data.name : this.colorForm.get("name")?.value,
+        hex: this.colorForm.get("hex")?.value == "" ? this.data.hex : this.colorForm.get("hex")?.value,
         status: 0
       }
       console.log("Load lên: ", body);
-      if (this.id == null || this.id == "") {
-        this.color.createColor(body).subscribe({
+      if (this.id == null || this.id == "") {debugger
+        this.colorSer.createColor(body).subscribe({
           next: (res: any) => {
             console.log("Thêm mới thành công")
             this.toastr.success("Thêm mới thành công")
