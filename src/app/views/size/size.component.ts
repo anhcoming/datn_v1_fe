@@ -3,7 +3,7 @@ import { SizeService } from './../../services/size.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Size } from 'src/app/model/size';
-
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-Size',
@@ -19,10 +19,8 @@ export class SizeComponent implements OnInit {
   totalElement: any;
   currentPage: any;
   numbers: any;
-hex:any;
   req = {
-
-    id: null,
+    // id: null,
     active: null,
     textSearch: null,
     pageReq: {
@@ -30,10 +28,10 @@ hex:any;
       pageSize: 10,
       sortField: null,
       sortDirection: null
-
     }
   }
-  constructor(private size: SizeService, public router: Router, public toastr: NotiService) {
+  textSearch = new FormControl();
+  constructor(private sizeSer: SizeService, public router: Router, public toastr: NotiService) {
   }
 
   ngOnInit(): void {
@@ -41,13 +39,12 @@ hex:any;
   }
 
   getItem(item: any) {
-    this.name = item.size; 
+    this.name = item.name;
     this.id = item.id;
   }
   getAllSize() {
-    this.size.getAllSize(this.req).subscribe((res: any) => {
+    this.sizeSer.getAllSize(this.req).subscribe((res: any) => {
       this.data = res.data;
-      this.hex = res.data.hex
       console.log(res.data);
       this.show = false
       this.totalPage = res.totalPages;
@@ -60,8 +57,24 @@ hex:any;
     });
   }
 
+  // delete(id: any) {
+  //   this.sizeSer.delete(id).subscribe((res) => {
+  //     if (res) {
+  //       console.log("Xóa thành công")
+  //       this.getAllSize();
+  //       this.toastr.success("Xóa thành công")
+  //     } else {
+  //       console.log("Xóa thất bại");
+  //       this.toastr.error("Xóa thất bại")
+  //       this.getAllSize();
+  //     }
+  //   })
+  // }
+
   delete(id: any) {
-    this.size.delete(id).subscribe((res) => {
+    this.sizeSer.delete(id).subscribe((res) => {
+      console.log("----", res)
+
       if (res) {
         console.log("Xóa thành công")
         this.getAllSize();
@@ -71,15 +84,48 @@ hex:any;
         this.toastr.error("Xóa thất bại")
         this.getAllSize();
       }
+    }, err => {
+      this.toastr.error("Xóa thất bại vì " + err.error.message)
+      this.getAllSize();
+    })
+  }
+
+  changeStatus(id: any) {
+    this.sizeSer.changeStatus(id).subscribe({
+      next: (res: any) => {
+      },
+      error: (err) => {
+        console.log(err)
+        if (err.status == 200) {
+          console.log("200 ok")
+          this.toastr.success("Thay đổi trạng thái thành công")
+          this.router.navigate(['size']);
+          this.getAllSize()
+        } else if (err.status == 400) {
+          this.toastr.warning(err.error.message)
+        }
+      }
     })
   }
 
   change(number: any) {
-    // this.req = {
-    //   pageSize: 5,
-    //   pageNumber: number
-    // }
-    // this.getAllSize()
+    this.req.pageReq = {
+      page: number,
+      pageSize: 10,
+      sortField: null,
+      sortDirection: null,
+    }
+    this.getAllSize()
   }
 
+  changeReq(value: any) {
+    console.log(value.currentTarget.value)
+    this.req.active = value.currentTarget.value;
+    this.getAllSize()
+  }
+  search() {
+    console.log(this.textSearch.value)
+    this.req.textSearch = this.textSearch.value;
+    this.getAllSize()
+  }
 }

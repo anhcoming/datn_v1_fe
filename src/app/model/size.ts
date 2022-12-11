@@ -1,5 +1,5 @@
 export class Size {
   id!: string;
-  size!: string;
+  name!: string;
   status!: string;
 }

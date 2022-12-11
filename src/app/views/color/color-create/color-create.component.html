@@ -13,7 +13,11 @@
       <div class="container title row" style="width:60%;margin: auto;">
         <div class="col-7">
           Tên màu <input type="text" class="form-control mb-2" placeholder="Vui lòng nhập tên màu"
-            formControlName="color" value="{{data.color}}">
+            formControlName="name" value="{{data.name}}">
+        </div>
+        <div class="col-7">
+          Mã màu <input type="text" class="form-control mb-2" placeholder="Vui lòng nhập mã màu"
+            formControlName="hex" value="{{data.hex}}">
         </div>
         <div class="mt-2 align-content-between">
           <button style="margin-right:5px" class="btn btn-primary" type="submit" [disabled]="show">
