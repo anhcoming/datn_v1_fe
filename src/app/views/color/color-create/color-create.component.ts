@@ -12,10 +12,8 @@ import { Color } from 'src/app/model/color';
   styleUrls: ['./color-create.component.scss']
 })
 export class ColorCreateComponent implements OnInit {
-  showPass: boolean = false;
   id: any;
   show: any;
-  role: any;
   label="Thêm mới màu sắc"
   data = new Color;
   colorForm = new FormGroup({
@@ -23,7 +21,7 @@ export class ColorCreateComponent implements OnInit {
     name: new FormControl(''),
     hex: new FormControl('')
   })
-  constructor(private toastr: NotiService, public router: Router, private activeRoute: ActivatedRoute, private colorSer: ColorService, private user: UserService) {
+  constructor(private toastr: NotiService, public router: Router, private activeRoute: ActivatedRoute, private colorSer: ColorService) {
     this.id = this.activeRoute.snapshot.params['id'];
     if (this.id != null) {
       this.show = true
