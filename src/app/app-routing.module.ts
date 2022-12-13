@@ -17,6 +17,8 @@ import { LoginComponent } from './views/authentication/login/login.component';
 import { SizeComponent } from './views/size/size.component';
 import { BrandComponent } from './views/brand/brand.component';
 import { OrderDetailComponent } from './views/order/order-detail/order-detail.component';
+import { DiscountComponent } from './views/discount/discount.component';
+import { DiscountCreateComponent } from './views/discount/discount-create/discount-create.component';
 
 
 const routes: Routes = [
@@ -43,6 +45,9 @@ const routes: Routes = [
   { path: 'brand', component: BrandComponent , canActivate: [AuthGuard]},
   { path: 'brand-create', component: BrandCreateComponent , canActivate: [AuthGuard]},
   { path: 'brand-create/:id', component: BrandCreateComponent , canActivate: [AuthGuard]},
+  { path: 'discount', component: DiscountComponent , canActivate: [AuthGuard]},
+  { path: 'discount-create', component: DiscountCreateComponent , canActivate: [AuthGuard]},
+  { path: 'discount-create/:id', component: DiscountCreateComponent , canActivate: [AuthGuard]},
 
 
 ];
