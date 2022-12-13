@@ -59,16 +59,24 @@
                 [(ngModel)]="quantity">
             </div>
           </div>
+          <div class="col-12 mt-2">
+            Mô tả chung
+            <textarea class="form-control" formControlName="description" class="col-12" style="height:150px"></textarea>
+          </div>
         </div>
+        
         <div class="col-4">
           <div class="row" style="height:100px">
-            Ảnh <input type="file">
+            <!-- Ảnh <input type="file"> -->
+            Upload ảnh:
+            <input type="file" class="form-control mb-2" (change)="uploadPreview($event)" placeholder="Upload ảnh">
+            <img src="{{preview}}" alt="" style="width:200px">
+
+
           </div>
-          <div class="row">
-            Mô tả chung
-            <textarea formControlName="description" class="col-12" style="height:150px"></textarea>
-          </div>
+
         </div>
+        
         <div class="mt-3 align-content-between">
           <button class="btn btn-warning" (click)="getData()">
             Cập nhật dữ liệu mẫu
@@ -95,8 +103,8 @@
                 <td>{{item.sizeId.sizeName }}</td>
 
                 <td>
-                    <input min="10000" type="number" formControlName="priceE" value="{{price}}">
-          
+                  <input min="10000" type="number" formControlName="priceE" value="{{price}}">
+
                 </td>
 
                 <td><input min="1" type="number" formControlName="quantityE" value="{{quantity}}"></td>

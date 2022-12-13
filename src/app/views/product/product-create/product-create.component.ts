@@ -10,6 +10,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { Product } from 'src/app/model/product';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { UploadService } from '../../../services/upload.service';
 
 @Component({
   selector: 'app-product-create',
@@ -18,6 +19,8 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 })
 export class ProductCreateComponent implements OnInit {
 
+  dataImage: any;
+  file: any;
   quantity: string = "";
   myModel: any
   price: any
@@ -35,6 +38,7 @@ export class ProductCreateComponent implements OnInit {
   brand: any;
   show: any;
   hear: any
+  preview: any;
   role: any;
   data = new Product;
   colorReq = {
@@ -104,9 +108,11 @@ export class ProductCreateComponent implements OnInit {
   };
 
 
-  constructor(private toastr: NotiService, public router: Router, private activeRoute: ActivatedRoute, private fb: FormBuilder,
+  constructor(private uploadService:UploadService,private toastr: NotiService, public router: Router, private activeRoute: ActivatedRoute, private fb: FormBuilder,
     private product: ProductService, private user: UserService, private cate: CategoryService,
     private brandService: BrandService, private colorService: ColorService, private sizeService: SizeService) {
+        // Khai báo upload image 
+
     this.id = this.activeRoute.snapshot.params['id'];
     if (this.id != null) {
       this.show = true
@@ -127,9 +133,11 @@ export class ProductCreateComponent implements OnInit {
     this.productForm.reset()
   }
   submit() {
+    debugger
     // console.log(this.cities)
     console.log("PRICE ", this.productForm.get('priceE')!.value);
     console.log("SIZE ", this.productForm.get('sizeE')!.value);
+    this.promiseTestUpload()
 
   }
   onSearchChange(searchValue: string): void {
@@ -178,6 +186,38 @@ export class ProductCreateComponent implements OnInit {
   }
   onSelectAll(items: any) {
     console.log("onSelectAll", items);
+  }
+
+  uploadPreview(event: any) {
+    this.dataImage = new FormData();
+    this.file = event.target.files;
+    let file0 = this.file[0];
+    let reader = new FileReader();
+    reader.onload = (e) => {
+      this.preview = reader.result;
+    }
+    if (file0) {
+      reader.readAsDataURL(file0)
+    }
+    this.dataImage.append('file', this.file[0])
+    this.dataImage.append("upload_preset", "gxfcbf2p")
+  }
+  
+    promiseTestUpload() {
+      debugger
+    return new Promise((resolve, reject) => this.uploadService.uploadImage(this.dataImage).subscribe({
+      next: (res: any) => {
+        console.log("Upload thành công")
+        resolve(res.url)
+        this.options.image = res.url
+        console.log("body", this.options)
+        this.router.navigate(['account'])
+      },
+      error: (err) => {
+        console.log("Upload ảnh không thành công")
+        this.toastr.error("Upload ảnh không thành công")
+      }
+    }))
   }
 
 
