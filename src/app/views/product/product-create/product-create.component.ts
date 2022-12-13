@@ -56,6 +56,8 @@ export class ProductCreateComponent implements OnInit {
     color: new FormControl(''),
     size: new FormControl(''),
     name: new FormControl(''),
+    priceE: new FormControl(''),
+    quantityE: new FormControl(''),
     category: new FormControl(''),
     brand: new FormControl(''),
     description: new FormControl(''),
