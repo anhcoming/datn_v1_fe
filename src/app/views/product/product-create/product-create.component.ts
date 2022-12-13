@@ -134,7 +134,6 @@ priceC:any
     this.productForm.reset()
   }
   submit() {
-    debugger
     // console.log(this.cities)
     console.log("PRICE ", this.productForm.get('priceE')!.value);
     console.log("SIZE ", this.productForm.get('sizeE')!.value);
