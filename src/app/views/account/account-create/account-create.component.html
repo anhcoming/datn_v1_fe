@@ -24,7 +24,8 @@
             value="{{data.phone}}">
           <div *ngIf="!inputPassword">
             Mật khẩu<input type="text" class="form-control mb-2" placeholder="Mật khẩu" formControlName="password"
-              value="{{data.password}}"></div>
+              value="{{data.password}}">
+            </div>
           Quyền<select class="form-control mb-2" formControlName="role">
             <option value="" defaultSelected="true" hidden>
               <p>{{selected?selected:"--Vui lòng chọn quyền tài khoản--"}}</p>

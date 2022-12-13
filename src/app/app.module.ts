@@ -39,6 +39,8 @@ import { ModalComponent } from './share/modal/modal.component';
 import { ShareModule } from './share/share.module';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { OrderDetailComponent } from './views/order/order-detail/order-detail.component';
+import { DiscountComponent } from './views/discount/discount.component';
+import { DiscountCreateComponent } from './views/discount/discount-create/discount-create.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -62,7 +64,9 @@ import { OrderDetailComponent } from './views/order/order-detail/order-detail.co
     BrandCreateComponent,
     EditComponent,
     ModalComponent,
-    OrderDetailComponent
+    OrderDetailComponent,
+    DiscountComponent,
+    DiscountCreateComponent
   ], 
   imports: [
     NgbModule,
