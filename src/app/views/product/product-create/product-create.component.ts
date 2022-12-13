@@ -18,7 +18,8 @@ import { UploadService } from '../../../services/upload.service';
   styleUrls: ['./product-create.component.scss']
 })
 export class ProductCreateComponent implements OnInit {
-
+quantityC:any
+priceC:any
   dataImage: any;
   file: any;
   quantity: string = "";
@@ -108,10 +109,10 @@ export class ProductCreateComponent implements OnInit {
   };
 
 
-  constructor(private uploadService:UploadService,private toastr: NotiService, public router: Router, private activeRoute: ActivatedRoute, private fb: FormBuilder,
+  constructor(private uploadService: UploadService, private toastr: NotiService, public router: Router, private activeRoute: ActivatedRoute, private fb: FormBuilder,
     private product: ProductService, private user: UserService, private cate: CategoryService,
     private brandService: BrandService, private colorService: ColorService, private sizeService: SizeService) {
-        // Khai báo upload image 
+    // Khai báo upload image 
 
     this.id = this.activeRoute.snapshot.params['id'];
     if (this.id != null) {
@@ -133,7 +134,6 @@ export class ProductCreateComponent implements OnInit {
     this.productForm.reset()
   }
   submit() {
-    debugger
     // console.log(this.cities)
     console.log("PRICE ", this.productForm.get('priceE')!.value);
     console.log("SIZE ", this.productForm.get('sizeE')!.value);
@@ -202,9 +202,8 @@ export class ProductCreateComponent implements OnInit {
     this.dataImage.append('file', this.file[0])
     this.dataImage.append("upload_preset", "gxfcbf2p")
   }
-  
-    promiseTestUpload() {
-      debugger
+
+  promiseTestUpload() {
     return new Promise((resolve, reject) => this.uploadService.uploadImage(this.dataImage).subscribe({
       next: (res: any) => {
         console.log("Upload thành công")

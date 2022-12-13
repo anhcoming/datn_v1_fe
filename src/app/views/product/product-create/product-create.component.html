@@ -50,13 +50,13 @@
             <div class="col-6">
               Giá chung
               <input class="form-control" [ngModelOptions]="{standalone: true}" type="number" placeholder="000.000 VND"
-                [(ngModel)]="price">
+                [(ngModel)]="priceC">
             </div>
             {{myModel}}
             <div class="col-6">
               Số lượng chung
               <input class="form-control" [ngModelOptions]="{standalone: true}" type="number" placeholder="0"
-                [(ngModel)]="quantity">
+                [(ngModel)]="quantityC">
             </div>
           </div>
           <div class="col-12 mt-2">
@@ -71,8 +71,6 @@
             Upload ảnh:
             <input type="file" class="form-control mb-2" (change)="uploadPreview($event)" placeholder="Upload ảnh">
             <img src="{{preview}}" alt="" style="width:200px">
-
-
           </div>
 
         </div>
@@ -103,11 +101,11 @@
                 <td>{{item.sizeId.sizeName }}</td>
 
                 <td>
-                  <input min="10000" type="number" formControlName="priceE" value="{{price}}">
+                  <input min="10000" type="number"  formControlName="priceE" value="{{priceC}}">
 
                 </td>
 
-                <td><input min="1" type="number" formControlName="quantityE" value="{{quantity}}"></td>
+                <td><input min="1" type="number"   formControlName="quantityE" value="{{quantityC}}"></td>
 
 
                 <td><input type="file"></td>
