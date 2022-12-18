@@ -57,6 +57,7 @@
               <th scope="col">Ảnh</th>
               <th scope="col">Tên</th>
               <th scope="col">Loại sản phẩm</th>
+              <th scope="col">Thương hiệu</th>
               <th scope="col">Màu sắc</th>
               <th scope="col">Size</th>
               <th scope="col">Giá(khoảng giá)</th>
@@ -79,10 +80,11 @@
               data-bs-target="#exampleModal3">{{item.name}}
               </td>
               <td>{{item.categoryName}}</td>
-              <td>
+              <td>{{item.materialName}}</td>  
+              <td >
                 {{item.colors.length}} màu
               </td>
-              <td>{{item.sizes.length}} size</td>
+              <td >{{item.sizes.length}} size</td>
               <td>
                 <p *ngIf="item.minPrice==item.maxPrice; else other">
                   {{item.minPrice| currency:'VND' }}
@@ -143,10 +145,11 @@
         <!------>
         <!-- Modal Xem chi tiết-->
         <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-xl">
+          <div class="modal-dialog modal-l">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">{{name}}</h5>
+                
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">

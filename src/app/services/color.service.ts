@@ -26,9 +26,6 @@ export class ColorService {
   getAllColor(req: any): (Observable<Object>) {
     return this.http.post(API + "/admin/color/search", req, httpOptions)
   }
-  getAllColorNoPage(): (Observable<Object>) {
-    return this.http.get(API + "/color")
-  }
   createColor(body: any): (Observable<Object>) {
     return this.http.post(API + "/admin/color/create", body, httpOptions)
   } 

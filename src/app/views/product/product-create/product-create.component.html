@@ -13,18 +13,20 @@
       <div class="title row" style="width:90%;margin: auto;">
         <div class="col-8">
           <div class="col-12">
-            Tên sản phẩm <input type="text" class="form-control mb-2" placeholder="" formControlName="name">
+            Tên sản phẩm <input type="text" class="form-control mb-2" placeholder="" formControlName="name"
+              value="{{nameDefault}}">
           </div>
           <div class="row">
             <div class="col-6 mt-2">
-              Loại sản phẩm<select class="form-control" formControlName="category">
-                <option hidden>----</option>
+              Loại sản phẩm
+              <select class="form-control" formControlName="category">
+                <option defaultSelected="true" value="" hidden>{{categoryDefault}}</option>
                 <option *ngFor="let item of category" value="{{item.id}}">{{item.name}}</option>
               </select>
             </div>
             <div class="col-6 mt-2">
               Thương hiệu<select class="form-control" formControlName="brand">
-                <option hidden>----</option>
+                <option defaultSelected="true" value="" hidden>{{materialDefault}}</option>
                 <option *ngFor="let item of brand" value="{{item.id}}">{{item.name}}</option>
               </select>
             </div>
@@ -45,40 +47,45 @@
               (onSelectAll)="onSelectAll($event)">
             </ng-multiselect-dropdown>
           </div>
+          <!-- {{selectedItemsSize|json}} -->
 
           <div class=" row mt-2">
             <div class="col-6">
               Giá chung
-              <input class="form-control" [ngModelOptions]="{standalone: true}" type="number" placeholder="000.000 VND"
-                [(ngModel)]="priceC">
+              <input class="form-control" (onchange)="gia" formControlName="price" type="number"
+                placeholder="000.000 VND">
             </div>
-            {{myModel}}
             <div class="col-6">
               Số lượng chung
-              <input class="form-control" [ngModelOptions]="{standalone: true}" type="number" placeholder="0"
-                [(ngModel)]="quantityC">
+              <input class="form-control" (onChange)="soluong" formControlName="quantity" type="number" placeholder="0">
             </div>
           </div>
           <div class="col-12 mt-2">
             Mô tả chung
-            <textarea class="form-control" formControlName="description" class="col-12" style="height:150px"></textarea>
+            <textarea class="form-control" formControlName="description" class="col-12" value="{{descriptionDefault}}"
+              style="height:150px"></textarea>
           </div>
         </div>
-        
+
         <div class="col-4">
-          <div class="row" style="height:100px">
+          <div style="height:100px">
             <!-- Ảnh <input type="file"> -->
-            Upload ảnh:
+            Ảnh chung:
             <input type="file" class="form-control mb-2" (change)="uploadPreview($event)" placeholder="Upload ảnh">
             <img src="{{preview}}" alt="" style="width:200px">
           </div>
 
         </div>
-        
+
         <div class="mt-3 align-content-between">
-          <button class="btn btn-warning" (click)="getData()">
+          <button *ngIf="fisrtUpdate == 0" class="btn btn-warning" (click)="getData()">
             Cập nhật dữ liệu mẫu
           </button>
+          <button *ngIf="fisrtUpdate == 1" data-bs-toggle="modal" data-bs-target="#exampleModal9"
+            class="btn btn-warning">
+            Cập nhật dữ liệu mẫu
+          </button>
+          <app-spinner *ngIf="show"></app-spinner>
         </div>
 
         <div>
@@ -91,35 +98,79 @@
                 <th scope="col">Đơn giá</th>
                 <th scope="col">Số lượng</th>
                 <th scope="col">Ảnh</th>
-                <th scope="col">Xóa</th>
+                <th scope="col">Chức năng</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let  item of arr; let i = index">
                 <th scope="row">{{i+1}}</th>
-                <td>{{item.colorId.colorName}}</td>
-                <td>{{item.sizeId.sizeName }}</td>
-
+                <td>{{item.colorId.name}}</td>
+                <td>{{item.sizeId.name }}</td>
+                <td>{{item.price }}</td>
+                <td>{{item.qty }}</td>
                 <td>
-                  <input min="10000" type="number"  formControlName="priceE" value="{{priceC}}">
-
+                  <div class="circular">
+                    <img src={{item.image}} alt="">
+                  </div>
                 </td>
-
-                <td><input min="1" type="number"   formControlName="quantityE" value="{{quantityC}}"></td>
-
-
-                <td><input type="file"></td>
-                <td><svg style="color:rgb(255, 81, 81)" xmlns="http://www.w3.org/2000/svg" width="26" height="20"
-                    fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                    <path
-                      d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
-                  </svg></td>
+                <td>
+                  <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal3"
+                    (click)="getValue(item,i)">
+                    Sửa
+                  </button> | <button class="btn btn-danger" (click)="removeItem(i)">Xóa</button>
+                </td>
               </tr>
             </tbody>
           </table>
+          <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Thay đổi trạng thái tài khoản?</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  Cập nhật thông tin sản phẩm <br>
+                  <input type="text" formControlName="priceE" class="form-control" value="{{priceE}}"><br>
+                  <input type="text" formControlName="quantityE" class="form-control" value="{{quantityE}}"><br>
+                  Upload ảnh:
+                  <input type="file" class="form-control mb-2" (change)="uploadPreview($event)"
+                    placeholder="Upload ảnh">
+                  <img src="{{imageE}}" alt="" style="width:200px">
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="updateE()">Cập
+                    nhật</button>
+                  <app-spinner *ngIf="show"></app-spinner>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal fade" id="exampleModal9" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Cảnh báo!</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  Thao tác này sẽ cập nhật toàn bộ bộ dữ liệu bên dưới!
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="getData()">Đồng
+                    ý</button>
+                  <app-spinner *ngIf="show"></app-spinner>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="mt-2 align-content-between">
-          <button class="btn btn-primary" style="margin-right: 10px" type="submit" (click)="submit()" [disabled]="show">
+          <button class="btn btn-primary" style="margin-right: 10px" type="submit" (click)="submit()">
             <span *ngIf="show" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             Thêm mới
           </button>
