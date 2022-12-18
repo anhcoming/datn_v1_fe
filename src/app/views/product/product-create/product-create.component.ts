@@ -18,8 +18,8 @@ import { UploadService } from '../../../services/upload.service';
   styleUrls: ['./product-create.component.scss']
 })
 export class ProductCreateComponent implements OnInit {
-quantityC:any
-priceC:any
+  quantityC: any
+  priceC: any
   dataImage: any;
   file: any;
   quantity: string = "";
@@ -65,8 +65,7 @@ priceC:any
     quantityE: new FormControl(''),
     category: new FormControl(''),
     brand: new FormControl(''),
-    description: new FormControl(''),
-
+    description: new FormControl('')
   })
 
   // pushLength(number: any) {
@@ -118,8 +117,8 @@ priceC:any
     if (this.id != null) {
       this.show = true
       console.log(this.id);
+      this.getDetail();
     }
-    this.getDetail();
   }
 
 
@@ -246,8 +245,8 @@ priceC:any
         this.options = {
           id: "",
           colorId: this.colorList[i],
-          // price: this.productForm.get("priceE")!.value,
-          // qty: this.productForm.get("quantityE")!.value,
+          price: this.productForm.get("priceE")!.value,
+          qty: this.productForm.get("quantityE")!.value,
           sizeId: this.sizeList[u],
           image: null,
         }

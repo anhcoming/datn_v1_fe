@@ -15,7 +15,7 @@
           Tên thương hiệu <input type="text" class="form-control mb-2" placeholder="Vui lòng nhập tên thương hiệu"
             formControlName="name" value="{{data.name}}">
         </div>
-        Địa chỉ
+        <!-- Địa chỉ
         <div class="row">
           <div class="col-4" style="padding-left:0">
             <select formControlName="province" (change)="getDistrict()" class="form-select"
@@ -37,7 +37,7 @@
               <option *ngFor="let item of ward" [ngValue]="item.districts.code">{{item.name}}</option>
             </select>
           </div>
-        </div>
+        </div> -->
         <div class="mt-2 align-content-between">
           <button style="margin-right:5px" class="btn btn-primary" type="submit" [disabled]="show">
             <span *ngIf="show" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>

@@ -46,7 +46,7 @@ export class ProductService {
     return this.http.post(API + "/product/find-by-page", req)
   }
   createProduct(body: any): (Observable<Object>) {
-    return this.http.post(API + "/product/create", body)
+    return this.http.post(API + "/admin/product/create", body)
   }
   updateProduct(body: any): (Observable<Object>) {
     return this.http.put(API + "/product/update", body)

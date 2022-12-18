@@ -20,7 +20,6 @@ export class SizeComponent implements OnInit {
   currentPage: any;
   numbers: any;
   req = {
-    // id: null,
     active: null,
     textSearch: null,
     pageReq: {
