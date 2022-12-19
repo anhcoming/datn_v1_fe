@@ -5,15 +5,13 @@ import { environment } from 'src/environments/environment';
 
 const API = environment.baseUrl;
 
-///Cấu hình push token cùng api
-const auth_token = localStorage.getItem('auth_token')
-const headers = new HttpHeaders({
-  'Content-Type': 'application/json',
-  Authorization: `Token ${auth_token}`
-})
-
-const requestOptions = { headers: headers, responseType: 'text' as 'json' }
-
+const auth_token = window.localStorage.getItem('auth-token')
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${auth_token}`
+  })
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -45,4 +43,10 @@ export class CategoryService {
   delete(id: any): (Observable<Object>) {
     return this.http.delete(API + "/category/delete/" + id)
   }
+
+  search(body: any): (Observable<Object>) {
+    return this.http.post(API + "/admin/category/search",body,httpOptions )
+  }
+
 }
+
