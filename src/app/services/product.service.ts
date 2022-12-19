@@ -30,7 +30,7 @@ export class ProductService {
   constructor(private http: HttpClient) {
 
   }
-  
+
 
   getAllProductWS(req: any): Observable<Object> {
     return this.http.post(API + "/product/search/v2", req)
@@ -46,15 +46,22 @@ export class ProductService {
     return this.http.post(API + "/product/find-by-page", req)
   }
   createProduct(body: any): (Observable<Object>) {
-    return this.http.post(API + "/admin/product/create", body)
+    return this.http.post(API + "/admin/product/create", body, httpOptions)
   }
   updateProduct(body: any): (Observable<Object>) {
     return this.http.put(API + "/product/update", body)
   }
   getDetail(id: any): (Observable<Object>) {
-    return this.http.get(API + "/product/" + id)
+    return this.http.get(API + "/admin/product/detail?id=" + id, httpOptions)
   }
   delete(id: any): (Observable<Object>) {
     return this.http.delete(API + "/product/" + id)
   }
+  findSize(id: any): (Observable<Object>) {
+    return this.http.get(API + "/product-option/findSize?productId=" + id)
+  }
+  findColor(id: any): (Observable<Object>) {
+    return this.http.get(API + "/product-option/findColor?productId=" + id)
+  }
+
 }

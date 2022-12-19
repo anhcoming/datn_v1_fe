@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
-const API = environment.baseUrl
+const API = environment.baseUrl;
+
 const auth_token = window.localStorage.getItem('auth-token')
 const httpOptions = {
   headers: new HttpHeaders({
@@ -30,26 +31,21 @@ export class CategoryService {
   getAllCategoryV2(): (Observable<Object>) {
     return this.http.get(API + "/category/find-by-page?pageNumber=0&pageSize=5")
   }
-  getTypeId(): (Observable<Object>) {
-    return this.http.get(API + "/no-auth/type/no-page")
-  }
-// ======================================================================
-  getAllCategorys(req: any): (Observable<Object>) {
-    return this.http.post(API + "/admin/category/search", req, httpOptions)
-  }
   createCategory(body: any): (Observable<Object>) {
-    return this.http.post(API + "/admin/category/create", body, httpOptions)
+    return this.http.post(API + "/category/create", body)
   }
   updateCategory(body: any): (Observable<Object>) {
-    return this.http.post(API + "/admin/category/update", body, httpOptions)
+    return this.http.put(API + "/category/update", body)
   }
   getDetail(id: any): (Observable<Object>) {
-    return this.http.get(API + "/admin/category/detail?id=" + id, httpOptions)
+    return this.http.get(API + "/category/read-by-id/" + id)
   }
   delete(id: any): (Observable<Object>) {
-    return this.http.delete(API + "/admin/category/delete?id=" + id, httpOptions)
+    return this.http.delete(API + "/category/delete/" + id)
   }
-  changeStatus(id: any): (Observable<Object>) {
-    return this.http.get(API + "/admin/category/change-status?id=" + id, httpOptions)
+
+  search(body: any): (Observable<Object>) {
+    return this.http.post(API + "/admin/category/search",body,httpOptions )
   }
+
 }
