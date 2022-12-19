@@ -49,7 +49,7 @@ export class CategoryComponent implements OnInit {
       this.id = item.id;
       this.des = item.des;
       this.typeId = item.typeId;
-      this.productId = item.productId;
+      this.productId = [""]
       console.log(this.id,this.name);
 
   }

@@ -4,5 +4,6 @@ export class Category {
     status!:string;
     des!:string;
     typeId!:string;
-    productId!:string;
+    productId!:[];
+    
   }

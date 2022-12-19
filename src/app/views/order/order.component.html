@@ -34,10 +34,10 @@
       </div>
       <div class="col-4">
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Vui lòng nhập..." aria-label="Recipient's username"
+          <input type="text" class="form-control" [formControl]="textSearch" placeholder="Vui lòng nhập..." aria-label="Recipient's username"
             aria-describedby="basic-addon2">
           <div class="input-group-append">
-            <button class="btn btn-primary text-light" type="button">
+            <button (click)="search()" class="btn btn-primary text-light" type="button">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
                 viewBox="0 0 16 16">
                 <path
