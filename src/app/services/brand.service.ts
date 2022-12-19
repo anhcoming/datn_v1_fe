@@ -4,20 +4,14 @@ import { environment } from 'src/environments/environment';
 import { Injectable } from '@angular/core';
 
 
-const API = environment.baseUrl;
-
-///Cấu hình push token cùng api
-const auth_token = localStorage.getItem('auth_token')
-const headers = new HttpHeaders({
-  'Content-Type': 'application/json',
-  Authorization: `Token ${auth_token}`
-})
-
-const requestOptions = { headers: headers ,responseType: 'text' as 'json'}
-
-//////////////
-
-
+const API = environment.baseUrl
+const auth_token = window.localStorage.getItem('auth-token')
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${auth_token}`
+  })
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -27,25 +21,31 @@ export class BrandService {
 
   }
 
-  getAllBrand(): (Observable<Object>) {
-    return this.http.get(API + '/admin/brand/find-by-page?pageNumber=0&pageSize=10', requestOptions);
-  }
+  // getAllBrand(): (Observable<Object>) {
+  //   return this.http.get(API + '/admin/brand/find-by-page?pageNumber=0&pageSize=10', httpOptions);
+  // }
   getAllBrandV2(req: any): (Observable<Object>) {
     return this.http.post(API + '/brand/find-by-page', req)
   }
   getAllBrandNoPage(): (Observable<Object>) {
-    return this.http.get(API + '/no-auth/material/no-page')
+    return this.http.get(API + '/no-auth/brand/no-page')
   }
-  delete(id: any): (Observable<Object>) {
-    return this.http.delete(API + '/brand/' + id)
+  getAllBrands(req: any): (Observable<Object>) {
+    return this.http.post(API + "/admin/brand/search", req, httpOptions)
   }
-  create(req: any): (Observable<Object>) {
-    return this.http.post(API + '/brand/create', req)
-  }
-  update(req: any): (Observable<Object>) {
-    return this.http.put(API + '/brand/update', req)
+  createBrand(body: any): (Observable<Object>) {
+    return this.http.post(API + "/admin/brand/create", body, httpOptions)
+  } 
+  updateBrand(body: any): (Observable<Object>) {
+    return this.http.post(API + "/admin/brand/update", body, httpOptions)
   }
   getDetail(id: any): (Observable<Object>) {
-    return this.http.get(API + "/brand/" + id)
+    return this.http.get(API + "/admin/brand/detail?id=" + id, httpOptions)
+  }
+  delete(id: any): (Observable<Object>) {
+    return this.http.post(API + "/admin/brand/delete?id=" + id,{}, httpOptions)
+  }
+  changeStatus(id: any): (Observable<Object>) {
+    return this.http.post(API + "/admin/brand/change-status/?id=" + id,{}, httpOptions)
   }
 }

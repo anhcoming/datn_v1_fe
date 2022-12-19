@@ -11,13 +11,12 @@
     <div class="title row">
       <div class="col-8">
         <div class="row">
-          <div class="col-3"><select class="form-select" (change)="changeReq($event)">
-           
-              <option value="null">Tất cả</option>
-              <option value="1">Hoạt động</option>
-              <option value="2">Ngưng hoạt động</option>
-            </select></div>
-          <div class="col-3"></div>
+          <div class="col-3"><select class="form-select "(change)="changeReq($event)">
+            <option hidden>Trạng thái</option>
+            <option value="null">Tất cả</option>
+            <option value="true">Hoạt động</option>
+            <option value="false">Ngưng hoạt động</option>
+          </select></div>
         </div>
       </div>
       <div class="col-4">
@@ -53,7 +52,6 @@
               <th>More</th>
             </tr>
           </thead>
-
           <tbody>
             <tr *ngFor="let item of data; let i = index">
               <th scope="row">{{i+1}}</th>

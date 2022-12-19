@@ -10,7 +10,11 @@ import { ActivatedRoute } from '@angular/router';
 export class OrderDetailComponent implements OnInit {
   id: any;
   data:any;
-  show:any
+  checkOrder:any;
+  show:any;
+  index: any;
+  status:any
+
   constructor(private order: OrderService, private activeRoute: ActivatedRoute) {
     this.id = this.activeRoute.snapshot.params['id'];
   }
@@ -23,6 +27,12 @@ export class OrderDetailComponent implements OnInit {
       this.data = res;
       console.log("Ở đây", this.data)
       this.show = false
+      this.checkOrder = "active"
+      this.index = res.history.length
+    //   let detailStatus = res.history[this.index]
+    //   if(detailStatus.includes)
+    this.status = res.status
     })
   }
+  
 }

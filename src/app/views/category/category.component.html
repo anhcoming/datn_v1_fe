@@ -11,29 +11,21 @@
     <div class="title row">
       <div class="col-8">
         <div class="row">
-          <div class="col-3"><select class="form-select">
+          <div class="col-3"><select class="form-select " (change)="changeReq($event)">
               <option hidden>Trạng thái</option>
-              <option value>Tất cả</option>
-              <option value="1">Hoạt động</option>
-              <option value="2">Ngưng hoạt động</option>
-            </select></div>
-          <div class="col-3"><select class="form-select">
-              <option hidden>Phân loại</option>
-              <option value>Mới nhất</option>
-              <option value="0">Cũ nhất</option>
-              <option value="1">Theo tên</option>
-              <option value="2">Ngày nhập</option>
+              <option value="null">Tất cả</option>
+              <option value="true">Hoạt động</option>
+              <option value="false">Ngưng hoạt động</option>
             </select></div>
         </div>
-
       </div>
       <div class="col-4">
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Vui lòng nhập..." aria-label="Recipient's username"
-            aria-describedby="basic-addon2">
+          <input type="text" class="form-control" [formControl]="textSearch" placeholder="Vui lòng nhập..."
+            aria-label="Recipient's username" aria-describedby="basic-addon2">
           <div class="input-group-append">
             <!-- nút tìm kiếm -->
-            <button class="btn btn-primary text-light" type="button">
+            <button (click)="search()" class="btn btn-primary text-light" type="button">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
                 viewBox="0 0 16 16">
                 <path
@@ -53,24 +45,24 @@
         </ul>
       </nav>
       <div *ngIf="!show">
-        <table class="table">
+        <table class="table table-bordered">
           <thead>
             <tr>
               <th scope="col">#</th>
-              <th scope="col">Tên Danh Mục</th>
+              <th scope="col">Danh mục sản phẩm</th>
               <th scope="col">Trạng thái</th>
               <th>More</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let item of data;let i = index">
+            <tr *ngFor="let item of data; let i = index">
               <th scope="row">{{i+1}}</th>
-              <td routerLink="/category-create/{{item.id}}">{{item.name}}</td>
-              <td>
-                <span class="badge badge text-bg-info text-light">{{item.status=="1"?"Hoạt động":""}}</span>
-                <span class="badge badge text-bg-secondary">{{item.status=="0"?"Ngưng hoạt động":""}}</span>
+              <td class="name" routerLink="/category-create/{{item.id}}">{{item.name}}
               </td>
-              <!-- <td></td> -->
+              <td data-bs-target="#exampleModal1" data-bs-toggle="modal" (click)="getItem(item)">
+                <span class="badge badge text-bg-info text-light">{{item.active?"Hoạt động":""}}</span>
+                <span class="badge badge text-bg-secondary">{{!item.active?"Ngưng hoạt động":""}}</span>
+              </td>
               <td>
                 <div class="dropdown">
                   <a class="btn btn-text-dark" type="text" data-bs-toggle="dropdown" aria-expanded="false">
@@ -81,18 +73,14 @@
                     </svg>
                   </a>
                   <ul class="dropdown-menu dropdown-menu-dark">
-                    <li><a class="dropdown-item" routerLink="/category-create/{{item.id}}">Chỉnh
-                        sửa</a></li>
-                    <li><a class="dropdown-item" (click)="getCategory(item)" data-bs-toggle="modal"
+                    <li><a class="dropdown-item" routerLink="/category-create/{{item.id}}">Chỉnh sửa</a></li>
+                    <li><a class="dropdown-item" data-bs-toggle="modal" (click)="getItem(item)"
                         data-bs-target="#exampleModal">Xóa</a></li>
                   </ul>
                 </div>
-
-
               </td>
             </tr>
           </tbody>
-
 
         </table>
         <!-- Modal XÓA -->
@@ -100,11 +88,11 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Xóa danh mục</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Xóa size</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                Bạn có muốn xóa danh mục {{name}}<span style="color:red"></span>?
+                Bạn có muốn xóa màu <span style="color:red">{{name}}</span>?
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
@@ -115,6 +103,26 @@
           </div>
         </div>
         <!------>
+
+        <!-- Modal Thay đổi trạng thái -->
+        <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Thay đổi trạng thái màu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                Bạn có muốn thay đổi trạng thái size <span style="color:red">{{name}}</span>?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-danger" (click)="changeStatus(id)" data-bs-dismiss="modal">Đồng
+                  ý</button>
+              </div>
+            </div>
+          </div>
+        </div>
         <!------>
         <nav aria-label="..." style="float: right;">
           <ul class="pagination">

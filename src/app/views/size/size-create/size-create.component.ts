@@ -12,13 +12,11 @@ import { Size } from 'src/app/model/size';
   styleUrls: ['./size-create.component.scss']
 })
 export class SizeCreateComponent implements OnInit {
-  showPass: boolean = false;
   id: any;
   show: any;
   body: any;
   bodyV1: any;
   label = "Thêm mới kích cỡ"
-  role: any;
   data = new Size;
   sizeForm = new FormGroup({
     id: new FormControl(''),
@@ -100,4 +98,5 @@ export class SizeCreateComponent implements OnInit {
       this.show = false
     })
   }
+  
 }

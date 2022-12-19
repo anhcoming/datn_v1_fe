@@ -21,7 +21,6 @@ export class ColorComponent implements OnInit {
   currentPage: any;
   numbers: any;
   req = {
-
     id: null,
     active: null,
     textSearch: null,
@@ -30,7 +29,6 @@ export class ColorComponent implements OnInit {
       pageSize: 10,
       sortField: null,
       sortDirection: null
-
     }
   }
   textSearch = new FormControl();

@@ -15,8 +15,8 @@ export class OrderComponent implements OnInit {
   list = [
     'REJECT', 'RECEIVED'
   ]
-  orderId:any
-  selected:any
+  orderId: any
+  selected: any
   statusOrder: any;
   statusCombination: any;
   show = true;
@@ -31,12 +31,7 @@ export class OrderComponent implements OnInit {
   noteForm = new FormGroup({
     note: new FormControl('')
   })
-  req = {
-    pageSize: 5,
-    pageNumber: 0
-  }
   reqSearch = {
-
     id: null,
     status: null,
     customerId: null,
@@ -47,12 +42,12 @@ export class OrderComponent implements OnInit {
     textSearch: null,
     pageReq: {
       page: 0,
-      pageSize: 20,
+      pageSize: 100,
       sortField: null,
       sortDirection: null
-
     }
   }
+  textSearch = new FormControl();
   constructor(private order: OrderService, public router: Router, public toastr: NotiService) {
   }
 
@@ -67,12 +62,18 @@ export class OrderComponent implements OnInit {
       note: this.noteForm.get('note')?.value
     }
     console.log("Payload", body)
-    this.order.changeStatus(body).subscribe(res=>{
+    this.order.changeStatus(body).subscribe(res => {
       console.log(res);
-      this.toastr.success('Thay đổi trạng thái đơn hàng thành công')
-    },err=>{
-      this.toastr.error('Thay đổi trạng thái đơn hàng thất bại')
-
+    }, err => {
+      if (err == 200) {
+        console.log("Thay đổi trạng thái đơn hàng thành công")
+        this.getAllOrder();
+        this.toastr.success('Thay đổi trạng thái đơn hàng thành công')
+      } else {
+        console.log("Thay đổi trạng thái đơn hàng thất bại");
+        this.getAllOrder();
+        this.toastr.success('Thay đổi trạng thái đơn hàng thành công')
+      }
     })
   }
   getItem(item: any) {
@@ -111,29 +112,26 @@ export class OrderComponent implements OnInit {
   }
 
   change(number: any) {
-    this.req = {
-      pageSize: 5,
-      pageNumber: number
-    }
+    this.reqSearch.pageReq.page = number;
     this.getAllOrder();
   }
 
-  searchFilter(event:any) {
+  searchFilter(event: any) {
     let a = event.currentTarget.value;
-  
+
     console.log(event.currentTarget.value)
 
     this.getAllOrder()
   }
-  searchStatus(event:any) {
+  searchStatus(event: any) {
     console.log(event.currentTarget.value)
     this.reqSearch.status = event.currentTarget.value;
 
     this.getAllOrder()
   }
-  search(event:any) {
-    // console.log(this.textSearch.value)
-    // this.reqSearch.textSearch = this.textSearch.value;
+  search() {
+    console.log(this.textSearch.value)
+    this.reqSearch.textSearch = this.textSearch.value;
     this.getAllOrder()
   }
 
