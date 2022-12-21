@@ -1,9 +1,9 @@
 export class Product {
   id!: string;
   name!: string;
-  des!: string;
+  description!: string;
   categoryId!: string;
-  materialId!: string;
+  brandId!: string;
   options!: [
     {
       id: string,

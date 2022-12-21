@@ -13,6 +13,8 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { UploadService } from '../../../services/upload.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { Color } from 'src/app/model/color';
+import { Size } from 'src/app/model/size';
 
 const API = environment.baseUrl;
 
@@ -46,7 +48,7 @@ export class ProductCreateComponent implements OnInit {
   showPass: boolean = false;
   id: any;
   category: any;
-  checkSubmit =true
+  checkSubmit = true
   color: any;
   size: any;
   brand: any;
@@ -55,11 +57,13 @@ export class ProductCreateComponent implements OnInit {
   preview: any;
   nameDefault: any
   descriptionDefault: any
-  materialDefault: any
+  brandDefault: any
   categoryDefault: any
   role: any;
   fullData: any
   data = new Product;
+  dataColor = new Color;
+  dataSize = new Size;
   colorReq = {
 
     id: null,
@@ -75,17 +79,17 @@ export class ProductCreateComponent implements OnInit {
   }
 
   productForm = new FormGroup({
-    product: new FormControl('',Validators.required),
-    color: new FormControl('',Validators.required),
-    size: new FormControl('',Validators.required),
-    name: new FormControl('',Validators.required),
-    price: new FormControl('',Validators.required),
-    quantity: new FormControl('',Validators.required),
-    category: new FormControl('',Validators.required),
-    brand: new FormControl('',Validators.required),
-    description: new FormControl('',Validators.required),
-    quantityE: new FormControl('',Validators.required),
-    priceE: new FormControl('',Validators.required),
+    product: new FormControl('', Validators.required),
+    color: new FormControl('', Validators.required),
+    size: new FormControl('', Validators.required),
+    name: new FormControl('', Validators.required),
+    price: new FormControl('', Validators.required),
+    quantity: new FormControl('', Validators.required),
+    category: new FormControl('', Validators.required),
+    brand: new FormControl('', Validators.required),
+    description: new FormControl('', Validators.required),
+    quantityE: new FormControl('', Validators.required),
+    priceE: new FormControl('', Validators.required),
 
   })
 
@@ -106,9 +110,7 @@ export class ProductCreateComponent implements OnInit {
 
 
   dropdownListSize = [];
-  selectedItemsSize = [{
-
-  }];
+  selectedItemsSize = [];
 
   dropdownSettingsSize: IDropdownSettings = {
     singleSelection: false,
@@ -131,8 +133,8 @@ export class ProductCreateComponent implements OnInit {
     if (this.id != null) {
       this.show = true
       console.log(this.id);
+      this.getDetail();
     }
-    this.getDetail();
   }
 
 
@@ -149,9 +151,9 @@ export class ProductCreateComponent implements OnInit {
   submit() {
     // console.log(this.cities)
     this.fullData.name = this.productForm.get('name')?.value
-    this.fullData.des = this.productForm.get('description')?.value
-    this.fullData.categoryId = this.productForm.get('category')?.value
-    this.fullData.materialId = this.productForm.get('brand')?.value
+    this.fullData.des = this.productForm.get('description')?.value == "" ? this.data.description : this.productForm.get("description")?.value;
+    this.fullData.categoryId = this.productForm.get('category')?.value == "" ? this.data.categoryId : this.productForm.get("category")?.value;
+    this.fullData.brandId = this.productForm.get('brand')?.value == "" ? this.data.brandId : this.productForm.get("brand")?.value;
     try {
       for (let i = 0; i < this.fullData.options.length; i++) {
         this.fullData.options[i].colorId = this.fullData.options[i].colorId.id
@@ -160,20 +162,28 @@ export class ProductCreateComponent implements OnInit {
     } catch (error) {
 
     }
-
-
-
     console.log('checkkkkk', this.fullData)
-    this.product.createProduct(this.fullData).subscribe((res) => {
-
-    }, err => {
-      if (err.status == 200) {
-        this.toastr.success("Thêm mới thành công")
-        this.router.navigate(['product'])
-      }
-      this.toastr.warning(err.error)
-      return
-    })
+    if (this.id == null || this.id == "") {
+      this.product.createProduct(this.fullData).subscribe((res) => {
+      }, err => {
+        if (err.status == 200) {
+          this.toastr.success("Thêm mới thành công")
+          this.router.navigate(['product'])
+        }
+        // this.toastr.warning(err.error)
+        return
+      })
+    } else {
+      this.product.updateProduct(this.fullData).subscribe((res) => {
+      }, err => {
+        if (err.status == 200) {
+          this.toastr.success("Cập nhật thành công")
+          this.router.navigate(['product'])
+        }
+        // this.toastr.warning(err.error)
+        return
+      })
+    }
     this.promiseTestUpload()
 
   }
@@ -193,37 +203,39 @@ export class ProductCreateComponent implements OnInit {
       console.log("UUUUUUUUU", this.selectedItemsColor);
     })
   }
-  findSize() {
-    this.product.findSize(this.id).subscribe((res: any) => {
-      this.selectedItemsSize = []
-      for (let i = 0; i < res.data.length; i++) {
-        this.selectedItemsSize.push({ id: res.data[i].sizeId, name: res.data[i].sizeName })
-      }
-      console.log("UUUUUUUUU", this.selectedItemsSize);
-    })
-  }
+  // findSize() {
+  //   this.product.findSize(this.id).subscribe((res: any) => {
+  //     this.selectedItemsSize = []
+  //     for (let i = 0; i < res.data.length; i++) {
+  //       this.selectedItemsSize.push({ id: res.data[i].sizeId, name: res.data[i].sizeName })
+  //     }
+  //     console.log("UUUUUUUUU", this.selectedItemsSize);
+  //   })
+  // }
 
   getDetail() {
-    this.findColor();
-    this.findSize()
+    // this.findColor();
+    // this.findSize()
     this.show = false
     // this.fullData = {
     //   id: "",
     //   name: this.productForm.get("name")?.value,
     //   des: this.productForm.get("description")?.value,
     //   categoryId: this.productForm.get("category")?.value,
-    //   materialId: this.productForm.get("brand")?.value,
+    //   brandId: this.productForm.get("brand")?.value,
     //   options: arr
     // }
     this.product.getDetail(this.id).subscribe((res: any) => {
       this.fullData = res
       this.arr = this.fullData.options
-      this.categoryDefault = res.categoryId
-      this.materialDefault = res.materialId
-      this.descriptionDefault = res.des
+      // this.categoryDefault = res.categoryId
+      // this.brandDefault = res.brandId
+      // this.descriptionDefault = res.des
       this.nameDefault = res.name
       // console.log("Ở đây", this.arr)
-      // this.show = false
+      this.data = res;
+      console.log("Ở đây", this.data)
+      this.show = false
     })
     console.log("ở dây", this.cateLength);
     this.getCate();
@@ -312,7 +324,7 @@ export class ProductCreateComponent implements OnInit {
       reader.readAsDataURL(file0)
     }
     this.dataImage.append('file', this.file[0])
-    this.dataImage.append("upload_preset", "gxfcbf2p")
+    this.dataImage.append("upload_preset", "hu0auwkf")
   }
 
   promiseTestUpload() {
@@ -379,7 +391,7 @@ export class ProductCreateComponent implements OnInit {
       name: this.productForm.get("name")?.value,
       des: this.productForm.get("description")?.value,
       categoryId: this.productForm.get("category")?.value,
-      materialId: this.productForm.get("brand")?.value,
+      brandId: this.productForm.get("brand")?.value,
       options: arr
     }
     let b = this.productForm.get('size')?.value
@@ -403,8 +415,8 @@ export class ProductCreateComponent implements OnInit {
   async updateE() {
     this.show = true;
     await this.promiseTestUpload()
-    this.fullData.options[this.index].price =  Number(this.productForm.get('priceE')?.value) == 0 ? this.fullData.options[this.index].price:Number(this.productForm.get('priceE')?.value)
-    this.fullData.options[this.index].qty = Number(this.productForm.get('quantityE')?.value)== 0 ?this.fullData.options[this.index].qty: Number(this.productForm.get('quantityE')?.value)
+    this.fullData.options[this.index].price = Number(this.productForm.get('priceE')?.value) == 0 ? this.fullData.options[this.index].price : Number(this.productForm.get('priceE')?.value)
+    this.fullData.options[this.index].qty = Number(this.productForm.get('quantityE')?.value) == 0 ? this.fullData.options[this.index].qty : Number(this.productForm.get('quantityE')?.value)
     this.fullData.options[this.index].image = this.image
     this.arr = this.fullData.options
     console.log("XXXXXXXXXXXXXXXXXXXXX", this.arr)

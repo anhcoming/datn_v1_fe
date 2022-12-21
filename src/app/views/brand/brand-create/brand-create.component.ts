@@ -126,7 +126,6 @@ export class BrandCreateComponent implements OnInit {
       }
       console.log("Load lên: ", body);
       if (this.id == null || this.id == "") {
-        debugger
         this.brandService.createBrand(body).subscribe({
           next: (res: any) => {
             console.log("Thêm mới thành công")
