@@ -63,5 +63,8 @@ export class ProductService {
   findColor(id: any): (Observable<Object>) {
     return this.http.get(API + "/product-option/findColor?productId=" + id)
   }
+  changeStatus(id: any): (Observable<Object>) {
+    return this.http.get(API + "/admin/product/change-status?id=" + id, httpOptions)
+  }
 
 }

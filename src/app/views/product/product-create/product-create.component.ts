@@ -24,6 +24,7 @@ const API = environment.baseUrl;
   styleUrls: ['./product-create.component.scss']
 })
 export class ProductCreateComponent implements OnInit {
+  label = "Thêm mới sản phẩm";
   fisrtUpdate = 0
   show: boolean = false
   quantityC: any
@@ -134,6 +135,7 @@ export class ProductCreateComponent implements OnInit {
       this.show = true
       console.log(this.id);
       this.getDetail();
+      this.label = "Chỉnh sửa sản phẩm"
     }
   }
 
@@ -150,18 +152,25 @@ export class ProductCreateComponent implements OnInit {
   }
   submit() {
     // console.log(this.cities)
-    this.fullData.name = this.productForm.get('name')?.value
-    this.fullData.des = this.productForm.get('description')?.value == "" ? this.data.description : this.productForm.get("description")?.value;
+    this.id = this.activeRoute.snapshot.params['id'],
+      this.fullData.name = this.productForm.get('name')?.value == "" ? this.data.name : this.productForm.get("name")?.value;
+    this.fullData.description = this.productForm.get('description')?.value == "" ? this.data.description : this.productForm.get("description")?.value;
     this.fullData.categoryId = this.productForm.get('category')?.value == "" ? this.data.categoryId : this.productForm.get("category")?.value;
     this.fullData.brandId = this.productForm.get('brand')?.value == "" ? this.data.brandId : this.productForm.get("brand")?.value;
-    try {
+    // try {
+    if (this.id == null || this.id == "") {
       for (let i = 0; i < this.fullData.options.length; i++) {
         this.fullData.options[i].colorId = this.fullData.options[i].colorId.id
         this.fullData.options[i].sizeId = this.fullData.options[i].sizeId.id
       }
-    } catch (error) {
-
+    } else {
+      for (let i = 0; i < this.fullData.options.length; i++) {
+        this.fullData.colorId = this.fullData.options[i].colorId.id
+        this.fullData.sizeId = this.fullData.options[i].sizeId.id
+      }
     }
+    // } catch (error) {
+    // }
     console.log('checkkkkk', this.fullData)
     if (this.id == null || this.id == "") {
       this.product.createProduct(this.fullData).subscribe((res) => {
@@ -171,6 +180,7 @@ export class ProductCreateComponent implements OnInit {
           this.router.navigate(['product'])
         }
         // this.toastr.warning(err.error)
+        // this.promiseTestUpload()
         return
       })
     } else {
@@ -184,7 +194,6 @@ export class ProductCreateComponent implements OnInit {
         return
       })
     }
-    this.promiseTestUpload()
 
   }
   onSearchChange(searchValue: string): void {

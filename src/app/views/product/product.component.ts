@@ -3,6 +3,7 @@ import { ProductService } from './../../services/product.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from 'src/app/model/product';
+import { FormControl } from '@angular/forms';
 
 
 @Component({
@@ -20,7 +21,7 @@ export class ProductComponent implements OnInit {
   totalElememnts: any;
   numbers: any;
   listColor: any;
-  listItem:any;
+  listItem: any;
   req = {
     active: null,
     textSearch: "",
@@ -38,6 +39,8 @@ export class ProductComponent implements OnInit {
 
     }
   }
+  textSearch = new FormControl();
+
   constructor(private product: ProductService, public router: Router, public toastr: NotiService) {
 
   }
@@ -57,9 +60,9 @@ export class ProductComponent implements OnInit {
     this.product.getDetailItem(item.id).subscribe((res: any) => {
       this.listItem = res.data.productOptions;
       console.log(res.data.productOptions);
-      
-      console.log("List sản phẩm",this.listItem);
-      
+
+      console.log("List sản phẩm", this.listItem);
+
     })
   }
   getAllProduct() {
@@ -101,5 +104,29 @@ export class ProductComponent implements OnInit {
     console.log(value.currentTarget.value)
     this.req.active = value.currentTarget.value;
     this.getAllProduct()
+  }
+
+  search() {
+    console.log(this.textSearch.value)
+    this.req.textSearch = this.textSearch.value;
+    this.getAllProduct()
+  }
+
+  changeStatus(id: any) {
+    this.product.changeStatus(id).subscribe({
+      next: (res: any) => {
+      },
+      error: (err) => {
+        console.log(err)
+        if (err.status == 200) {
+          console.log("200 ok")
+          this.toastr.success("Thay đổi trạng thái thành công")
+          this.router.navigate(['category']);
+          this.getAllProduct()
+        } else if (err.status == 400) {
+          this.toastr.warning(err.error.message)
+        }
+      }
+    })
   }
 }
