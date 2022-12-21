@@ -4,6 +4,7 @@ import { CategoryService } from '../../../services/category.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Category } from 'src/app/model/category';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-category-create',
@@ -13,6 +14,7 @@ import { Category } from 'src/app/model/category';
 export class CategoryCreateComponent implements OnInit {
   id: any;
   show: any;
+  selected: any;
   label = "Thêm mới danh mục"
   data = new Category;
   typeId: any;
@@ -25,7 +27,7 @@ export class CategoryCreateComponent implements OnInit {
     des: new FormControl(''),
     productIds: new FormControl('')
   })
-  constructor(private toastr: NotiService, public router: Router, private activeRoute: ActivatedRoute, private categoryService: CategoryService) {
+  constructor(private userService: UserService, private toastr: NotiService, public router: Router, private activeRoute: ActivatedRoute, private categoryService: CategoryService) {
     this.id = this.activeRoute.snapshot.params['id'];
     if (this.id != null) {
       this.show = true
@@ -41,7 +43,7 @@ export class CategoryCreateComponent implements OnInit {
     this.categoryForm.reset()
   }
   getTypeId() {
-    this.categoryService.getTypeId().subscribe((res: any) => {
+    this.userService.getTypeId().subscribe((res: any) => {
       this.typeId = res;
       console.log("typeId:", this.typeId);
     })

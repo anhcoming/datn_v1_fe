@@ -96,7 +96,7 @@ export class CategoryComponent implements OnInit {
         if (err.status == 200) {
           console.log("200 ok")
           this.toastr.success("Thay đổi trạng thái thành công")
-          this.router.navigate(['size']);
+          this.router.navigate(['category']);
           this.getAllCategory()
         } else if (err.status == 400) {
           this.toastr.warning(err.error.message)

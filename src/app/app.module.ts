@@ -41,6 +41,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { OrderDetailComponent } from './views/order/order-detail/order-detail.component';
 import { DiscountComponent } from './views/discount/discount.component';
 import { DiscountCreateComponent } from './views/discount/discount-create/discount-create.component';
+import { ChartComponent } from './chart/chart.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -66,7 +67,8 @@ import { DiscountCreateComponent } from './views/discount/discount-create/discou
     ModalComponent,
     OrderDetailComponent,
     DiscountComponent,
-    DiscountCreateComponent
+    DiscountCreateComponent,
+    ChartComponent
   ], 
   imports: [
     NgbModule,

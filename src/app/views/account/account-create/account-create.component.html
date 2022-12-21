@@ -12,21 +12,28 @@
     <form [formGroup]="accountForm">
       <div class="container title row" style="width:80%;margin: auto;">
         <div class="col-6">
-          Họ <input type="text" class="form-control mb-2" placeholder="Họ" formControlName="firstName"
+          Họ 
+          <input type="text" class="form-control mb-2" placeholder="Họ" formControlName="firstName"
             value="{{data.firstName}}">
-          Tên <input type="text" class="form-control mb-2" placeholder="Tên" formControlName="lastName"
+          Tên 
+          <input type="text" class="form-control mb-2" placeholder="Tên" formControlName="lastName"
             value="{{data.lastName}}">
-          Email<input type="email" class="form-control mb-2" placeholder="Email" formControlName="email"
+          Email
+          <input type="email" class="form-control mb-2" placeholder="Email" formControlName="email"
             value="{{data.email}}">
-          Ngày sinh<input type="date" class="form-control mb-2" placeholder="Ngày sinh" formControlName="dob"
+          Ngày sinh
+          <input type="date" class="form-control mb-2" placeholder="Ngày sinh" formControlName="dob"
             value="{{data.dob}}">
-          Số điện thoại<input type="text" class="form-control mb-2" placeholder="Số điện thoại" formControlName="phone"
+          Số điện thoại
+          <input type="text" class="form-control mb-2" placeholder="Số điện thoại" formControlName="phone"
             value="{{data.phone}}">
           <div *ngIf="!inputPassword">
-            Mật khẩu<input type="text" class="form-control mb-2" placeholder="Mật khẩu" formControlName="password"
+            Mật khẩu
+            <input type="text" class="form-control mb-2" placeholder="Mật khẩu" formControlName="password"
               value="{{data.password}}">
-            </div>
-          Quyền<select class="form-control mb-2" formControlName="role">
+          </div>
+          Quyền
+          <select class="form-control mb-2" formControlName="role">
             <option value="" defaultSelected="true" hidden>
               <p>{{selected?selected:"--Vui lòng chọn quyền tài khoản--"}}</p>
             </option>

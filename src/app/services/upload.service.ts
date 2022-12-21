@@ -11,6 +11,6 @@ export class UploadService {
     
   }
   uploadImage(data:any): Observable<any>{
-    return this.http.post('https://api.cloudinary.com/v1_1/anhcoming/image/upload',data)
+    return this.http.post('https://api.cloudinary.com/v1_1/dph4vbczr/image/upload',data)
   }
 } 

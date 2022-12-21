@@ -21,13 +21,13 @@
               Loại sản phẩm
               <select class="form-control" formControlName="category">
                 <option defaultSelected="true" value="" hidden>{{categoryDefault}}</option>
-                <option *ngFor="let item of category" value="{{item.id}}">{{item.name}}</option>
+                <option *ngFor="let item of category" value="{{data.categoryId}}" [ngValue]="item.id">{{item.name}}</option>
               </select>
             </div>
             <div class="col-6 mt-2">
               Thương hiệu<select class="form-control" formControlName="brand">
-                <option defaultSelected="true" value="" hidden>{{materialDefault}}</option>
-                <option *ngFor="let item of brand" value="{{item.id}}">{{item.name}}</option>
+                <option defaultSelected="true" value="" hidden>{{brandDefault}}</option>
+                <option *ngFor="let item of brand" value="{{data.brandId}}" [ngValue]="item.id">{{item.name}}</option>
               </select>
             </div>
           </div>
@@ -117,7 +117,9 @@
                   <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal3"
                     (click)="getValue(item,i)">
                     Sửa
-                  </button> | <button class="btn btn-danger" (click)="removeItem(i)">Xóa</button>
+                  </button>
+                  <button class="btn btn-danger" (click)="removeItem(i)">Xóa
+                  </button>
                 </td>
               </tr>
             </tbody>

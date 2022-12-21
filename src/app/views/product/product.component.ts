@@ -22,6 +22,7 @@ export class ProductComponent implements OnInit {
   listColor: any;
   listItem:any;
   req = {
+    active: null,
     textSearch: "",
     category: "",
     minPrice: "",
@@ -71,7 +72,6 @@ export class ProductComponent implements OnInit {
       this.listColor = res.data.colors
       console.log('Màu săcs', this.listColor)
       console.log("Total Page", res.totalPages)
-      // debugger
       this.currentPage = res.page;
       console.log("current Page", res.page);
       this.numbers = Array(res.totalPages).fill(0).map((x, i) => i + 1);
@@ -96,5 +96,10 @@ export class ProductComponent implements OnInit {
   change(number: any) {
     this.req.pageReq.page = number;
     this.getAllProduct();
+  }
+  changeReq(value: any) {
+    console.log(value.currentTarget.value)
+    this.req.active = value.currentTarget.value;
+    this.getAllProduct()
   }
 }

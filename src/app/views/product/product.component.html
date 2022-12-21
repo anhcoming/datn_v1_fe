@@ -11,19 +11,19 @@
     <div class="title row">
       <div class="col-8">
         <div class="row">
-          <div class="col-3"><select class="form-select">
-              <option hidden>Trạng thái</option>
-              <option value>Tất cả</option>
-              <option value="1">Hoạt động</option>
-              <option value="2">Ngưng hoạt động</option>
-            </select></div>
-          <div class="col-3"><select class="form-select">
+          <div class="col-3"><select class="form-select " (change)="changeReq($event)">
+            <option hidden>Trạng thái</option>
+            <option value="null">Tất cả</option>
+            <option value="true">Hoạt động</option>
+            <option value="false">Ngưng hoạt động</option>
+          </select></div>
+          <!-- <div class="col-3"><select class="form-select">
               <option hidden>Phân loại</option>
               <option value>Tất cả</option>
               <option value="0">Admin</option>
               <option value="1">Khách hàng</option>
               <option value="2">Nhân viên</option>
-            </select></div>
+            </select></div> -->
         </div>
       </div>
       <div class="col-4">
@@ -61,9 +61,8 @@
               <th scope="col">Màu sắc</th>
               <th scope="col">Size</th>
               <th scope="col">Giá(khoảng giá)</th>
+              <!-- <th scope="col">Trạng thái</th> -->
               <th>More</th>
-
-
             </tr>
           </thead>
 
@@ -80,21 +79,24 @@
               data-bs-target="#exampleModal3">{{item.name}}
               </td>
               <td>{{item.categoryName}}</td>
-              <td>{{item.materialName}}</td>  
+              <td>{{item.brandName}}</td>  
               <td >
                 {{item.colors.length}} màu
               </td>
               <td >{{item.sizes.length}} size</td>
               <td>
                 <p *ngIf="item.minPrice==item.maxPrice; else other">
-                  {{item.minPrice| currency:'VND' }}
+                  {{item.minPrice| currency:' VNĐ' }}
                 </p>
 
                 <ng-template #other>
-                  {{item.minPrice| currency:'VND' }} - {{item.maxPrice| currency:'VND' }}
+                  {{item.minPrice| currency:' VNĐ' }} - {{item.maxPrice| currency:' VNĐ' }}
                 </ng-template>
               </td>
-              
+              <!-- <td data-bs-target="#exampleModal1" data-bs-toggle="modal" (click)="getItem(item)">
+                <span class="badge badge text-bg-info text-light">{{item.status.value?"Hoạt động":""}}</span>
+                <span class="badge badge text-bg-secondary">{{!item.status.value?"Ngưng hoạt động":""}}</span>
+              </td> -->
 
               <!-- === -->
               <!-- <td data-bs-target="#exampleModal1" data-bs-toggle="modal" (click)="getItem(item)">

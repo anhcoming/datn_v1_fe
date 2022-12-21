@@ -44,7 +44,7 @@ export class AccountComponent implements OnInit {
   }
 
   getItem(item: any) {
-    this.name = item.combinationName;
+    this.name = item.name;
     this.id = item.id;
   }
   getAllAccount() {

@@ -43,7 +43,6 @@ export class LoginComponent implements OnInit {
         ///Lưu token vào local storage
         this.tokenService.saveToken(accessToken)
         this.tokenService.saveRefreshToken(refreshToken)
-        // debugger
         //Decode User và lưu vào storage
         const decodeUser = this.jwt.decodeToken(accessToken)
         this.tokenService.saveUser(decodeUser)

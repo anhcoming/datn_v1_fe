@@ -12,10 +12,15 @@
     <form (ngSubmit)="onSubmit()" [formGroup]="categoryForm">
       <div class="container title row" style="width:60%;margin: auto;">
         <div class="col-7">
-          Tên danh mục <input type="text" class="form-control mb-2" placeholder="Vui lòng nhập tên danh mục"
+          Tên danh mục 
+          <input type="text" class="form-control mb-2" placeholder="Vui lòng nhập tên danh mục"
             formControlName="name" value="{{data.name}}">
-          Thể loại <select class="form-control" formControlName="typeId">
-            <option *ngFor="let item of typeId" value="{{item.id}}">{{item.name}}</option>
+          Thể loại 
+          <select class="form-control" formControlName="typeId">
+            <option value="" defaultSelected="true" hidden>
+              <p>{{selected?selected:"--Vui lòng chọn thể loại--"}}</p>
+            </option>
+            <option *ngFor="let item of typeId" [ngValue]="item.id">{{item.name}}</option>
           </select>
           Mô tả
           <textarea class="form-control" formControlName="des" value="{{data.des}}" class="col-12"

@@ -52,7 +52,7 @@ export class ColorCreateComponent implements OnInit {
         status: 0
       }
       console.log("Load lên: ", body);
-      if (this.id == null || this.id == "") {debugger
+      if (this.id == null || this.id == "") {
         this.colorSer.createColor(body).subscribe({
           next: (res: any) => {
             console.log("Thêm mới thành công")

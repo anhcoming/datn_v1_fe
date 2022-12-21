@@ -14,5 +14,9 @@ export class UserService {
   getAllRole(): (Observable<Object>) {
     return this.http.get(API+"/no-auth/role/modify")
   }
+
+  getTypeId(): (Observable<Object>) {
+    return this.http.get(API + "/no-auth/type/no-page")
+  }
 }
   

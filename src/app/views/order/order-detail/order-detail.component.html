@@ -1,125 +1,138 @@
 <div class="container">
+    <div class="row">
+        <h4 class="banner"><svg routerLink="/order" xmlns="http://www.w3.org/2000/svg" width="50" height="30"
+                fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                    d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z" />
+            </svg>Chi tiết đơn hàng</h4>
+        <hr style="color:gray">
+    </div>
     <article class="card">
-        <header class="card-header text-center table-dark"> Order detail </header>
+        <header class="card-header text-center table-dark"> <strong>
+                <h3>Order detail</h3>
+            </strong> </header>
         <div class="card-body">
             <h6>Order ID: {{data.code}}</h6>
             <article class="card">
                 <div class="card-body row">
-                    <div class="col-3"> <strong>Trạng thái:</strong> <br>{{data.statusName}}</div>
-                    <div class="col-3"> <strong>Tên khách hàng:</strong> <br> {{data.customerName}} </div>
-                    <div class="col-3"> <strong>Số điện thoại:</strong> <br> {{data.phone}} </div>
                     <div class="col-3"> <strong>Tên người nhận:</strong> <br> {{data.nameOfRecipient}} </div>
-                    <div class="col-3"> <strong>Địa chỉ giao:</strong> <br>{{data.addressCombination}}</div>
-                    <div class="col-3"> <strong>Loại thanh toán:</strong> <br> {{data.statusName}} </div>
+                    <div class="col-3"> <strong>Tên khách hàng:</strong> <br> {{data.customerName}} </div>
                     <div class="col-3"> <strong>Phương thức vận chuyển:</strong> <br> {{data.paymentCode}} -
                         {{data.paymentName}} </div>
+                    <div class="col-3"> <strong>Địa chỉ giao:</strong> <br>{{data.addressCombination}}</div>
+                    <div class="col-3"> <strong>Trạng thái:</strong> <br>{{data.statusName}}</div>
+                    <!-- <div class="col-3"> <strong>Loại thanh toán:</strong> <br> {{data.statusName}} </div> -->
+                    <div class="col-3"> <strong>Số điện thoại:</strong> <br> {{data.phone}} </div>
                     <div class="col-3"> <strong>Ghi chú:</strong> <br> {{data.note}} </div>
                 </div>
             </article>
+            <br>
             <!-- 1 -->
             <div class="track" *ngIf="status=='PENDING'">
-                <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"
-                        value="PENDING">Chờ xử lý</span> </div>
-                <div class="step"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"
-                        value="PENDING">Bị từ chối</span> </div>
-                <div class="step"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"
-                        value="SHIPPING">
+                <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Chờ
+                        xử lý</span> </div>
+                <!-- <div class="step"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"
+                        >Bị từ chối</span> </div> -->
+                <div class="step"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text">
                         Đang giao hàng</span> </div>
-                <div class="step"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"
-                        value="PENDING">Đã xác nhận </span> </div>
+                <div class="step"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Đã xác
+                        nhận </span> </div>
                 <div class="step"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text">Đã nhận
                         hàng </span> </div>
                 <div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Đã
                         hủy</span> </div>
             </div>
             <!-- / -->
-                <!-- 2 -->
-                <div class="track" *ngIf="status=='REJECTED'">
-                    <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"
-                            value="PENDING">Chờ xử lý</span> </div>
-                    <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"
-                            value="PENDING">Bị từ chối</span> </div>
-                    <div class="step"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"
-                            value="SHIPPING">
-                            Đang giao hàng</span> </div>
-                    <div class="step"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"
-                            value="PENDING">Đã xác nhận </span> </div>
-                    <div class="step"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text">Đã nhận
-                            hàng </span> </div>
-                    <div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Đã
-                            hủy</span> </div>
-                </div>
-                <!-- / -->  
-                  <!-- 3 -->
-            <div class="track" *ngIf="status=='SHIPPING'">
-                <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"
-                        value="PENDING">Chờ xử lý</span> </div>
-                <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"
-                        value="PENDING">Bị từ chối</span> </div>
-                <div class="step active"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"
-                        value="SHIPPING">
+            <!-- 2 -->
+            <div class="track" *ngIf="status=='REJECTED'">
+                <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Chờ
+                        xử lý</span> </div>
+                <!-- <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"
+                        >Bị từ chối</span> </div>
+                <div class="step"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"
+                        >
                         Đang giao hàng</span> </div>
                 <div class="step"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"
-                        value="PENDING">Đã xác nhận </span> </div>
+                        >Đã xác nhận </span> </div>
                 <div class="step"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text">Đã nhận
-                        hàng </span> </div>
-                <div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Đã
+                        hàng </span> </div> -->
+                <div class="step active"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Đã
                         hủy</span> </div>
             </div>
-            <!-- / -->  
-              <!-- 4 -->
+            <!-- / -->
+            <!-- 3 -->
+            <div class="track" *ngIf="status=='SHIPPING'">
+                <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Chờ
+                        xử lý</span> </div>
+                <!-- <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"
+                        >Bị từ chối</span> </div> -->
+                <div class="step active"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text">
+                        Đã xác nhận</span> </div>
+                <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">
+                        Đang giao hàng</span> </div>
+                <div class="step"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text">Đã nhận
+                        hàng </span> </div>
+                <!-- <div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Đã
+                        hủy</span> </div> -->
+            </div>
+            <!-- / -->
+            <!-- 4 -->
             <div class="track" *ngIf="status=='ACCEPTED'">
-                <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"
-                        value="PENDING">Chờ xử lý</span> </div>
-                <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"
-                        value="PENDING">Bị từ chối</span> </div>
-                <div class="step active"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"
-                        value="SHIPPING">
+                <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Chờ
+                        xử lý</span> </div>
+                <!-- <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"
+                        >Bị từ chối</span> </div> -->
+                <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Đã
+                        xác nhận </span> </div>
+                <div class="step"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text">
                         Đang giao hàng</span> </div>
-                <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"
-                        value="PENDING">Đã xác nhận </span> </div>
                 <div class="step"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text">Đã nhận
                         hàng </span> </div>
-                <div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Đã
-                        hủy</span> </div>
+                <!-- <div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Đã
+                        hủy</span> </div> -->
             </div>
-            <!-- / -->  
-              <!-- 5 -->
+            <!-- / -->
+            <!-- 5 -->
             <div class="track" *ngIf="status=='RECEIVED'">
-                <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"
-                        value="PENDING">Chờ xử lý</span> </div>
-                <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"
-                        value="PENDING">Bị từ chối</span> </div>
-                <div class="step active"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"
-                        value="SHIPPING">
+                <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Chờ
+                        xử lý</span> </div>
+                <!-- <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"
+                        >Bị từ chối</span> </div> -->
+                <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Đã
+                        xác nhận </span> </div>
+                <div class="step active"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text">
                         Đang giao hàng</span> </div>
-                <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"
-                        value="PENDING">Đã xác nhận </span> </div>
-                <div class="step active"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text">Đã nhận
+                <div class="step active"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text">Đã
+                        nhận
                         hàng </span> </div>
-                <div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Đã
-                        hủy</span> </div>
+                <!-- <div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Đã
+                        hủy</span> </div> -->
             </div>
-            <!-- / -->  
-              <!-- 6 -->
+            <!-- / -->
+            <!-- 6 -->
             <div class="track" *ngIf="status=='CANCEL'">
-                <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"
-                        value="PENDING">Chờ xử lý</span> </div>
-                <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"
-                        value="PENDING">Bị từ chối</span> </div>
-                <div class="step active"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"
-                        value="SHIPPING">
+                <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Chờ
+                        xử lý</span> </div>
+                <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Bị
+                        từ chối</span> </div>
+                <div class="step active"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text">
                         Đang giao hàng</span> </div>
-                <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"
-                        value="PENDING">Đã xác nhận </span> </div>
-                <div class="step active"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text">Đã nhận
+                <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Đã
+                        xác nhận </span> </div>
+                <div class="step active"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text">Đã
+                        nhận
                         hàng </span> </div>
                 <div class="step active"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Đã
                         hủy</span> </div>
             </div>
             <!-- / -->
+            <br><br>
+            <h6># Lịch sử đơn hàng</h6>
+            <li *ngFor="let item of data.history">
+                {{item}}
+            </li><br><br>
             <hr>
-            <ul class="row" *ngFor="let item of data.items;let i = index">
+            <ul class="row">
                 <table class="table table-bordered ">
                     <thead>
                         <tr>
@@ -148,18 +161,10 @@
 
                         </tr>
                         <tr>
-                            <td scope="col">Vận chuyển</td>
-                            <td scope="col"></td>
-                            <td scope="col"></td>
-                            <td scope="col"></td>
-                            <td scope="col"></td>
-                            <td scope="col"></td>
-                            <td scope="col"></td>
-                            <td scope="col">{{data.shipPriceFmt}}</td>
-                        </tr>
-                        <tr class="table-active">
-                            <th scope="col">
-                                <h5>TỔNG TIỀN</h5>
+                            <!-- <td style="text-align: right;" colspan="7"><strong>Vận chuyển</strong></td>
+                            <td class="text-center" colspan="1"><strong>{{data.shipPriceFmt}}</strong></td> -->
+                            <th class="text-center" scope="col">
+                                <h5>Vận chuyển</h5>
                             </th>
                             <td scope="col"></td>
                             <td scope="col"></td>
@@ -168,40 +173,37 @@
                             <td scope="col"></td>
                             <td scope="col"></td>
                             <th class="" scope="col-2">
-                                <h5>{{data.totalFmt}}</h5>
+                                <h5>{{data.shipPriceFmt}}</h5>
+                            </th>
+                        </tr>
+                        <tr class="table-active">
+                            <th class="text-center" scope="col">
+                                <h4>TỔNG TIỀN</h4>
+                            </th>
+                            <td scope="col"></td>
+                            <td scope="col"></td>
+                            <td scope="col"></td>
+                            <td scope="col"></td>
+                            <td scope="col"></td>
+                            <td scope="col"></td>
+                            <th class="" scope="col-2">
+                                <h4>{{data.totalFmt}}</h4>
                             </th>
                         </tr>
                     </tbody>
                 </table>
-                <!-- <li class="col-md-4">
-                    <figure class="itemside mb-3">
-                        <div class="aside"><img src="https://i.imgur.com/tVBy5Q0.png" class="img-sm border"></div>
-                        <figcaption class="info align-self-center">
-                            <p class="title">HP Laptop with 500GB HDD <br> 8GB RAM</p> <span class="text-muted">$850
-                            </span>
-                        </figcaption>
-                    </figure>
-                </li>
-                <li class="col-md-4">
-                    <figure class="itemside mb-3">
-                        <div class="aside"><img src="https://i.imgur.com/Bd56jKH.png" class="img-sm border"></div>
-                        <figcaption class="info align-self-center">
-                            <p class="title">ACER Laptop with 500GB HDD <br> 8GB RAM</p> <span class="text-muted">$650
-                            </span>
-                        </figcaption>
-                    </figure>
-                </li> -->
             </ul>
             <hr>
-            <a class="btn btn-warning" data-abc="true"> <i class="fa fa-chevron-left"
-                    routerLinkActive="list-item-active" routerLink="/order"></i> Back to orders</a>
+            <a routerLink="/order" class="btn btn-warning" data-abc="true">
+                <i class="fa fa-chevron-left"></i> Back to orders
+            </a>
         </div>
     </article>
 
 </div>
 
 <!-- ===============================================================================================? -->
-<div class="container-fluid page">
+<!-- <div class="container-fluid page">
     <div class=" mt-3 page__content shadow p-3">
         <div class="row">
             <h4 class="banner"><svg routerLink="/order" xmlns="http://www.w3.org/2000/svg" width="50" height="30"
@@ -221,7 +223,6 @@
                 <li>SĐT: {{data.phone}}</li>
                 <li> Tên người nhận: {{data.nameOfRecipient}}</li>
                 <li>Địa chỉ giao: {{data.addressCombination}}</li>
-                <li> Loại thanh toán: {{data.statusName}}</li>
                 <li> Phương thức vận chuyển: {{data.paymentCode}} - {{data.paymentName}}</li>
                 <li>Ghi chú: {{data.note}}</li>
                 <br>
@@ -245,7 +246,6 @@
                             <th scope="col">Số lượng</th>
                             <th scope="col">Màu sắc</th>
                             <th scope="col">Thương hiệu</th>
-                            <!-- <th scope="col">Giảm giá</th> -->
                             <th scope="col">Tổng</th>
                         </tr>
                     </thead>
@@ -258,7 +258,6 @@
                             <td>{{item.qty}}</td>
                             <td>{{item.color}}</td>
                             <td>{{item.brandName}}</td>
-                            <!-- <td>{{item.discountFmt}}</td> -->
                             <td>{{item.total}}</td>
 
                         </tr>
@@ -292,4 +291,4 @@
         </form>
 
     </div>
-</div>
+</div> -->

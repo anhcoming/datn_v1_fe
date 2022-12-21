@@ -57,7 +57,7 @@
       </nav>
       <div *ngIf="!show">
         <table class="table table-bordered">
-          <thead>
+          <thead class="text-center">
             <tr>
               <th style="width: 10px;">#</th>
               <!-- <th style="width: 10px;">id</th> -->
@@ -67,7 +67,7 @@
               <th class="col-1">Số điện thoại</th>
               <th class="col-2">Địa chỉ giao</th>
               <th class="col-1">Tổng tiền</th>
-              <th>Ghi chú</th>
+              <!-- <th>Ghi chú</th> -->
               <th class="col-1">Phương thức</th>
               <th class="col-3">Trạng thái</th>
               <th>More</th>
@@ -76,19 +76,18 @@
 
           <tbody>
             <tr *ngFor="let item of data; let i = index">
-              <th style="width: 10px;" scope="row">{{i+1}}</th>
+              <th style="width: 10px; text-align: center;" scope="row">{{i+1}}</th>
               <!-- <th style="width: 10px;" scope="row">{{item.id}}</th> -->
-              <td style="width: 10px;" routerLink="/order-create/{{item.id}}">{{item.code}}
+              <td style="width: 10px; text-align: center;" routerLink="/order-create/{{item.id}}">{{item.code}}
               </td>
               <td class="col-1">{{item.createdDateFmt}}</td>
               <td class="col-1">{{item.customerName}}</td>
               <td class="col-1">{{item.phone}}</td>
               <td class="col-2">{{item.addressCombination}}</td>
-              <td>{{item.total}}</td>
-              <td class="col-1">{{item.note}}</td>
-              <td class="col-1">{{item.payment}}</td>
+              <td class="text-center">{{item.total}}</td>
+              <!-- <td class="col-1">{{item.note}}</td> -->
+              <td class="col-1 text-center">{{item.payment}}</td>
               <td class="col-3" data-bs-target="#exampleModal1" data-bs-toggle="modal" (click)="getItem(item)">
-
                 <div [ngSwitch]="item.statusCode">
                   <div *ngSwitchCase="'ACCEPTED'">
                     <button class="btn btn-warning">{{item.statusCombination}}</button>
@@ -173,11 +172,9 @@
                 <!-- {{statusOrder}} -->
                 <div *ngIf="statusOrder=='PENDING'">
                   <button style="font-size: 15px;" type="button" class="btn btn-success"
-                    (click)="changeStatusOrder('ACCEPTED')" data-bs-dismiss="modal">CHẤP
-                    NHẬN</button> &nbsp;
+                    (click)="changeStatusOrder('ACCEPTED')" data-bs-dismiss="modal">CHẤP NHẬN</button> &nbsp;
                   <button style="font-size: 15px;" type="button" class="btn btn-danger"
-                    (click)="changeStatusOrder('REJECTED')" data-bs-dismiss="modal">TỪ
-                    CHỐI</button> &nbsp;
+                    (click)="changeStatusOrder('REJECTED')" data-bs-dismiss="modal">TỪ CHỐI</button> &nbsp;
                 </div>
                 <div *ngIf="statusOrder=='ACCEPTED'">
                   <button style="font-size: 15px;" type="button" class="btn btn-success"
@@ -185,12 +182,9 @@
                 </div>
                 <div *ngIf="statusOrder=='SHIPPING'">
                   <button style="font-size: 15px;" type="button" class="btn btn-primary"
-                    (click)="changeStatusOrder('RECEIVED')" data-bs-dismiss="modal">Khách hàng
-                    đã nhận</button> &nbsp;
+                    (click)="changeStatusOrder('RECEIVED')" data-bs-dismiss="modal">Khách hàng đã nhận</button> &nbsp;
                   <button style="font-size: 15px;" type="button" class="btn btn-danger"
-                    (click)="changeStatusOrder('REJECTED')" data-bs-dismiss="modal">Khách hàng
-                    từ
-                    chối nhận</button> &nbsp;
+                    (click)="changeStatusOrder('REJECTED')" data-bs-dismiss="modal">Khách hàng từ chối nhận</button> &nbsp;
                 </div>
 
               </div>

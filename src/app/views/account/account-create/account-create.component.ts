@@ -73,7 +73,6 @@ export class AccountCreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.getAllRole();
   }
   reset() {
