@@ -12,11 +12,11 @@
       <div class="col-8">
         <div class="row">
           <div class="col-3"><select class="form-select " (change)="changeReq($event)">
-            <option hidden>Trạng thái</option>
-            <option value="null">Tất cả</option>
-            <option value="true">Hoạt động</option>
-            <option value="false">Ngưng hoạt động</option>
-          </select></div>
+              <option hidden>Trạng thái</option>
+              <option value="null">Tất cả</option>
+              <option value="true">Hoạt động</option>
+              <option value="false">Ngưng hoạt động</option>
+            </select></div>
           <!-- <div class="col-3"><select class="form-select">
               <option hidden>Phân loại</option>
               <option value>Tất cả</option>
@@ -28,10 +28,10 @@
       </div>
       <div class="col-4">
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Vui lòng nhập..." aria-label="Recipient's username"
+          <input type="text" class="form-control" [formControl]="textSearch" placeholder="Vui lòng nhập..." aria-label="Recipient's username"
             aria-describedby="basic-addon2">
           <div class="input-group-append">
-            <button class="btn btn-primary text-light" type="button">
+            <button (click)="search()" class="btn btn-primary text-light" type="button">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
                 viewBox="0 0 16 16">
                 <path
@@ -75,15 +75,15 @@
                   <span><img src={{item.images[0]}} alt=""></span>
                 </div>
               </td>
-              <td class="name"  data-bs-toggle="modal" (click)="getDetailItem(item)"
-              data-bs-target="#exampleModal3">{{item.name}}
+              <td class="name" data-bs-toggle="modal" (click)="getDetailItem(item)" data-bs-target="#exampleModal3">
+                {{item.name}}
               </td>
               <td>{{item.categoryName}}</td>
-              <td>{{item.brandName}}</td>  
-              <td >
+              <td>{{item.brandName}}</td>
+              <td>
                 {{item.colors.length}} màu
               </td>
-              <td >{{item.sizes.length}} size</td>
+              <td>{{item.sizes.length}} size</td>
               <td>
                 <p *ngIf="item.minPrice==item.maxPrice; else other">
                   {{item.minPrice| currency:' VNĐ' }}
@@ -94,8 +94,8 @@
                 </ng-template>
               </td>
               <!-- <td data-bs-target="#exampleModal1" data-bs-toggle="modal" (click)="getItem(item)">
-                <span class="badge badge text-bg-info text-light">{{item.status.value?"Hoạt động":""}}</span>
-                <span class="badge badge text-bg-secondary">{{!item.status.value?"Ngưng hoạt động":""}}</span>
+                <span class="badge badge text-bg-info text-light">{{item.active?"Hoạt động":""}}</span>
+                <span class="badge badge text-bg-secondary">{{!item.active?"Ngưng hoạt động":""}}</span>
               </td> -->
 
               <!-- === -->
@@ -118,7 +118,7 @@
                         data-bs-target="#exampleModal3">Xem chi tiết</a></li>
                     <li><a class="dropdown-item" data-bs-toggle="modal" (click)="getItem(item)"
                         data-bs-target="#exampleModal">Xóa</a></li>
-                      </ul>
+                  </ul>
                 </div>
               </td>
             </tr>
@@ -151,7 +151,6 @@
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">{{name}}</h5>
-                
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
@@ -164,6 +163,10 @@
                       <th scope="col">Size</th>
                       <th scope="col">Tồn kho</th>
                       <th scope="col">Giá</th>
+                      <th scope="col" class="text-center">
+                        <button type="button" class="btn btn-primary" routerLink="/product-create/{{id}}"
+                        data-bs-dismiss="modal">Chỉnh sửa</button>
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -201,7 +204,8 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
-                <button type="button" class="btn btn-danger" routerLink="/product-create/{{id}}" data-bs-dismiss="modal">Chỉnh sửa</button>
+                <button type="button" class="btn btn-danger" routerLink="/product-create/{{id}}"
+                  data-bs-dismiss="modal">Chỉnh sửa</button>
               </div>
             </div>
           </div>
@@ -221,7 +225,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                <button type="button" class="btn btn-danger" (click)="delete(id)" data-bs-dismiss="modal">Đồng
+                <button type="button" class="btn btn-danger" (click)="changeStatus(id)" data-bs-dismiss="modal">Đồng
                   ý</button>
               </div>
             </div>

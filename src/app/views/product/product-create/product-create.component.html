@@ -5,7 +5,7 @@
           fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16">
           <path fill-rule="evenodd"
             d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z" />
-        </svg>Thêm mới sản phẩm</h4>
+        </svg>{{label}}</h4>
       <hr style="color:gray">
     </div>
     <app-spinner *ngIf="show"></app-spinner>
@@ -13,57 +13,82 @@
       <div class="title row" style="width:90%;margin: auto;">
         <div class="col-8">
           <div class="col-12">
-            Tên sản phẩm <input type="text" class="form-control mb-2" placeholder="" formControlName="name"
-              value="{{nameDefault}}">
+            Tên sản phẩm
+            <input type="text" class="form-control mb-2" placeholder="Vui lòng nhập tên sản phẩm ..."
+              formControlName="name" value="{{data.name}}">
           </div>
           <div class="row">
             <div class="col-6 mt-2">
               Loại sản phẩm
               <select class="form-control" formControlName="category">
-                <option defaultSelected="true" value="" hidden>{{categoryDefault}}</option>
-                <option *ngFor="let item of category" value="{{data.categoryId}}" [ngValue]="item.id">{{item.name}}</option>
+                <option *ngFor="let item of category" [ngValue]="item.id">{{item.name}}
+                </option>
               </select>
             </div>
             <div class="col-6 mt-2">
-              Thương hiệu<select class="form-control" formControlName="brand">
-                <option defaultSelected="true" value="" hidden>{{brandDefault}}</option>
-                <option *ngFor="let item of brand" value="{{data.brandId}}" [ngValue]="item.id">{{item.name}}</option>
+              Thương hiệu
+              <select class="form-control" formControlName="brand">
+                <!-- <option defaultSelected="true" value="" hidden>{{brand}}</option>
+                 -->
+                <option *ngFor="let item of brand" [ngValue]="item.id">{{item.name}}</option>
               </select>
             </div>
           </div>
 
-          <div class="col-12 mt-2">
-            Màu sắc
-            <ng-multiselect-dropdown [placeholder]="'----'" [settings]="dropdownSettingsColor"
-              [data]="dropdownListColor" formControlName="color" [(ngModel)]="selectedItemsColor"
-              (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
-            </ng-multiselect-dropdown>
-          </div>
-
-          <div class="col-12 mt-2">
-            Kích cỡ
-            <ng-multiselect-dropdown [placeholder]="'----'" [settings]="dropdownSettingsSize" [data]="dropdownListSize"
-              [(ngModel)]="selectedItemsSize" formControlName="size" (onSelect)="onItemSelect($event)"
-              (onSelectAll)="onSelectAll($event)">
-            </ng-multiselect-dropdown>
-          </div>
-          <!-- {{selectedItemsSize|json}} -->
-
           <div class=" row mt-2">
             <div class="col-6">
-              Giá chung
+              Màu sắc
+              <ng-multiselect-dropdown [placeholder]="'----'" [settings]="dropdownSettingsColor"
+                [data]="dropdownListColor" formControlName="color" [(ngModel)]="selectedItemsColor"
+                (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+              </ng-multiselect-dropdown>
+            </div>
+            <div class="col-6">
+              Kích cỡ
+              <ng-multiselect-dropdown [placeholder]="'----'" [settings]="dropdownSettingsSize"
+                [data]="dropdownListSize" [(ngModel)]="selectedItemsSize" formControlName="size"
+                (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+              </ng-multiselect-dropdown>
+            </div>
+          </div>
+          <!-- {{selectedItemsSize|json}} -->
+          <div class="mt-2">
+            Mô tả chung
+            <textarea class="form-control" formControlName="description" class="col-12" value="{{data.description}}"
+              style="height:70px">
+          </textarea>
+          </div>
+          <div class=" row mt-2">
+            <div class="col">
+              Nhập nhanh giá tiền
               <input class="form-control" (onchange)="gia" formControlName="price" type="number"
                 placeholder="000.000 VND">
             </div>
-            <div class="col-6">
-              Số lượng chung
+            <div class="col">
+              Nhập nhanh số lượng
               <input class="form-control" (onChange)="soluong" formControlName="quantity" type="number" placeholder="0">
             </div>
+            <div class="mt-4 align-content-between col">
+              <button *ngIf="fisrtUpdate == 0" class="btn btn-warning" (click)="getData()">
+                Cập nhật dữ liệu mẫu
+              </button>
+              <button *ngIf="fisrtUpdate == 1" data-bs-toggle="modal" data-bs-target="#exampleModal9"
+                class="btn btn-warning">
+                Cập nhật dữ liệu mẫu
+              </button>
+              <app-spinner *ngIf="show"></app-spinner>
+            </div>
           </div>
-          <div class="col-12 mt-2">
-            Mô tả chung
-            <textarea class="form-control" formControlName="description" class="col-12" value="{{descriptionDefault}}"
-              style="height:150px"></textarea>
+          <div class=" row mt-2">
+            
+            <div class="mt-2 align-content-between col-6">
+              <button class="btn btn-primary" style="margin-right: 10px" type="submit" (click)="submit()">
+                <span *ngIf="show" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Thêm mới
+              </button>
+              <button class="btn btn-outline-secondary" (click)="reset()">Làm
+                mới</button>
+            </div>
           </div>
         </div>
 
@@ -74,22 +99,11 @@
             <input type="file" class="form-control mb-2" (change)="uploadPreview($event)" placeholder="Upload ảnh">
             <img src="{{preview}}" alt="" style="width:200px">
           </div>
-
         </div>
 
-        <div class="mt-3 align-content-between">
-          <button *ngIf="fisrtUpdate == 0" class="btn btn-warning" (click)="getData()">
-            Cập nhật dữ liệu mẫu
-          </button>
-          <button *ngIf="fisrtUpdate == 1" data-bs-toggle="modal" data-bs-target="#exampleModal9"
-            class="btn btn-warning">
-            Cập nhật dữ liệu mẫu
-          </button>
-          <app-spinner *ngIf="show"></app-spinner>
-        </div>
-
+        
         <div>
-          <table class="mt-3 table table-bordered">
+          <table class="mt-3 table table-bordered text-center">
             <thead>
               <tr>
                 <th scope="col">STT</th>
@@ -110,15 +124,30 @@
                 <td>{{item.qty }}</td>
                 <td>
                   <div class="circular">
-                    <img src={{item.image}} alt="">
+                    <img style="max-width: 200px; max-height: 100px;" src={{item.image}} alt="">
                   </div>
                 </td>
                 <td>
-                  <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal3"
+                  <button class="btn " data-bs-toggle="modal" data-bs-target="#exampleModal3"
                     (click)="getValue(item,i)">
-                    Sửa
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                      class="bi bi-escape" viewBox="0 0 16 16">
+                      <path
+                        d="M8.538 1.02a.5.5 0 1 0-.076.998 6 6 0 1 1-6.445 6.444.5.5 0 0 0-.997.076A7 7 0 1 0 8.538 1.02Z" />
+                      <path
+                        d="M7.096 7.828a.5.5 0 0 0 .707-.707L2.707 2.025h2.768a.5.5 0 1 0 0-1H1.5a.5.5 0 0 0-.5.5V5.5a.5.5 0 0 0 1 0V2.732l5.096 5.096Z" />
+                    </svg>
+                    <i class="bi bi-escape"></i>
                   </button>
-                  <button class="btn btn-danger" (click)="removeItem(i)">Xóa
+                  <button class="btn " (click)="removeItem(i)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                      class="bi bi-trash" viewBox="0 0 16 16">
+                      <path
+                        d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                      <path fill-rule="evenodd"
+                        d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                    </svg>
+                    <i class="bi bi-trash"></i>
                   </button>
                 </td>
               </tr>
@@ -170,14 +199,6 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="mt-2 align-content-between">
-          <button class="btn btn-primary" style="margin-right: 10px" type="submit" (click)="submit()">
-            <span *ngIf="show" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            Thêm mới
-          </button>
-          <button class="btn btn-outline-secondary" (click)="reset()">Làm
-            mới</button>
         </div>
 
       </div>
