@@ -28,8 +28,8 @@
       </div>
       <div class="col-4">
         <div class="input-group mb-3">
-          <input type="text" class="form-control" [formControl]="textSearch" placeholder="Vui lòng nhập..." aria-label="Recipient's username"
-            aria-describedby="basic-addon2">
+          <input type="text" class="form-control" [formControl]="textSearch" placeholder="Vui lòng nhập..."
+            aria-label="Recipient's username" aria-describedby="basic-addon2">
           <div class="input-group-append">
             <button (click)="search()" class="btn btn-primary text-light" type="button">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
@@ -164,8 +164,17 @@
                       <th scope="col">Tồn kho</th>
                       <th scope="col">Giá</th>
                       <th scope="col" class="text-center">
-                        <button type="button" class="btn btn-primary" routerLink="/product-create/{{id}}"
-                        data-bs-dismiss="modal">Chỉnh sửa</button>
+                        <button type="button" class="btn" routerLink="/product-create/{{id}}"
+                          data-bs-dismiss="modal">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-escape" viewBox="0 0 16 16">
+                            <path
+                              d="M8.538 1.02a.5.5 0 1 0-.076.998 6 6 0 1 1-6.445 6.444.5.5 0 0 0-.997.076A7 7 0 1 0 8.538 1.02Z" />
+                            <path
+                              d="M7.096 7.828a.5.5 0 0 0 .707-.707L2.707 2.025h2.768a.5.5 0 1 0 0-1H1.5a.5.5 0 0 0-.5.5V5.5a.5.5 0 0 0 1 0V2.732l5.096 5.096Z" />
+                          </svg>
+                          <i class="bi bi-escape"></i>
+                        </button>
                       </th>
                     </tr>
                   </thead>
@@ -204,7 +213,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
-                <button type="button" class="btn btn-danger" routerLink="/product-create/{{id}}"
+                <button type="button" class="btn btn-primary"  routerLink="/product-create/{{id}}"
                   data-bs-dismiss="modal">Chỉnh sửa</button>
               </div>
             </div>

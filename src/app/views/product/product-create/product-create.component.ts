@@ -398,7 +398,7 @@ export class ProductCreateComponent implements OnInit {
     this.fullData = {
       id: "",
       name: this.productForm.get("name")?.value,
-      des: this.productForm.get("description")?.value,
+      description: this.productForm.get("description")?.value,
       categoryId: this.productForm.get("category")?.value,
       brandId: this.productForm.get("brand")?.value,
       options: arr
@@ -421,9 +421,19 @@ export class ProductCreateComponent implements OnInit {
 
   }
 
+  promiseUpload() {
+    return new Promise((resolve) => this.uploadService.uploadImage(this.dataImage).subscribe({
+      next: (res: any) => {
+        console.log("Upload thành công")
+        resolve(res.url)
+        this.image = res.url
+      }
+    }))
+  }
+
   async updateE() {
     this.show = true;
-    await this.promiseTestUpload()
+    await this.promiseUpload()
     this.fullData.options[this.index].price = Number(this.productForm.get('priceE')?.value) == 0 ? this.fullData.options[this.index].price : Number(this.productForm.get('priceE')?.value)
     this.fullData.options[this.index].qty = Number(this.productForm.get('quantityE')?.value) == 0 ? this.fullData.options[this.index].qty : Number(this.productForm.get('quantityE')?.value)
     this.fullData.options[this.index].image = this.image
