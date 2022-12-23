@@ -3,7 +3,7 @@ export class Product {
   name!: string;
   des!: string;
   categoryId!: string;
-  materialId!: string;
+  brandId!: string;
   options!: [
     {
       id: string,

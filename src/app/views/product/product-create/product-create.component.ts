@@ -55,7 +55,7 @@ export class ProductCreateComponent implements OnInit {
   preview: any;
   nameDefault: any
   descriptionDefault: any
-  materialDefault: any
+  brandDefault: any
   categoryDefault: any
   role: any;
   fullData: any
@@ -151,7 +151,7 @@ export class ProductCreateComponent implements OnInit {
     this.fullData.name = this.productForm.get('name')?.value
     this.fullData.des = this.productForm.get('description')?.value
     this.fullData.categoryId = this.productForm.get('category')?.value
-    this.fullData.materialId = this.productForm.get('brand')?.value
+    this.fullData.brandId = this.productForm.get('brand')?.value
     try {
       for (let i = 0; i < this.fullData.options.length; i++) {
         this.fullData.options[i].colorId = this.fullData.options[i].colorId.id
@@ -219,7 +219,7 @@ export class ProductCreateComponent implements OnInit {
       this.fullData = res
       this.arr = this.fullData.options
       this.categoryDefault = res.categoryId
-      this.materialDefault = res.materialId
+      this.brandDefault = res.brandId
       this.descriptionDefault = res.des
       this.nameDefault = res.name
       // console.log("Ở đây", this.arr)
@@ -379,7 +379,7 @@ export class ProductCreateComponent implements OnInit {
       name: this.productForm.get("name")?.value,
       des: this.productForm.get("description")?.value,
       categoryId: this.productForm.get("category")?.value,
-      materialId: this.productForm.get("brand")?.value,
+      brandId: this.productForm.get("brand")?.value,
       options: arr
     }
     let b = this.productForm.get('size')?.value

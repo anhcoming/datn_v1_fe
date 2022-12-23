@@ -26,7 +26,7 @@
             </div>
             <div class="col-6 mt-2">
               Thương hiệu<select class="form-control" formControlName="brand">
-                <option defaultSelected="true" value="" hidden>{{materialDefault}}</option>
+                <option defaultSelected="true" value="" hidden>{{brandDefault}}</option>
                 <option *ngFor="let item of brand" value="{{item.id}}">{{item.name}}</option>
               </select>
             </div>

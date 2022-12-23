@@ -59,7 +59,7 @@ export class ProductUpdateComponent implements OnInit {
   preview: any;
   nameDefault: any
   descriptionDefault: any
-  materialDefault: any
+  brandDefault: any
   categoryDefault: any
   role: any;
   fullData: any
@@ -163,7 +163,7 @@ export class ProductUpdateComponent implements OnInit {
     this.fullData.name = this.productForm.get('name')?.value == "" ? this.fullData.name : this.productForm.get('name')?.value
     this.fullData.des = this.productForm.get('description')?.value == "" ? this.fullData.des : this.productForm.get('description')?.value
     this.fullData.categoryId = this.productForm.get('category')?.value == "" ? this.fullData.categoryId : this.productForm.get('category')?.value
-    this.fullData.materialId = this.productForm.get('brand')?.value == "" ? this.fullData.materialId : this.productForm.get('brand')?.value
+    this.fullData.brandId = this.productForm.get('brand')?.value == "" ? this.fullData.brandId : this.productForm.get('brand')?.value
     // try {
     //   for (let i = 0; i < this.fullData.options.length; i++) {
     //     this.fullData.options[i].colorId = this.fullData.options[i].colorId.id
@@ -195,7 +195,7 @@ export class ProductUpdateComponent implements OnInit {
         this.toastr.success("Cập nhật thành công")
         this.router.navigate(['product'])
       }
-      this.toastr.warning(err.error)
+      // this.toastr.warning(err.error)
       return
     })
     try {
@@ -240,7 +240,7 @@ export class ProductUpdateComponent implements OnInit {
     //   name: this.productForm.get("name")?.value,
     //   des: this.productForm.get("description")?.value,
     //   categoryId: this.productForm.get("category")?.value,
-    //   materialId: this.productForm.get("brand")?.value,
+    //   brandId: this.productForm.get("brand")?.value,
     //   options: arr
     // }
     this.product.getDetail(this.id).subscribe((res: any) => {
@@ -250,8 +250,8 @@ export class ProductUpdateComponent implements OnInit {
       this.categoryDefault = res.categoryId
       debugger
       this.getCateName(res.categoryId);
-      this.getMaterialName()
-      this.materialDefault = res.materialId
+      this.getbrandName()
+      this.brandDefault = res.brandId
       this.descriptionDefault = res.des
       this.nameDefault = res.name
       console.log("Ở đây", this.arr)
@@ -311,12 +311,12 @@ export class ProductUpdateComponent implements OnInit {
     })
   }
 
-  getMaterialName() {
-    this.cate.detailMaterial().subscribe((res: any) => {
+  getbrandName() {
+    this.cate.detailBrand().subscribe((res: any) => {
       console.log(res)
       for (let i = 0; i < res.length; i++) {
-        if (this.materialDefault == res[i].id) {
-          this.materialDefault = res[i].name
+        if (this.brandDefault == res[i].id) {
+          this.brandDefault = res[i].name
           return
         }
       }
@@ -449,7 +449,7 @@ export class ProductUpdateComponent implements OnInit {
       name: this.productForm.get('name')?.value == "" ? this.fullData.name : this.productForm.get('name')?.value,
       des: this.productForm.get('description')?.value == "" ? this.fullData.des : this.productForm.get('description')?.value,
       categoryId: this.productForm.get('category')?.value == "" ? this.fullData.categoryId : this.productForm.get('category')?.value,
-      materialId: this.productForm.get('brand')?.value == "" ? this.fullData.materialId : this.productForm.get('brand')?.value,
+      brandId: this.productForm.get('brand')?.value == "" ? this.fullData.brandId : this.productForm.get('brand')?.value,
       options: arr
     }
     let b = this.productForm.get('size')?.value
@@ -496,7 +496,7 @@ export class ProductUpdateComponent implements OnInit {
     //   name: this.productForm.get("name")?.value,
     //   des: this.productForm.get("description")?.value,
     //   categoryId: this.productForm.get("category")?.value,
-    //   materialId: this.productForm.get("brand")?.value,
+    //   brandId: this.productForm.get("brand")?.value,
     //   options: this.arr
     // }
     console.log("Full Data", this.fullData);
