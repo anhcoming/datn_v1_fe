@@ -76,15 +76,15 @@
                   <span><img src={{item.images[0]}} alt=""></span>
                 </div>
               </td>
-              <td class="name"  data-bs-toggle="modal" (click)="getDetailItem(item)"
-              data-bs-target="#exampleModal3">{{item.name}}
+              <td class="name" data-bs-toggle="modal" (click)="getDetailItem(item)" data-bs-target="#exampleModal3">
+                {{item.name}}
               </td>
               <td>{{item.categoryName}}</td>
-              <td>{{item.materialName}}</td>  
-              <td >
+              <td>{{item.materialName}}</td>
+              <td>
                 {{item.colors.length}} màu
               </td>
-              <td >{{item.sizes.length}} size</td>
+              <td>{{item.sizes.length}} size</td>
               <td>
                 <p *ngIf="item.minPrice==item.maxPrice; else other">
                   {{item.minPrice| currency:'VND' }}
@@ -94,7 +94,7 @@
                   {{item.minPrice| currency:'VND' }} - {{item.maxPrice| currency:'VND' }}
                 </ng-template>
               </td>
-              
+
 
               <!-- === -->
               <!-- <td data-bs-target="#exampleModal1" data-bs-toggle="modal" (click)="getItem(item)">
@@ -112,11 +112,11 @@
                   </a>
                   <ul class="dropdown-menu dropdown-menu-dark">
                     <!-- <li><a class="dropdown-item" routerLink="/product-create/{{item.id}}">Chỉnh sửa</a></li> -->
-                    <li><a class="dropdown-item" data-bs-toggle="modal" (click)="getDetailItem(item)"
-                        data-bs-target="#exampleModal3">Xem chi tiết</a></li>
+                    <li><a class="dropdown-item" routerLink="/product-update/{{item.id}}"
+                        (click)="getDetailItem(item)">Xem chi tiết</a></li>
                     <li><a class="dropdown-item" data-bs-toggle="modal" (click)="getItem(item)"
                         data-bs-target="#exampleModal">Xóa</a></li>
-                      </ul>
+                  </ul>
                 </div>
               </td>
             </tr>
@@ -149,7 +149,7 @@
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">{{name}}</h5>
-                
+
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
@@ -162,6 +162,7 @@
                       <th scope="col">Size</th>
                       <th scope="col">Tồn kho</th>
                       <th scope="col">Giá</th>
+                      <th scope="col">Thao tác nhanh</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -176,7 +177,7 @@
                       <td>{{item.sizeName}}</td>
                       <td>{{item.qty}}</td>
                       <td>{{item.price}}</td>
-                      <!-- <td>
+                      <td>
                         <div class="dropdown">
                           <a class="btn btn-text-dark" type="text" data-bs-toggle="dropdown" aria-expanded="false">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -186,20 +187,21 @@
                             </svg>
                           </a>
                           <ul class="dropdown-menu dropdown-menu-dark">
-                            <li><a class="dropdown-item" data-bs-toggle="modal" (click)="getDetailItem(item)"
-                                data-bs-target="#exampleModal3">Chỉnh sửa</a></li>
-                            <li><a class="dropdown-item" data-bs-toggle="modal" (click)="getItem(item)"
-                                data-bs-target="#exampleModal">Xóa</a></li>
+                            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModalEdit"
+                                (click)="tempDataProductOption(id, item.id,item.price,item.qty,item)">Chỉnh sửa</a></li>
+                            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModalDelete"
+                                (click)="tempDataProductOption(id, item.id)">Xóa</a></li>
                           </ul>
                         </div>
-                      </td> -->
+                      </td>
                     </tr>
                   </tbody>
                 </table>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
-                <button type="button" class="btn btn-danger" routerLink="/product-create/{{id}}" data-bs-dismiss="modal">Chỉnh sửa</button>
+                <button type="button" class="btn btn-danger" routerLink="/product-update/{{id}}"
+                  data-bs-dismiss="modal">Chỉnh sửa</button>
               </div>
             </div>
           </div>
@@ -227,6 +229,52 @@
         </div>
         <!------>
 
+        <!-- modal delete -->
+        <div class="modal fade" id="exampleModalDelete" tabindex="-1" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Xóa sản phẩm?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                Bạn chắc chắn muốn xóa <span style="color:red">{{name}}</span>?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-danger" (click)="deleteE()" data-bs-dismiss="modal">Đồng
+                  ý</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- ---? -->
+
+        <!-- modal edit -->
+        <div class="modal fade" [formGroup]="productForm" id="exampleModalEdit" tabindex="-1" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cập nhật nhanh?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                Đơn giá
+                <input type="number" formControlName="getPrice" class="form-control" value="{{priceOption}}">
+                Tồn kho
+                <input type="number" formControlName="getQuantity" class="form-control" value="{{quantityOption}}">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-danger" (click)="updateE()">Đồng
+                  ý</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- ---? -->
         <!-- Modal Change Role -->
         <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog">

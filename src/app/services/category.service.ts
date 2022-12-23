@@ -48,5 +48,14 @@ export class CategoryService {
     return this.http.post(API + "/admin/category/search",body,httpOptions )
   }
 
+  detail(body: any): (Observable<Object>) {
+    return this.http.get(API + "/admin/category/detail?id="+body,httpOptions )
+  }
+
+  detailMaterial(): (Observable<Object>) {
+    return this.http.get('http://localhost:8080/api/v1/no-auth/material/no-page')
+  }
+
+  
 }
 

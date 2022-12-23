@@ -19,6 +19,7 @@ import { BrandComponent } from './views/brand/brand.component';
 import { OrderDetailComponent } from './views/order/order-detail/order-detail.component';
 import { DiscountComponent } from './views/discount/discount.component';
 import { DiscountCreateComponent } from './views/discount/discount-create/discount-create.component';
+import { ProductUpdateComponent } from './views/product/product-update/product-update.component';
 
 
 const routes: Routes = [
@@ -29,7 +30,7 @@ const routes: Routes = [
   { path: 'order-detail/:id', component: OrderDetailComponent , canActivate: [AuthGuard]},
   { path: 'product', component: ProductComponent , canActivate: [AuthGuard]},
   { path: 'product-create', component: ProductCreateComponent, canActivate: [AuthGuard] },
-  { path: 'product-create/:id', component: ProductCreateComponent , canActivate: [AuthGuard]},
+  { path: 'product-update/:id', component: ProductUpdateComponent , canActivate: [AuthGuard]},
   { path: 'size', component: SizeComponent , canActivate: [AuthGuard]},
   { path: 'size-create', component: SizeCreateComponent , canActivate: [AuthGuard]},
   { path: 'size-create/:id', component: SizeCreateComponent , canActivate: [AuthGuard]},
@@ -38,7 +39,7 @@ const routes: Routes = [
   { path: 'color-create/:id', component: ColorCreateComponent , canActivate: [AuthGuard]},
   { path: 'account', component: AccountComponent , canActivate: [AuthGuard]},
   { path: 'account-create', component: AccountCreateComponent , canActivate: [AuthGuard]},
-  { path: 'account-create/:id', component: AccountCreateComponent , canActivate: [AuthGuard]},
+  { path: 'account-update/:id', component: AccountCreateComponent , canActivate: [AuthGuard]},
   { path: 'category', component: CategoryComponent , canActivate: [AuthGuard]},
   { path: 'category-create', component: CategoryCreateComponent , canActivate: [AuthGuard]},
   { path: 'category-create/:id', component: CategoryCreateComponent , canActivate: [AuthGuard]},

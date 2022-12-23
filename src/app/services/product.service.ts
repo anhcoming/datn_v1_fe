@@ -49,13 +49,16 @@ export class ProductService {
     return this.http.post(API + "/admin/product/create", body, httpOptions)
   }
   updateProduct(body: any): (Observable<Object>) {
-    return this.http.put(API + "/product/update", body)
+    return this.http.post(API + "/admin/product/update", body,httpOptions)
   }
   getDetail(id: any): (Observable<Object>) {
     return this.http.get(API + "/admin/product/detail?id=" + id, httpOptions)
   }
   delete(id: any): (Observable<Object>) {
     return this.http.delete(API + "/product/" + id)
+  }
+  deleteE(productId: any, optionId: any): (Observable<Object>) {
+    return this.http.delete(API + "/admin/product/delete-option?productId=" + productId + "&optionId=" + optionId,httpOptions)
   }
   findSize(id: any): (Observable<Object>) {
     return this.http.get(API + "/product-option/findSize?productId=" + id)

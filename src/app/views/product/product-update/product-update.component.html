@@ -1,0 +1,184 @@
+<div class="container-fluid page">
+  <div class=" mt-3 page__content shadow p-3">
+    <div class="row">
+      <h4 class="banner"><svg routerLink="/product" xmlns="http://www.w3.org/2000/svg" width="50" height="30"
+          fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+          <path fill-rule="evenodd"
+            d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z" />
+        </svg>Cập nhật sản phẩm</h4>
+      <hr style="color:gray">
+    </div>
+    <app-spinner *ngIf="show"></app-spinner>
+    <form [formGroup]="productForm">
+      <div class="title row" style="width:90%;margin: auto;">
+        <div class="col-8">
+          <div class="col-12">
+            Tên sản phẩm <input type="text" class="form-control mb-2" placeholder="" formControlName="name"
+              value="{{nameDefault}}">
+          </div>
+          <div class="row">
+            <div class="col-6 mt-2">
+              Loại sản phẩm
+              <select class="form-control" formControlName="category">
+                <option defaultSelected="true" value="" hidden>{{categoryDefault}}</option>
+                <option *ngFor="let item of category" value="{{item.id}}">{{item.name}}</option>
+              </select>
+            </div>
+            <div class="col-6 mt-2">
+              Thương hiệu<select class="form-control" formControlName="brand">
+                <option defaultSelected="true" value="" hidden>{{materialDefault}}</option>
+                <option *ngFor="let item of brand" value="{{item.id}}">{{item.name}}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-12 mt-2">
+            Màu sắc
+            <ng-multiselect-dropdown [placeholder]="'----'" [settings]="dropdownSettingsColor"
+              [data]="dropdownListColor" formControlName="color" [(ngModel)]="selectedItemsColor"
+              (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+            </ng-multiselect-dropdown>
+          </div>
+
+          <div class="col-12 mt-2">
+            Kích cỡ
+            <ng-multiselect-dropdown [placeholder]="'----'" [settings]="dropdownSettingsSize" [data]="dropdownListSize"
+              [(ngModel)]="selectedItemsSize" formControlName="size" (onSelect)="onItemSelect($event)"
+              (onSelectAll)="onSelectAll($event)">
+            </ng-multiselect-dropdown>
+          </div>
+          <!-- {{selectedItemsSize|json}} -->
+
+          <div class=" row mt-2">
+            <div class="col-6">
+              Giá chung
+              <input class="form-control" (onchange)="gia" formControlName="price" type="number"
+                placeholder="000.000 VND">
+            </div>
+            <div class="col-6">
+              Số lượng chung
+              <input class="form-control" (onChange)="soluong" formControlName="quantity" type="number" placeholder="0">
+            </div>
+          </div>
+          <div class="col-12 mt-2">
+            Mô tả chung
+            <textarea class="form-control" formControlName="description" class="col-12" value="{{descriptionDefault}}"
+              style="height:150px"></textarea>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <div style="height:100px">
+            <!-- Ảnh <input type="file"> -->
+            Ảnh chung:
+            <input type="file" class="form-control mb-2" (change)="uploadPreview($event)" placeholder="Upload ảnh">
+            <img src="{{preview}}" alt="" style="width:200px">
+          </div>
+
+        </div>
+
+        <div class="mt-3 align-content-between">
+          <button *ngIf="fisrtUpdate == 0" class="btn btn-warning" (click)="getData()">
+            Cập nhật dữ liệu mẫu
+          </button>
+          <button *ngIf="fisrtUpdate == 1" data-bs-toggle="modal" data-bs-target="#exampleModal9"
+            class="btn btn-warning">
+            Cập nhật dữ liệu mẫu
+          </button>
+          <app-spinner *ngIf="show"></app-spinner>
+        </div>
+
+        <div>
+          <table class="mt-3 table table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">STT</th>
+                <th scope="col">Màu sắc</th>
+                <th scope="col">Size</th>
+                <th scope="col">Đơn giá</th>
+                <th scope="col">Số lượng</th>
+                <th scope="col">Ảnh</th>
+                <th scope="col">Chức năng</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let  item of arr; let i = index">
+                <th scope="row">{{i+1}}</th>
+                <td>{{colorDefault}}</td>
+                <td>{{item.sizeId.name }}</td>
+                <td>{{item.price }}</td>
+                <td>{{item.qty }}</td>
+                <td>
+                  <div class="circular">
+                    <img src={{item.image}} alt="">
+                  </div>
+                </td>
+                <td>
+                  <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal3"
+                    (click)="getValue(item,i)">
+                    Sửa
+                  </button> | <button class="btn btn-danger" (click)="removeItem(i)">Xóa</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Thay đổi trạng thái tài khoản?</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  Cập nhật thông tin sản phẩm <br>
+                  <input type="text" formControlName="priceE" class="form-control" value="{{priceE}}"><br>
+                  <input type="text" formControlName="quantityE" class="form-control" value="{{quantityE}}"><br>
+                  Upload ảnh:
+                  <input type="file" class="form-control mb-2" (change)="uploadPreview($event)"
+                    placeholder="Upload ảnh">
+                  <img src="{{imageE}}" formControlName="imageE" alt="" style="width:200px">
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="updateE()">Cập
+                    nhật</button>
+                  <app-spinner *ngIf="show"></app-spinner>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal fade" id="exampleModal9" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Cảnh báo!</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  Thao tác này sẽ cập nhật toàn bộ bộ dữ liệu bên dưới!
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="getData()">Đồng
+                    ý</button>
+                  <app-spinner *ngIf="show"></app-spinner>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-2 align-content-between">
+          <button class="btn btn-primary" style="margin-right: 10px" type="submit" (click)="submit()">
+            <span *ngIf="show" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+           Cập nhật 
+          </button>
+          <button class="btn btn-outline-secondary" (click)="reset()">Làm
+            mới</button>
+        </div>
+
+      </div>
+    </form>
+  </div>
+</div>

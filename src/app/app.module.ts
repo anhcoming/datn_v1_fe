@@ -41,6 +41,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { OrderDetailComponent } from './views/order/order-detail/order-detail.component';
 import { DiscountComponent } from './views/discount/discount.component';
 import { DiscountCreateComponent } from './views/discount/discount-create/discount-create.component';
+import { ProductUpdateComponent } from './views/product/product-update/product-update.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,6 +52,7 @@ import { DiscountCreateComponent } from './views/discount/discount-create/discou
     ProductComponent,
     CategoryComponent,
     AccountComponent,
+   ProductUpdateComponent,
     AccountCreateComponent,
     CategoryCreateComponent,
     SpinnerComponent,

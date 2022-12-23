@@ -3,7 +3,7 @@ import { ProductService } from './../../services/product.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from 'src/app/model/product';
-
+import { FormArray, FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-product',
@@ -11,16 +11,22 @@ import { Product } from 'src/app/model/product';
   styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit {
+  quantityOption: any;
+  priceOption: any;
   show = true;
   data: any = Product;
   name: any;
   id: any;
+  productOptionId: any
   totalPage: any;
   currentPage: number = 0;
   totalElememnts: any;
   numbers: any;
   listColor: any;
-  listItem:any;
+  listItem: any;
+  fullData: any
+  index: any;
+  arr: any;
   req = {
     textSearch: "",
     category: "",
@@ -37,6 +43,22 @@ export class ProductComponent implements OnInit {
 
     }
   }
+  productForm = new FormGroup({
+    product: new FormControl('', Validators.required),
+    color: new FormControl('', Validators.required),
+    size: new FormControl('', Validators.required),
+    name: new FormControl('', Validators.required),
+    price: new FormControl('', Validators.required),
+    quantity: new FormControl('', Validators.required),
+    getPrice: new FormControl('', Validators.required),
+    getQuantity: new FormControl('', Validators.required),
+    category: new FormControl('', Validators.required),
+    brand: new FormControl('', Validators.required),
+    description: new FormControl('', Validators.required),
+    quantityE: new FormControl('', Validators.required),
+    priceE: new FormControl('', Validators.required),
+
+  })
   constructor(private product: ProductService, public router: Router, public toastr: NotiService) {
 
   }
@@ -51,14 +73,15 @@ export class ProductComponent implements OnInit {
   }
 
   getDetailItem(item: any) {
+    debugger
     this.name = item.name;
     this.id = item.id;
     this.product.getDetailItem(item.id).subscribe((res: any) => {
       this.listItem = res.data.productOptions;
       console.log(res.data.productOptions);
-      
-      console.log("List sản phẩm",this.listItem);
-      
+
+      console.log("List sản phẩm", this.listItem);
+
     })
   }
   getAllProduct() {
@@ -92,9 +115,53 @@ export class ProductComponent implements OnInit {
       }
     })
   }
-
+  deleteE() {
+    this.product.deleteE(this.id, this.productOptionId).subscribe((res) => {
+      if (res) {
+        console.log("Xóa thành công")
+        this.getAllProduct();
+        this.toastr.success("Xóa thành công")
+      } else {
+        console.log("Xóa thất bại");
+        this.toastr.error("Xóa thất bại")
+        this.getAllProduct();
+      }
+    })
+  }
   change(number: any) {
     this.req.pageReq.page = number;
     this.getAllProduct();
   }
+
+  getDetail(item: any) {
+    console.log(item);
+
+  }
+
+  tempDataProductOption(id: any, optionId: any, price?: any, quantity?: any,item?:any) {
+    debugger
+    this.id = id;
+    this.productOptionId = optionId
+    this.priceOption = price.replace("/₫/g", '')
+    this.quantityOption = quantity
+    console.log(item)
+  }
+
+  updateE() {
+    this.show = true;
+    // this.fullData.options[this.index].price =  Number(this.productForm.get('priceE')?.value) == 0 ? this.fullData.options[this.index].price:Number(this.productForm.get('priceE')?.value)
+    // this.fullData.options[this.index].qty = Number(this.productForm.get('quantityE')?.value)== 0 ?this.fullData.options[this.index].qty: Number(this.productForm.get('quantityE')?.value)
+    // this.fullData.options[this.index].image = this.image
+    let price = this.productForm.get('getPrice')?.value==""?this.priceOption:this.productForm.get('getPrice')?.value
+    let a = this.productForm.get('getQuantity')?.value==""?this.quantityOption:this.productForm.get('getQuantity')?.value
+    let quantity = Number(a)
+
+    
+    this.arr = this.fullData.options
+    console.log("XXXXXXXXXXXXXXXXXXXXX", this.arr)
+    console.log(this.productForm.get('priceE')?.value)
+    console.log(this.productForm.get('quantityE')?.value)
+    this.show = false
+  }
 }
+
