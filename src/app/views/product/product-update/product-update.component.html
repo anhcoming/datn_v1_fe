@@ -116,8 +116,8 @@
               <tbody>
                 <tr *ngFor="let  item of arr; let i = index">
                   <th scope="row">{{i+1}}</th>
-                  <td>{{item.colorName}}</td>
-                  <td>{{item.sizeName }}</td>
+                  <td>{{item.colorId.name}}</td>
+                  <td>{{item.sizeId.name}}</td>
                   <td>{{item.price }}</td>
                   <td>{{item.qty }}</td>
                   <td>
@@ -156,7 +156,7 @@
               <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Thay đổi trạng thái tài khoản?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Cập nhật</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
@@ -164,7 +164,7 @@
                     <input type="text" formControlName="priceE" class="form-control" value="{{priceE}}"><br>
                     <input type="text" formControlName="quantityE" class="form-control" value="{{quantityE}}"><br>
                     Upload ảnh:
-                    <input type="file" class="form-control mb-2" (change)="uploadPreview($event)"
+                    <input type="file" formControlName="imageE" value="{{imageE}}" class="form-control mb-2" (change)="uploadPreview($event)"
                       placeholder="Upload ảnh">
                     <img src="{{imageE}}" formControlName="imageE" alt="" style="width:200px">
                   </div>

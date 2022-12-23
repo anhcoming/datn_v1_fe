@@ -47,6 +47,8 @@ export class ProductUpdateComponent implements OnInit {
   dataPush: any;
   showPass: boolean = false;
   id: any;
+  idSz: any;
+  idCl: any;
   category: any;
   checkSubmit = true
   color: any;
@@ -102,7 +104,6 @@ export class ProductUpdateComponent implements OnInit {
 
   dropdownListColor = [];
   selectedItemsColor = [{
-
   }];
 
   dropdownSettingsColor: IDropdownSettings = {
@@ -250,14 +251,12 @@ export class ProductUpdateComponent implements OnInit {
   }
   getDetail() {
     this.findColor();
-    this.findSize()
+    this.findSize();
     this.show = false
     this.product.getDetail(this.id).subscribe((res: any) => {
-      debugger
       this.fullData = res
       this.arr = this.fullData.options
       this.categoryDefault = res.categoryId
-      debugger
       this.getCateName(res.categoryId);
       this.getbrandName()
       this.brandDefault = res.brandId
@@ -517,6 +516,8 @@ export class ProductUpdateComponent implements OnInit {
     this.index = i
     this.imageE = item.image
     this.priceE = item.price
+    this.quantityE = item.qty
+    this.quantityE = item.qty
     this.quantityE = item.qty
   }
 

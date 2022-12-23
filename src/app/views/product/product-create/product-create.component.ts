@@ -66,7 +66,6 @@ export class ProductCreateComponent implements OnInit {
   dataColor = new Color;
   dataSize = new Size;
   colorReq = {
-
     id: null,
     active: null,
     textSearch: null,
@@ -75,7 +74,6 @@ export class ProductCreateComponent implements OnInit {
       pageSize: 10,
       sortField: null,
       sortDirection: null
-
     }
   }
 
