@@ -52,4 +52,11 @@ export class CategoryService {
   changeStatus(id: any): (Observable<Object>) {
     return this.http.get(API + "/admin/category/change-status?id=" + id, httpOptions)
   }
+  detail(body: any): (Observable<Object>) {
+    return this.http.get(API + "/admin/category/detail?id="+body,httpOptions )
+  }
+
+  detailBrand(): (Observable<Object>) {
+    return this.http.get('http://localhost:8080/api/v1/no-auth/brand/no-page')
+  }
 }

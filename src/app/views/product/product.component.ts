@@ -3,7 +3,7 @@ import { ProductService } from './../../services/product.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from 'src/app/model/product';
-import { FormControl } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 
 @Component({
@@ -12,16 +12,22 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit {
+  quantityOption: any;
+  priceOption: any;
   show = true;
   data: any = Product;
   name: any;
   id: any;
+  productOptionId: any
   totalPage: any;
   currentPage: number = 0;
   totalElememnts: any;
   numbers: any;
   listColor: any;
   listItem: any;
+  fullData: any
+  index: any;
+  arr: any;
   req = {
     active: null,
     textSearch: "",
@@ -39,6 +45,22 @@ export class ProductComponent implements OnInit {
 
     }
   }
+  productForm = new FormGroup({
+    product: new FormControl('', Validators.required),
+    color: new FormControl('', Validators.required),
+    size: new FormControl('', Validators.required),
+    name: new FormControl('', Validators.required),
+    price: new FormControl('', Validators.required),
+    quantity: new FormControl('', Validators.required),
+    getPrice: new FormControl('', Validators.required),
+    getQuantity: new FormControl('', Validators.required),
+    category: new FormControl('', Validators.required),
+    brand: new FormControl('', Validators.required),
+    description: new FormControl('', Validators.required),
+    quantityE: new FormControl('', Validators.required),
+    priceE: new FormControl('', Validators.required),
+
+  })
   textSearch = new FormControl();
 
   constructor(private product: ProductService, public router: Router, public toastr: NotiService) {
@@ -95,7 +117,19 @@ export class ProductComponent implements OnInit {
       }
     })
   }
-
+  // deleteE() {
+  //   this.product.deleteE(this.id, this.productOptionId).subscribe((res) => {
+  //     if (res) {
+  //       console.log("Xóa thành công")
+  //       this.getAllProduct();
+  //       this.toastr.success("Xóa thành công")
+  //     } else {
+  //       console.log("Xóa thất bại");
+  //       this.toastr.error("Xóa thất bại")
+  //       this.getAllProduct();
+  //     }
+  //   })
+  // }
   change(number: any) {
     this.req.pageReq.page = number;
     this.getAllProduct();
